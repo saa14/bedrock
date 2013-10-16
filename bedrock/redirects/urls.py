@@ -78,5 +78,8 @@ urlpatterns = patterns('',
 
     # Bug 912101 - For now we'll hard-code a redirect to 1.1
     # In the future this should automatically go to the latest version's notes
-    redirect(r'^firefox/os/notes/$', '/firefox/os/notes/1.1/'),
+    redirect(r'^firefox/os/notes/$', '/firefox/os/notes/1.0.1/'),
+
+    redirect(r'^contact/', '/contact/spaces/mountain-view/'),
+    redirect(r'^contact/spaces/$', '/contact/spaces/mountain-view/'),
 )

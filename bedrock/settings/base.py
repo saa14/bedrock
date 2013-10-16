@@ -129,6 +129,9 @@ MINIFY_BUNDLES = {
         'newsletter': (
             'css/newsletter/newsletter.less',
         ),
+        'contact-spaces': (
+            'css/mozorg/contact-spaces.less',
+        ),
         'contribute': (
             'css/mozorg/contribute.less',
             'css/sandstone/video-resp.less',
@@ -390,6 +393,9 @@ MINIFY_BUNDLES = {
             'js/base/footer-email-form.js',
             'js/base/mozilla-input-placeholder.js',
             'js/base/mozilla-image-helper.js',
+        ),
+        'contact-spaces': (
+            'js/mozorg/contact-spaces.js',
         ),
         'contribute': (
             'js/libs/jquery.sequence.js',

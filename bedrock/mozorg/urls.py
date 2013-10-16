@@ -32,6 +32,12 @@ urlpatterns = patterns('',
     page('about/governance/policies/participation', 'mozorg/about/governance/policies/participation.html'),
     page('about/governance/policies', 'mozorg/about/governance/policies/policies.html'),
 
+    page('contact/spaces/mountain-view', 'mozorg/contact/mountain-view.html'),
+    page('contact/spaces/auckland', 'mozorg/contact/auckland.html'),
+    page('contact/spaces/beijing', 'mozorg/contact/beijing.html'),
+    page('contact/spaces/berlin', 'mozorg/contact/berlin.html'),
+    page('contact/spaces/london', 'mozorg/contact/london.html'),
+
 
     url('^contribute/$', views.contribute, name='mozorg.contribute',
         kwargs={'template': 'mozorg/contribute.html',

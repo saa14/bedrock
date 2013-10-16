@@ -1,0 +1,40 @@
+{# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/. #}
+
+{% extends "mozorg/contact/contact-base.html" %}
+
+{% block contact_entry %}
+  <section class="entry" id="auckland">
+    <div class="card vcard">
+      <h2 class="fn">{{ _('Auckland') }}</h2>
+      <p class="adr">
+		<span class="extended-address">Level 7</span><br>
+        <span class="street-address">5 Short St</span><br>
+        <span class="locality">Newmarket</span><br>
+        <abbr class="region">Auckland</abbr> <span class="postal-code">1023</span><br>
+        <span class="country-name">New Zealand</span>
+      </p>
+
+      <ul class="extra">
+        <li><a href="mailto:mozspaces@mozilla.com" class="email">mozspaces@mozilla.com</a></li>
+      </ul>
+
+      <figure class="feature-img">
+        <img src="http://placebear.com/460/250" alt="">
+      </figure>
+    </div>
+
+    <div class="gallery">
+      <h3>{{ _('Photo Gallery') }}</h3>
+      <ul class="gallery-list">
+        <li class="gallery-image"><a href="#"><img src="http://placebear.com/200/110" alt=""></a></li>
+        <li class="gallery-image"><a href="#"><img src="http://placebear.com/200/110" alt=""></a></li>
+        <li class="gallery-image"><a href="#"><img src="http://placebear.com/200/110" alt=""></a></li>
+        <li class="gallery-image"><a href="#"><img src="http://placebear.com/200/110" alt=""></a></li>
+        <li class="gallery-image"><a href="#"><img src="http://placebear.com/200/110" alt=""></a></li>
+        <li class="gallery-image"><a href="#"><img src="http://placebear.com/200/110" alt=""></a></li>
+      </ul>
+    </div>
+  </section>
+{% endblock %}

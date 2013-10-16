@@ -1,0 +1,185 @@
+{# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/. #}
+
+{% extends "mozorg/base-resp.html" %}
+
+{% block page_title %}{{ _('Contacts, Spaces and Communities') }}{% endblock %}
+{% block body_id %}contact-spaces{% endblock %}
+{% block body_class %}sand{% endblock %}
+
+{% block extrahead %}
+  {{ css('contact-spaces') }}
+{% endblock %}
+
+{% block js %}
+  {{ js('contact-spaces') }}
+{% endblock %}
+
+{% block site_header_logo %}{% endblock %}
+
+{% block content %}
+
+<main id="main-content" role="main">
+  <header class="page-head container">
+    <h1 class="page-title">{{ _('Where is Mozilla?') }}</h1>
+    <p class="help">
+    {% trans link_sumo='https://support.mozilla.org/' %}
+      Looking for Firefox help? <a href="{{ link_sumo }}" class="go">Ask our support team a question</a>
+    {% endtrans %}
+    </p>
+  </header>
+
+  <div id="map">
+    map goes here
+  </div>
+
+  <div id="page-content" class="container">
+    <ul class="category-tabs">
+      <li class="current"><a href="#">{{ _('Spaces') }}</a></li>
+      <li><a href="#">{{ _('Community') }}</a></li>
+    </ul>
+
+    <nav id="nav-spaces" class="nav-category">
+      <ul>
+      {# TODO: highlight current nav item #}
+        <li class="current"><a href="{{ url('mozorg.contact.mountain-view') }}">{{ _('Mountain View') }}</a></li>
+        <li><a href="{{ url('mozorg.contact.auckland') }}">{{ _('Auckland') }}</a></li>
+        <li><a href="{{ url('mozorg.contact.beijing') }}">{{ _('Beijing') }}</a></li>
+        <li><a href="{{ url('mozorg.contact.berlin') }}">{{ _('Berlin') }}</a></li>
+        <li><a href="{{ url('mozorg.contact.london') }}">{{ _('London') }}</a></li>
+        <li><a href="#paris">{{ _('Paris') }}</a></li>
+        <li><a href="#portland">{{ _('Portland') }}</a></li>
+        <li><a href="#san-francisco">{{ _('San Francisco') }}</a></li>
+        <li><a href="#taipei">{{ _('Taipei') }}</a></li>
+        <li><a href="#tokyo">{{ _('Tokyo') }}</a></li>
+        <li><a href="#toronto">{{ _('Toronto') }}</a></li>
+        <li><a href="#vancouver">{{ _('Vancouver') }}</a></li>
+      </ul>
+    </nav>
+
+{# Hiding this for now. TODO: Tabs will toggle visibility of category nav and meta.
+    <nav id="nav-community" class="nav-category accordion">
+      <ul>
+        <li class="hasmenu"><a href="#north-america">{{ _('North America') }}</a>
+          <ul class="submenu">
+            <li><a href="#canada">{{ _('Canada') }}</a></li>
+            <li><a href="#usa">{{ _('United States') }}</a></li>
+          </ul>
+        </li>
+        <li class="hasmenu"><a href="#latin-america">{{ _('Latin America') }}</a>
+          <ul class="submenu">
+            <li><a href="#argentina">{{ _('Argentina') }}</a></li>
+            <li><a href="#bolivia">{{ _('Bolivia') }}</a></li>
+            <li><a href="#colombia">{{ _('Colombia') }}</a></li>
+            <li><a href="#costa-rica">{{ _('Costa Rica') }}</a></li>
+            <li><a href="#chile">{{ _('Chile') }}</a></li>
+            <li><a href="#cuba">{{ _('Cuba') }}</a></li>
+            <li><a href="#ecuador">{{ _('Ecuador') }}</a></li>
+            <li><a href="#nicaragua">{{ _('Nicaragua') }}</a></li>
+            <li><a href="#mexico">{{ _('Mexico') }}</a></li>
+            <li><a href="#paraguay">{{ _('Paraguay') }}</a></li>
+            <li><a href="#peru">{{ _('Peru') }}</a></li>
+            <li><a href="#uruguay">{{ _('Uruguay') }}</a></li>
+            <li><a href="#venezuela">{{ _('Venezuela') }}</a></li>
+          </ul>
+        </li>
+        <li class="hasmenu"><a href="#europe">{{ _('Europe') }}</a>
+          <ul class="submenu">
+            <li><a href="#france">{{ _('France') }}</a></li>
+            <li><a href="#germany">{{ _('Germany') }}</a></li>
+            <li><a href="#united-kingdom">{{ _('United Kingdom') }}</a></li>
+          </ul>
+        </li>
+        <li class="hasmenu"><a href="#asia-south-pacific">{{ _('Asia &amp; South Pacific') }}</a>
+          <ul class="submenu">
+            <li><a href="#australia">{{ _('Australia') }}</a></li>
+            <li><a href="#china">{{ _('China') }}</a></li>
+            <li><a href="#india">{{ _('India') }}</a></li>
+            <li><a href="#japan">{{ _('Japan') }}</a></li>
+            <li><a href="#south-korea">{{ _('South Korea') }}</a></li>
+          </ul>
+        </li>
+        <li><a href="#antarctica">{{ _('Antarctica') }}</a></li>
+        <li class="hasmenu"><a href="#africa-middle-east">{{ _('Africa &amp; the Middle East') }}</a>
+          <ul class="submenu">
+            <li><a href="#">{{ _('Algeria') }}</a></li>
+            <li><a href="#">{{ _('Egypt') }}</a></li>
+            <li><a href="#">{{ _('Israel') }}</a></li>
+            <li><a href="#">{{ _('Zimbabwe') }}</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+end hiding #}
+
+    {% block contact_entry %}{% endblock %}
+
+    <aside id="spaces-meta" class="category-meta">
+      <ul class="meta-help">
+        <li><a href="#guidelines">{{ _('MozSpace Guidelines') }}</a></li>
+        <li><a href="#question">{{ _('I have a question about MozSpaces') }}</a></li>
+      </ul>
+
+      <ul class="meta-contact">
+        <li>IRC: #MozillaSpaces</li>
+        <li><a href="https://twitter.com/MozillaSpaces">@MozillaSpaces</a></li>
+      </ul>
+    </aside>
+
+{# Hiding this for now. TODO: Tabs will toggle visibility of category nav and meta.
+    <aside id="community-meta" class="category-meta">
+      <ul class="meta-help">
+        <li><a href="#getinvolved">{{ _('Get involved') }}</a></li>
+        <li><a href="#start">{{ _('Start a Mozilla community') }}</a></li>
+      </ul>
+    </aside>
+end hiding #}
+
+  </div>{# end page-content #}
+
+  <section class="contacting container">
+    <header>
+      <h3>{{ _('Contacting Mozilla') }}</h3>
+      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio.
+      Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse
+      urna nibh, viverra non, semper suscipit, posuere a, pede.</p>
+    </header>
+
+    <div class="contact-online">
+      <h4>{{ _('Find us online') }}</h4>
+      <ul>
+        <li><a href="#facebook" hreflang="en-US">{{ _('Facebook') }}</a></li>
+        <li><a href="https://twitter.com/mozilla" hreflang="en-US">{{ _('Twitter') }}</a></li>
+        <li><a href="#forums">{{ _('Forums &amp; e-mail lists') }}</a></li>
+        <li><a href="#irc">{{ _('IRC channels') }}</a></li>
+      </ul>
+    </div>
+
+    <div class="contact-join">
+      <h4>{{ _('Join us') }}</h4>
+      <ul>
+        <li><a href="{{ url('mozorg.contribute') }}">{{ _('Get involved') }}</a></li>
+        <li><a href="https://careers.mozilla.org">{{ _('Career opportunities') }}</a></li>
+        <li><a href="https://mozillians.org">{{ _('Mozillians') }}</a></li>
+      </ul>
+    </div>
+
+    <div class="contact-help">
+      <h4>{{ _('Questions &amp; feedback') }}</h4>
+      <ul>
+        <li><a href="https://support.mozilla.org/">{{ _('Get support') }}</a></li>
+        <li><a href="{{ press_blog_url() }}">{{ _('Press inquiries') }}</a></li>
+        <li><a href="#licensing">{{ _('Browser distribution &amp; licensing') }}</a></li>
+        <li><a href="#swag">{{ _('Merchandise questions') }}</a></li>
+        <li><a href="#fxfeedback">{{ _('Firefox feedback') }}</a></li>
+        <li><a href="#broken">{{ _('Report a broken site') }}</a></li>
+        <li><a href="#software">{{ _('Software issues') }}</a></li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+{% endblock %}
+

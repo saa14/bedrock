@@ -1,0 +1,433 @@
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+@import "../sandstone/lib.less";
+
+@font-face {
+    font-family: 'Font Awesome';
+    src: url('/media/fonts/fontawesome-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/media/fonts/fontawesome-webfont.woff') format('woff'),
+         url('/media/fonts/fontawesome-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+// Some common colors
+@lightGray: #f9f9f9;
+@lightBeige: #f3f1ea;
+
+// Add a double-arrow after 'go' links
+.go:after {
+    content: ' »';
+    white-space: nowrap;
+}
+
+// General @layout
+// Override sandstone base layout so we can have full-width blocks.
+#wrapper,
+#main-content {
+    width: 100%;
+    padding: 0;
+}
+
+#masthead,
+.container {
+    width: @widthDesktop - (@gridGutterWidth * 2);
+    .clearfix();
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0;
+}
+
+.page-head {
+    padding: 0 20px;
+
+    .page-title {
+        .span(5);
+        background: #b50f10;
+        color: #fff;
+        padding: 20px;
+        margin-bottom: -1em;
+        position: relative;
+
+        &:after {
+            content: '';
+            width: 100%;
+            height: 40px;
+            background: url(/media/img/mission/title-banner-shadow.png) no-repeat;
+            position: absolute;
+            left: 0;
+            bottom: -40px;
+        }
+    }
+
+    .help {
+        .span(6);
+        float: right;
+        text-align: right;
+        margin-top: .75em;
+    }
+}
+
+.billboard {
+    width: @widthDesktop - (@gridGutterWidth * 2);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#map {
+    background: rgba(149, 211, 241, .5);
+    width: 100%;
+    height: 380px;
+}
+
+#page-content {
+    background: #fff;
+    padding: 30px 20px;
+    margin-bottom: 48px;
+    position: relative;
+}
+
+
+
+// Tabs to toggle spaces or communities
+.category-tabs {
+    .open-sans;
+    font-size: @largeFontSize;
+    left: 22px;
+    margin: 0;
+    position: absolute;
+    text-align: center;
+    top: -40px;
+
+    li {
+        .inline-block;
+        margin: 0;
+        position: relative;
+        right: 8px;
+        width: 218px;
+
+        a {
+            background: url(/media/img/firefox/pager-tabs.png) 0 0 no-repeat;
+            display: block;
+            height: 40px;
+            line-height: 40px;
+            position: relative;
+            z-index: 10;
+
+        }
+
+        &.current a {
+            background-position: 100% 0;
+            color: @textColorSecondary;
+            z-index: 20;
+        }
+    }
+
+    li:first-child {
+        left: 8px;
+    }
+}
+
+
+
+// Navigation within a category
+// A list of spaces/communities; may contain submenus in an accordion
+.nav-category {
+    .span(3);
+
+    li {
+        border-bottom: 1px dotted @borderColor;
+        line-height: 1;
+        list-style: none;
+        margin: 0;
+        text-transform: uppercase;
+    }
+
+    a {
+        display: block;
+        padding: 1em 20px;
+
+        &:hover,
+        &:focus,
+        &:active {
+            background: @lightGray;
+        }
+    }
+
+    .current a {
+        background: @lightGray;
+        color: @textColorPrimary;
+        font-weight: bold;
+    }
+
+    .submenu li {
+        border-bottom: 0;
+        text-transform: none;
+
+        a {
+            background: @lightBeige;
+            font-size: @smallFontSize;
+            font-weight: normal;
+            padding-left: 30px;
+        }
+    }
+
+    // down arrow
+    .hasmenu > a {
+        background-position: 96% 50%;
+        background-repeat: no-repeat;
+        background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAFBAMAAABlfdtYAAAAHlBMVEXj2dnj2dnj2dnj2dnj2dnj2dnj2dnj2dkAAADj2dkWOMusAAAACXRSTlO9FY0G16cPxQCXNA3IAAAAJUlEQVQIHWPQnDlzpgJD68yZUxsYmitnFjcwdKRMyQCSjYwdDQC1DQvjVlZh+AAAAABJRU5ErkJggg==');
+    }
+
+    // up arrow
+    .hasmenu.open > a {
+        background-color: #fff;
+        background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAFBAMAAABlfdtYAAAAHlBMVEXj2dnj2dnj2dnj2dnj2dnj2dnj2dnj2dkAAADj2dkWOMusAAAACXRSTlO9FY0G16cPxQCXNA3IAAAAJklEQVQIHWPqaGTsaGBieDz5AQPTb1FWbgYmJgUGJQamJQwMLAsAgvQHHy1uf2MAAAAASUVORK5CYII=');
+    }
+
+}
+
+
+
+// Single entry (either a space or a community)
+.entry {
+    .span(9);
+    margin-bottom: 30px;
+
+    .card {
+        .box-shadow(0 1px 0 rgba(0, 0, 0, .1));
+        background: @lightGray;
+        font-size: 12px;
+        margin: 0 0 20px;
+        min-height: 210px;
+        padding: 20px 10px 20px 480px;
+        position: relative;
+
+        .fn {
+            .open-sans;
+            font-size: 18px;
+            font-weight: normal;
+            letter-spacing: normal;
+            text-shadow: none;
+        }
+
+        .adr {
+            padding-left: 20px;
+            position: relative;
+
+            &:before {
+                background: firebrick;
+                content: '';
+                display: block;
+                height: 15px;
+                left: 0;
+                position: absolute;
+                top: 0;
+                width: 15px;
+            }
+        }
+
+        .extra {
+
+            li {
+                list-style: none;
+                margin: 0 0 .5em;
+            }
+
+            a {
+                padding-left: 20px;
+                position: relative;
+
+                &:before {
+                    background: firebrick;
+                    content: '';
+                    display: block;
+                    height: 15px;
+                    left: 0;
+                    position: absolute;
+                    top: 0;
+                    width: 15px;
+                }
+            }
+        }
+    }
+
+    // A primary image for each entry; a zoomed map for spaces, a logo for communities.
+    .feature-img {
+        width: 460px;
+        height: 250px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        text-align: center;
+    }
+}
+
+
+
+// @Gallery
+.gallery {
+    .box-shadow(0 1px 0 rgba(0, 0, 0, .1));
+    .clearfix;
+    background: @lightGray;
+    margin: 0 0 20px;
+    padding: 20px 20px 0;
+
+    h3 {
+        font-size: @largeFontSize;
+        .open-sans;
+        font-weight: normal;
+        letter-spacing: normal;
+        text-shadow: none;
+    }
+}
+
+.gallery-list {
+    list-style: none;
+    margin: 0 -15px -20px;
+
+    li {
+        margin: 0 15px 20px;
+        width: 200px;
+        max-height: 110px;
+        float: left;
+    }
+}
+
+
+
+// @Category meta info
+// General footers for the tab content, one for spaces and one for community.
+.category-meta {
+    .clearfix;
+    border-top: 1px solid @lightBeige;
+    clear: both;
+    font-size: @smallFontSize;
+    margin: 0 10px;
+    padding: 20px 0 0;
+
+    ul {
+        float: left;
+        list-style: none;
+    }
+
+    li {
+        display: inline;
+        margin: 0 10px;
+    }
+
+    .meta-contact {
+        float: right;
+    }
+}
+
+
+
+// @Contact links
+.contacting {
+    margin-bottom: 48px;
+
+    header {
+        margin: 0 10px 1em;
+    }
+
+    h4 {
+        .open-sans;
+        font-size: @largeFontSize;
+        letter-spacing: normal;
+        text-transform: uppercase;
+    }
+
+    li {
+        list-style: none;
+        margin: 0 0 .25em;
+    }
+}
+
+.contact-online,
+.contact-join {
+    .span(3);
+}
+
+.contact-help {
+    .span(6);
+
+    ul {
+        -webkit-columns: 2;
+           -moz-columns: 2;
+             -o-columns: 2;
+                columns: 2;
+        -webkit-column-gap: 20px;
+           -moz-column-gap: 20px;
+             -o-column-gap: 20px;
+                column-gap: 20px;
+    }
+}
+
+
+
+/****************************************************************************/
+// @Tablet Layout: 760px
+@media only screen and (min-width: @breakTablet) and (max-width: @breakDesktop) {
+
+    #masthead,
+    .container {
+        width: @widthTablet - (@gridGutterWidth * 2);
+    }
+
+    .map-list {
+        .span_narrow(4);
+    }
+
+    .entry {
+        .span_narrow(8);
+
+        .card {
+            padding: 20px 20px 260px;
+        }
+
+        .feature-img {
+            bottom: 0;
+            top: auto;
+        }
+    }
+
+    .contact-online,
+    .contact-join {
+        .span_narrow(3);
+    }
+
+    .contact-help {
+        .span_narrow(6);
+    }
+
+}
+
+
+
+/****************************************************************************/
+// @Mobile layout: 320px
+@media only screen and (max-width: @breakTablet) {
+
+    #masthead,
+    .container {
+        width: @widthMobile - @gridGutterWidth;
+    }
+
+}
+
+
+
+/****************************************************************************/
+// @Wide @mobile layout: 480px
+@media only screen and (min-width: @breakMobileLandscape) and (max-width: @breakTablet) {
+
+
+    #masthead,
+    .container {
+        width: @widthMobileLandscape - @gridGutterWidth;
+    }
+
+}
