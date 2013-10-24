@@ -121,6 +121,17 @@
                 type: 'Point',
                 coordinates: [-123.1091763, 49.2824945]
             }
+        }, {
+            type: 'Feature',
+            properties: {
+                id: 'berlin',
+                'marker-color': markerColor,
+                'marker-size': markerSize
+            },
+            geometry: {
+                type: 'Point',
+                coordinates: [13.418735, 52.512408]
+            }
         }]
     };
 })();

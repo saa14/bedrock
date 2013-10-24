@@ -5,35 +5,37 @@
 {% extends "mozorg/contact/contact-base.html" %}
 
 {% block contact_entry %}
-  <section class="entry" id="london">
-    <div class="card vcard">
-      <h2 class="fn">{{ _('London') }}</h2>
-      <p class="adr">
-        <span class="street-address">101 St Martin‘s Lane</span>, <span class="extended-address">3rd Floor</span><br>
-        <span class="locality">London</span> <span class="postal-code">WC2N 4AZ</span><br>
-        <span class="country-name">UK</span>
-      </p>
+  <div id="entry-container">
+    <section class="entry" id="london">
+      <div class="card vcard">
+        <h2 class="fn">{{ _('London') }}</h2>
+        <p class="adr">
+          <span class="street-address">101 St Martin‘s Lane</span>, <span class="extended-address">3rd Floor</span><br>
+          <span class="locality">London</span> <span class="postal-code">WC2N 4AZ</span><br>
+          <span class="country-name">UK</span>
+        </p>
 
-      <ul class="extra">
-        <li><a href="mailto:mozspaces@mozilla.com" class="email">mozspaces@mozilla.com</a></li>
-        <li><a href="https://wiki.mozilla.org/People:MozSpaces_Guidelines:London" class="doc">{{ _('Space operations guide') }}</a></li>
-      </ul>
+        <ul class="extra">
+          <li><a href="mailto:mozspaces@mozilla.com" class="email">mozspaces@mozilla.com</a></li>
+          <li><a href="https://wiki.mozilla.org/People:MozSpaces_Guidelines:London" class="doc">{{ _('Space operations guide') }}</a></li>
+        </ul>
 
-      <figure class="feature-img">
-        <img src="http://placecage.com/460/250" alt="">
-      </figure>
-    </div>
+        <figure class="feature-img">
+          <img src="http://placecage.com/460/250" alt="">
+        </figure>
+      </div>
 
-    <div class="gallery">
-      <h3>{{ _('Photo Gallery') }}</h3>
-      <ul class="gallery-list">
-        <li class="gallery-image"><a href="#"><img src="http://placecage.com/200/110" alt=""></a></li>
-        <li class="gallery-image"><a href="#"><img src="http://placecage.com/200/110" alt=""></a></li>
-        <li class="gallery-image"><a href="#"><img src="http://placecage.com/200/110" alt=""></a></li>
-        <li class="gallery-image"><a href="#"><img src="http://placecage.com/200/110" alt=""></a></li>
-        <li class="gallery-image"><a href="#"><img src="http://placecage.com/200/110" alt=""></a></li>
-        <li class="gallery-image"><a href="#"><img src="http://placecage.com/200/110" alt=""></a></li>
-      </ul>
-    </div>
-  </section>
+      <div class="gallery">
+        <h3>{{ _('Photo Gallery') }}</h3>
+        <ul class="gallery-list">
+          <li class="gallery-image"><a href="#"><img src="http://placecage.com/200/110" alt=""></a></li>
+          <li class="gallery-image"><a href="#"><img src="http://placecage.com/200/110" alt=""></a></li>
+          <li class="gallery-image"><a href="#"><img src="http://placecage.com/200/110" alt=""></a></li>
+          <li class="gallery-image"><a href="#"><img src="http://placecage.com/200/110" alt=""></a></li>
+          <li class="gallery-image"><a href="#"><img src="http://placecage.com/200/110" alt=""></a></li>
+          <li class="gallery-image"><a href="#"><img src="http://placecage.com/200/110" alt=""></a></li>
+        </ul>
+      </div>
+    </section>
+  </div>
 {% endblock %}

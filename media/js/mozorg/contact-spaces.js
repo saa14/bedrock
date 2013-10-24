@@ -29,6 +29,8 @@
     "use strict";
 
     var map = null;
+    var xhr = null;
+    var contentCache = [];
 
     var mozMap = {
         /*
@@ -54,6 +56,11 @@
             History.Adapter.bind(window,'statechange',function () {
                 // Note: We are using History.getState() instead of event.state
                 var state = History.getState();
+                // Update current nav item to the active space
+                mozMap.updateSpaceNavItem(state.data.id);
+                // Show the space based on event state url
+                mozMap.showSpace(state.url, state.data.id);
+                // TODO - handle community spaces
             });
         },
 
@@ -67,9 +74,15 @@
             if (state === 'spaces') {
                 // add spaces marker layer.
                 mozMap.addSpacesMarkers();
-                mozMap.showCurrentSpace();
+                // bind click events on spaces nav
+                mozMap.bindSpacesNav();
+                // show the current space info
+                mozMap.showSpace();
             } else if (state === 'community') {
                 // TODO init community layers.
+
+                // unbind click events on spaces nav
+                mozMap.bindSpacesNav();
             }
         },
 
@@ -92,6 +105,42 @@
         },
 
         /*
+         * Bind click events on spaces navigation menu.
+         */
+        bindSpacesNav: function () {
+            $('#nav-spaces li a').on('click', mozMap.onNavSpacesClick);
+        },
+
+        /*
+         * Unbind click events on spaces navigation menu.
+         */
+        unbindSpacesNav: function () {
+            $('#nav-spaces li a').off('click', mozMap.onNavSpacesClick);
+        },
+
+        /*
+         * Update current spaces nav item and then show the space
+         */
+        onNavSpacesClick: function (e) {
+            e.preventDefault();
+            var current = $('#nav-spaces li.current');
+            var itemId = $(this).parent().data('id');
+            // current.removeClass('current');
+            // $(this).parent().addClass('current');
+            History.pushState({id: itemId}, null, this.href);
+        },
+
+        /*
+         * Updates the spaces navigation current ite,
+         * Param: @id space string identifier
+         */
+        updateSpaceNavItem: function (id) {
+            var current = $('#nav-spaces li.current');
+            current.removeClass('current');
+            $('#nav-spaces li[data-id="' + id + '"]').addClass('current');
+        },
+
+        /*
          * Focuses map on the marker that fires a click event.
          * Updates page content based on the marker selected.
          */
@@ -107,11 +156,11 @@
          * Show the current active space information.
          * Determined using data-id attribute and .current list item.
          */
-        showCurrentSpace: function () {
+        showSpace: function (url, cacheId) {
             var current = $('#nav-spaces li.current');
             // get the current space id and href based on the nav
             var id = current.data('id');
-            var url = current.attr('href');
+            var url = url || current.attr('href');
             // fire a click event on that space's marker
             map.markerLayer.eachLayer(function (marker) {
                 if (marker.feature.properties.id === id) {
@@ -119,20 +168,47 @@
                 }
             });
 
-            // request space content
-            mozMap.getContent(id, url);
+            // if the content is already cached display it
+            if (contentCache.hasOwnProperty(cacheId)) {
+                $('#entry-container').html(contentCache[cacheId]);
+            } else {
+                // request content via ajax
+                mozMap.requestContent(id, url);
+            }
         },
 
         /*
          * Requests content for displaying current space information
          * Params: @id space identifier string, @url url to request
          */
-        getContent: function (id, url) {
+        requestContent: function (id, url) {
+            //if we're already on the right page do nothing
+            if (id === $('section.entry').attr('id')) {
+                return;
+            }
+            //abort previous request if one exists
+            if (xhr && xhr.readystate !== 4) {
+                xhr.abort();
+            }
 
+            //get the page content
+            xhr = $.ajax({
+                url: url,
+                type: 'get',
+                dataType: 'html',
+                success: function(data, status, xhr) {
+                    // pull out data we need
+                    var content = $(data).find('section.entry');
+                    var mapId = content.attr('id');
+                    // add content to the cache for future retrieval
+                    contentCache[mapId] = content;
+                    // update content in the page
+                    $('#entry-container').html(content);
+                }
+            });
         }
     };
 
     //initialize mapbox
     mozMap.init();
-
 })();

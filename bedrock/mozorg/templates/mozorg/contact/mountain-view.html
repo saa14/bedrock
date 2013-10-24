@@ -5,37 +5,39 @@
 {% extends "mozorg/contact/contact-base.html" %}
 
 {% block contact_entry %}
-  <section class="entry" id="mountainview">
-    <div class="card vcard">
-      <h2 class="fn">{{ _('Mountain View') }}</h2>
-      <p class="adr">
-        <span class="street-address">650 Castro Street</span><br>
-        <span class="extended-address">Suite 300</span><br>
-        <span class="locality">Mountain View</span>, <abbr class="region" title="California">CA</abbr><br>
-        <span class="postal-code">94041-2021</span><br>
-        <span class="country-name">USA</span>
-      </p>
+  <div id="entry-container">
+    <section class="entry" id="mountain-view">
+      <div class="card vcard">
+        <h2 class="fn">{{ _('Mountain View') }}</h2>
+        <p class="adr">
+          <span class="street-address">650 Castro Street</span><br>
+          <span class="extended-address">Suite 300</span><br>
+          <span class="locality">Mountain View</span>, <abbr class="region" title="California">CA</abbr><br>
+          <span class="postal-code">94041-2021</span><br>
+          <span class="country-name">USA</span>
+        </p>
 
-      <ul class="extra">
-        <li><a href="mailto:mozspaces@mozilla.com" class="email">mozspaces@mozilla.com</a></li>
-        <li><a href="https://wiki.mozilla.org/People:MozSpaces_Guidelines:Mountain_View" class="doc">{{ _('Space operations guide') }}</a></li>
-      </ul>
+        <ul class="extra">
+          <li><a href="mailto:mozspaces@mozilla.com" class="email">mozspaces@mozilla.com</a></li>
+          <li><a href="https://wiki.mozilla.org/People:MozSpaces_Guidelines:Mountain_View" class="doc">{{ _('Space operations guide') }}</a></li>
+        </ul>
 
-      <figure class="feature-img">
-        <img src="http://placekitten.com/460/250" alt="">
-      </figure>
-    </div>
+        <figure class="feature-img">
+          <img src="http://placekitten.com/460/250" alt="">
+        </figure>
+      </div>
 
-    <div class="gallery">
-      <h3>{{ _('Photo Gallery') }}</h3>
-      <ul class="gallery-list">
-        <li class="gallery-image"><a href="#"><img src="http://placekitten.com/200/110" alt=""></a></li>
-        <li class="gallery-image"><a href="#"><img src="http://placekitten.com/200/110" alt=""></a></li>
-        <li class="gallery-image"><a href="#"><img src="http://placekitten.com/200/110" alt=""></a></li>
-        <li class="gallery-image"><a href="#"><img src="http://placekitten.com/200/110" alt=""></a></li>
-        <li class="gallery-image"><a href="#"><img src="http://placekitten.com/200/110" alt=""></a></li>
-        <li class="gallery-image"><a href="#"><img src="http://placekitten.com/200/110" alt=""></a></li>
-      </ul>
-    </div>
-  </section>
+      <div class="gallery">
+        <h3>{{ _('Photo Gallery') }}</h3>
+        <ul class="gallery-list">
+          <li class="gallery-image"><a href="#"><img src="http://placekitten.com/200/110" alt=""></a></li>
+          <li class="gallery-image"><a href="#"><img src="http://placekitten.com/200/110" alt=""></a></li>
+          <li class="gallery-image"><a href="#"><img src="http://placekitten.com/200/110" alt=""></a></li>
+          <li class="gallery-image"><a href="#"><img src="http://placekitten.com/200/110" alt=""></a></li>
+          <li class="gallery-image"><a href="#"><img src="http://placekitten.com/200/110" alt=""></a></li>
+          <li class="gallery-image"><a href="#"><img src="http://placekitten.com/200/110" alt=""></a></li>
+        </ul>
+      </div>
+    </section>
+  </div>
 {% endblock %}

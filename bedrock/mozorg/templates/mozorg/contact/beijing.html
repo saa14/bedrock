@@ -5,36 +5,38 @@
 {% extends "mozorg/contact/contact-base.html" %}
 
 {% block contact_entry %}
-  <section class="entry" id="beijing">
-    <div class="card vcard">
-      <h2 class="fn">{{ _('Beijing') }}</h2>
-      <p class="adr">
-      	<span class="org">Mozilla Online Ltd.</span><br>
-		<span class="extended-address">International Club Office Tower 800A</span><br>
-        <span class="street-address">21 Jian Guo Men Wai Avenue</span><br>
-        <abbr class="region">Chaoyang District</abbr>, <span class="locality">Beijing</span> <span class="postal-code">100020</span><br>
-        <span class="country-name">China</span>
-      </p>
+  <div id="entry-container">
+    <section class="entry" id="beijing">
+      <div class="card vcard">
+        <h2 class="fn">{{ _('Beijing') }}</h2>
+        <p class="adr">
+          <span class="org">Mozilla Online Ltd.</span><br>
+          <span class="extended-address">International Club Office Tower 800A</span><br>
+          <span class="street-address">21 Jian Guo Men Wai Avenue</span><br>
+          <abbr class="region">Chaoyang District</abbr>, <span class="locality">Beijing</span> <span class="postal-code">100020</span><br>
+          <span class="country-name">China</span>
+        </p>
 
-      <ul class="extra">
-        <li><a href="mailto:mozspaces@mozilla.com" class="email">mozspaces@mozilla.com</a></li>
-      </ul>
+        <ul class="extra">
+          <li><a href="mailto:mozspaces@mozilla.com" class="email">mozspaces@mozilla.com</a></li>
+        </ul>
 
-      <figure class="feature-img">
-        <img src="http://placebear.com/460/250" alt="">
-      </figure>
-    </div>
+        <figure class="feature-img">
+          <img src="http://placebear.com/460/250" alt="">
+        </figure>
+      </div>
 
-    <div class="gallery">
-      <h3>{{ _('Photo Gallery') }}</h3>
-      <ul class="gallery-list">
-        <li class="gallery-image"><a href="#"><img src="http://placebear.com/200/110" alt=""></a></li>
-        <li class="gallery-image"><a href="#"><img src="http://placebear.com/200/110" alt=""></a></li>
-        <li class="gallery-image"><a href="#"><img src="http://placebear.com/200/110" alt=""></a></li>
-        <li class="gallery-image"><a href="#"><img src="http://placebear.com/200/110" alt=""></a></li>
-        <li class="gallery-image"><a href="#"><img src="http://placebear.com/200/110" alt=""></a></li>
-        <li class="gallery-image"><a href="#"><img src="http://placebear.com/200/110" alt=""></a></li>
-      </ul>
-    </div>
-  </section>
+      <div class="gallery">
+        <h3>{{ _('Photo Gallery') }}</h3>
+        <ul class="gallery-list">
+          <li class="gallery-image"><a href="#"><img src="http://placebear.com/200/110" alt=""></a></li>
+          <li class="gallery-image"><a href="#"><img src="http://placebear.com/200/110" alt=""></a></li>
+          <li class="gallery-image"><a href="#"><img src="http://placebear.com/200/110" alt=""></a></li>
+          <li class="gallery-image"><a href="#"><img src="http://placebear.com/200/110" alt=""></a></li>
+          <li class="gallery-image"><a href="#"><img src="http://placebear.com/200/110" alt=""></a></li>
+          <li class="gallery-image"><a href="#"><img src="http://placebear.com/200/110" alt=""></a></li>
+        </ul>
+      </div>
+    </section>
+  </div>
 {% endblock %}
