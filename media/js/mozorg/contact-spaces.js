@@ -30,6 +30,7 @@
 
     var map = null;
     var xhr = null;
+    var initContentId = null;
     var contentCache = [];
 
     var mozMap = {
@@ -44,6 +45,8 @@
             map.scrollWheelZoom.disable();
             // set the initial map state on page load.
             mozMap.setMapState();
+            // store the initial content id
+            mozMap.storeInitialContentId();
             // init history.js
             mozMap.bindHistory();
         },
@@ -64,12 +67,30 @@
             });
         },
 
+        storeInitialContentId: function () {
+            // store initial content data id on page load
+            var state = mozMap.getState();
+            if (state === 'spaces') {
+                initContentId = $('#nav-spaces li.current').data('id');
+            } else if (state === 'community') {
+                // TODO store initial content id for community map
+            }
+        },
+
+        /*
+         * Get the current map state
+         * Return values are either 'spaces' or 'community'
+         */
+        getMapState: function () {
+            return $('ul.category-tabs li.current').data('id');
+        },
+
         /*
          * Sets the map state based on the active category tab.
          * Determined using data-id attribute and .current list item.
          */
         setMapState: function () {
-            var state = $('ul.category-tabs li.current').data('id');
+            var state = mozMap.getMapState();
 
             if (state === 'spaces') {
                 // add spaces marker layer.
@@ -135,9 +156,14 @@
          * Param: @id space string identifier
          */
         updateSpaceNavItem: function (id) {
-            var current = $('#nav-spaces li.current');
-            current.removeClass('current');
-            $('#nav-spaces li[data-id="' + id + '"]').addClass('current');
+            $('#nav-spaces li.current').removeClass('current');
+            if (!id) {
+                // if 'id' is undefined then statechange has fired before our first
+                // pushState event, so set current item back to the initial content data id.
+                $('#nav-spaces li[data-id="' + initContentId + '"]').addClass('current');
+            } else {
+                $('#nav-spaces li[data-id="' + id + '"]').addClass('current');
+            }
         },
 
         /*
