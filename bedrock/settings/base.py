@@ -395,6 +395,8 @@ MINIFY_BUNDLES = {
             'js/base/mozilla-image-helper.js',
         ),
         'contact-spaces': (
+            'js/libs/jquery.history.js',
+            'js/mozorg/contact-data.js',
             'js/mozorg/contact-spaces.js',
         ),
         'contribute': (
