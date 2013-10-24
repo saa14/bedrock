@@ -69,7 +69,7 @@
 
         storeInitialContentId: function () {
             // store initial content data id on page load
-            var state = mozMap.getState();
+            var state = mozMap.getMapState();
             if (state === 'spaces') {
                 initContentId = $('#nav-spaces li.current').data('id');
             } else if (state === 'community') {
