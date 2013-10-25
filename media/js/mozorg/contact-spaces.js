@@ -240,8 +240,6 @@
             map.panTo(e.layer.getLatLng(), {
                 animate: false
             });
-
-            map.setZoom(12);
         },
 
         /*
