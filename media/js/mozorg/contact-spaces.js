@@ -117,7 +117,7 @@
             map.markerLayer.on('click', mozMap.onMarkerClick);
             map.markerLayer.on('mouseover', mozMap.openMarkerPopup);
             map.markerLayer.on('mouseout', mozMap.closeMarkerPopup);
-            map.setView([37.4, 0], 4);
+            map.setView([37.4, 0], 12);
         },
 
         /*
@@ -240,6 +240,8 @@
             map.panTo(e.layer.getLatLng(), {
                 animate: false
             });
+
+            map.setZoom(12);
         },
 
         /*
