@@ -112,9 +112,35 @@
          * Sets an initial panned out view of the world map.
          */
         addSpacesMarkers: function () {
+            // Add custom popups to each using our custom feature properties
             map.markerLayer.setGeoJSON(window.mozSpaces);
             map.markerLayer.on('click', mozMap.onMarkerClick);
-            map.setView([37.4, 0], 2);
+            map.markerLayer.on('mouseover', mozMap.openMarkerPopup);
+            map.markerLayer.on('mouseout', mozMap.closeMarkerPopup);
+            map.setView([37.4, 0], 4);
+        },
+
+        /*
+         * Creates a custom marker popup with localized text from template nav
+         */
+        openMarkerPopup: function (e) {
+            var id = e.layer.feature.properties.id;
+            var $name = $('#nav-spaces li[data-id="' + id + '"]').text();
+
+            e.layer.bindPopup($name, {
+                closeButton: false,
+                maxWidth: 300
+            });
+
+            e.layer.openPopup();
+        },
+
+        /*
+         * Closes and unbinds the popup
+         */
+        closeMarkerPopup: function (e) {
+            e.layer.closePopup();
+            e.layer.unbindPopup();
         },
 
         /*
@@ -123,6 +149,18 @@
         removeSpacesMarkers: function () {
             map.markerLayer.setGeoJSON([]);
             map.markerLayer.off('click', mozMap.onMarkerClick);
+        },
+
+        /*
+         * Programatically finds a marker and clicks it
+         * Param: @id marker string identifier
+         */
+        doClickMarker: function (id) {
+            map.markerLayer.eachLayer(function (marker) {
+                if (marker.feature.properties.id === id) {
+                    marker.fireEvent('click');
+                }
+            });
         },
 
         /*
@@ -167,15 +205,41 @@
         },
 
         /*
-         * Focuses map on the marker that fires a click event.
-         * Updates page content based on the marker selected.
+         * Focuses map on the marker and shows a popup tooltip
          */
         onMarkerClick: function (e) {
-            // get the marker feature id.
-            var id = e.layer.feature.properties.id;
-            // pan and zoom the map to center on the marker.
-            map.setZoom(12).panTo(e.layer.getLatLng());
-            // TODO - show the marker tooltip.
+
+            var $itemId = $('#nav-spaces li.current').data('id');
+            var markerId = e.layer.feature.properties.id;
+
+            if (markerId !== $itemId) {
+                var url = $('#nav-spaces li[data-id="' + markerId + '"] a').attr('href');
+                History.pushState({id: markerId}, null, url);
+                return;
+            }
+
+            // // calculate the offset point for showing the popup
+            // var point = map.latLngToContainerPoint(e.layer.getLatLng());
+            // var offsetPopup = new L.Point(point.x, point.y - 45);
+            // var offsetMarker = new L.Point(point.x, point.y - 80);
+            // var popupLatLng = map.containerPointToLatLng(offsetPopup);
+            // var markerLatLng = map.containerPointToLatLng(offsetMarker);
+
+            // // dynamically set the popup content
+            // var $popupTitle = $('section.entry .vcard .fn').text();
+            // var $popupAddress = $('section.entry .vcard .adr').html();
+            // var address = '<span>' + $popupTitle + '<span><br>' + $popupAddress;
+
+            // // create the popup and show it on the map
+            // new L.popup({
+            //     maxWidth: 320
+            // }).setLatLng(popupLatLng)
+            //   .setContent(address)
+            //   .openOn(map);
+
+            map.panTo(e.layer.getLatLng(), {
+                animate: false
+            });
         },
 
         /*
@@ -187,16 +251,12 @@
             // get the current space id and href based on the nav
             var id = current.data('id');
             var url = url || current.attr('href');
-            // fire a click event on that space's marker
-            map.markerLayer.eachLayer(function (marker) {
-                if (marker.feature.properties.id === id) {
-                    marker.fireEvent('click');
-                }
-            });
 
             // if the content is already cached display it
             if (contentCache.hasOwnProperty(cacheId)) {
                 $('#entry-container').html(contentCache[cacheId]);
+                // programatically find the right marker and click it
+                mozMap.doClickMarker(id);
             } else {
                 // request content via ajax
                 mozMap.requestContent(id, url);
@@ -208,8 +268,9 @@
          * Params: @id space identifier string, @url url to request
          */
         requestContent: function (id, url) {
-            //if we're already on the right page do nothing
+            //if we're already on the right page just show popup
             if (id === $('section.entry').attr('id')) {
+                mozMap.doClickMarker(id);
                 return;
             }
             //abort previous request if one exists
@@ -230,6 +291,8 @@
                     contentCache[mapId] = content;
                     // update content in the page
                     $('#entry-container').html(content);
+                    // programatically find the right marker and click it
+                    mozMap.doClickMarker(id);
                 }
             });
         }
