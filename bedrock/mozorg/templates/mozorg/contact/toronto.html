@@ -4,23 +4,22 @@
 
 {% extends "mozorg/contact/contact-base.html" %}
 
-{% block page_title %}{{ _('Contacts, Spaces and Communities') }} — {{ _('Auckland') }}{% endblock %}
+{% block page_title %}{{ _('Contacts, Spaces and Communities') }} — {{ _('Toronto') }}{% endblock %}
 
 {% block contact_entry %}
   <div id="entry-container">
-    <section class="entry" id="auckland">
+    <section class="entry" id="toronto">
       <div class="card vcard">
-        <h2 class="fn">{{ _('Auckland') }}</h2>
+        <h2 class="fn">{{ _('Toronto') }}</h2>
         <p class="adr">
-          <span class="extended-address">Level 7</span><br>
-          <span class="street-address">5 Short St</span><br>
-          <span class="locality">Newmarket</span><br>
-          <abbr class="region">Auckland</abbr> <span class="postal-code">1023</span><br>
-          <span class="country-name">New Zealand</span>
+          <span class="street-address">366 Adelaide St W</span>, <span class="extended-address">Suite 500</span><br>
+          <span class="locality">Toronto</span>, <abbr class="region" title="Ontario">ON</abbr> <span class="postal-code">M5V 1R9</span><br>
+          <span class="country-name">{{ _('Canada') }}</span>
         </p>
 
         <ul class="extra">
           <li><a href="mailto:mozspaces@mozilla.com" class="email">mozspaces@mozilla.com</a></li>
+          <li><a href="https://wiki.mozilla.org/People:MozSpaces_Guidelines:Toronto" class="doc">{{ _('Space operations guide') }}</a></li>
         </ul>
 
         <figure class="feature-img">
