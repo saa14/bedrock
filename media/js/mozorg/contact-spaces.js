@@ -45,10 +45,12 @@
             map.scrollWheelZoom.disable();
             // set the initial map state on page load.
             mozMap.setMapState();
-            // store the initial content id
-            mozMap.storeInitialContentId();
+            // set initial map content
+            mozMap.setInitialContentState();
             // init history.js
             mozMap.bindHistory();
+            // bind events on tab navigation
+            mozMap.bindTabNavigation();
         },
 
         /*
@@ -59,19 +61,69 @@
             History.Adapter.bind(window,'statechange',function () {
                 // Note: We are using History.getState() instead of event.state
                 var state = History.getState();
-                // Update current nav item to the active space
-                mozMap.updateSpaceNavItem(state.data.id);
-                // Show the space based on event state url
-                mozMap.showSpace(state.url, state.data.id);
-                // TODO - handle community spaces
+                var current = mozMap.getMapState();
+
+                if (current === 'spaces') {
+                    // Update current nav item to the active space
+                    mozMap.updateSpaceNavItem(state.data.id);
+                    // Show the space based on event state url
+                    mozMap.showSpace(state.url, state.data.id);
+                } else if (current === 'community') {
+                    // TODO - handle community spaces
+                }
             });
         },
 
-        storeInitialContentId: function () {
+        /*
+         * Bind the main tab navigation for toggling spaces
+         * and communities. Only needs to be called once
+         */
+        bindTabNavigation: function () {
+            $('.category-tabs li a').on('click', function (e) {
+                e.preventDefault();
+                var navId = $(this).parent().data('id');
+                var space = $('#nav-spaces li.current a');
+                var community = $('#nav-community li.current a');
+                var itemId;
+                var itemUrl;
+                var state;
+
+                // if we're already on the current tab, do nothing
+                if (navId === mozMap.getMapState()) {
+                    return;
+                }
+
+                // Update the current tab class
+                $('ul.category-tabs li.current').removeClass('current');
+                $(this).parent().addClass('current');
+
+                // get the updated map state
+                state = mozMap.getMapState();
+
+                // set update the map state
+                mozMap.setMapState();
+
+                // get last current space id and url
+                if (state === 'spaces') {
+                    itemId = space.parent().data('id');
+                    itemUrl = space.attr('href');
+                } else if (state === 'community') {
+                    itemId = community.parent().data('id');
+                    itemUrl = community.attr('href');
+                }
+
+                // Update the browser history
+                History.pushState({id: itemId }, null, itemUrl);
+            });
+        },
+
+        setInitialContentState: function () {
             // store initial content data id on page load
             var state = mozMap.getMapState();
             if (state === 'spaces') {
                 initContentId = $('#nav-spaces li.current').data('id');
+                //show the current space marker
+                mozMap.showSpace();
             } else if (state === 'community') {
                 // TODO store initial content id for community map
             }
@@ -97,13 +149,12 @@
                 mozMap.addSpacesMarkers();
                 // bind click events on spaces nav
                 mozMap.bindSpacesNav();
-                // show the current space info
-                mozMap.showSpace();
             } else if (state === 'community') {
-                // TODO init community layers.
-
+                // remove spaces markers
+                mozMap.removeSpacesMarkers();
                 // unbind click events on spaces nav
                 mozMap.bindSpacesNav();
+                // TODO init community layers.
             }
         },
 
@@ -149,6 +200,9 @@
         removeSpacesMarkers: function () {
             map.markerLayer.setGeoJSON([]);
             map.markerLayer.off('click', mozMap.onMarkerClick);
+            map.markerLayer.off('mouseover', mozMap.openMarkerPopup);
+            map.markerLayer.off('mouseout', mozMap.closeMarkerPopup);
+            map.setView([37.4, 0], 2);
         },
 
         /*
@@ -184,8 +238,6 @@
             e.preventDefault();
             var current = $('#nav-spaces li.current');
             var itemId = $(this).parent().data('id');
-            // current.removeClass('current');
-            // $(this).parent().addClass('current');
             History.pushState({id: itemId}, null, this.href);
         },
 
@@ -217,25 +269,6 @@
                 History.pushState({id: markerId}, null, url);
                 return;
             }
-
-            // // calculate the offset point for showing the popup
-            // var point = map.latLngToContainerPoint(e.layer.getLatLng());
-            // var offsetPopup = new L.Point(point.x, point.y - 45);
-            // var offsetMarker = new L.Point(point.x, point.y - 80);
-            // var popupLatLng = map.containerPointToLatLng(offsetPopup);
-            // var markerLatLng = map.containerPointToLatLng(offsetMarker);
-
-            // // dynamically set the popup content
-            // var $popupTitle = $('section.entry .vcard .fn').text();
-            // var $popupAddress = $('section.entry .vcard .adr').html();
-            // var address = '<span>' + $popupTitle + '<span><br>' + $popupAddress;
-
-            // // create the popup and show it on the map
-            // new L.popup({
-            //     maxWidth: 320
-            // }).setLatLng(popupLatLng)
-            //   .setContent(address)
-            //   .openOn(map);
 
             map.panTo(e.layer.getLatLng(), {
                 animate: false
