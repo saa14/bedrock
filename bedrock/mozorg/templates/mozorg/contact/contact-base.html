@@ -64,13 +64,15 @@
 {# Hiding this for now. TODO: Tabs will toggle visibility of category nav and meta.
     <nav id="nav-community" class="nav-category accordion">
       <ul>
-        <li class="hasmenu"><a href="#north-america">{{ _('North America') }}</a>
+        <li data-id="north-america" class="hasmenu region">
+          <a href="#north-america">{{ _('North America') }}</a>
           <ul class="submenu">
             <li><a href="#canada">{{ _('Canada') }}</a></li>
             <li><a href="#usa">{{ _('United States') }}</a></li>
           </ul>
         </li>
-        <li class="hasmenu"><a href="#latin-america">{{ _('Latin America') }}</a>
+        <li data-id="latin-america" class="hasmenu region">
+          <a href="#latin-america">{{ _('Latin America') }}</a>
           <ul class="submenu">
             <li><a href="#argentina">{{ _('Argentina') }}</a></li>
             <li><a href="#bolivia">{{ _('Bolivia') }}</a></li>
@@ -87,14 +89,16 @@
             <li><a href="#venezuela">{{ _('Venezuela') }}</a></li>
           </ul>
         </li>
-        <li class="hasmenu"><a href="#europe">{{ _('Europe') }}</a>
+        <li data-id="europe" class="hasmenu region">
+          <a href="#europe">{{ _('Europe') }}</a>
           <ul class="submenu">
             <li><a href="#france">{{ _('France') }}</a></li>
             <li><a href="#germany">{{ _('Germany') }}</a></li>
             <li><a href="#united-kingdom">{{ _('United Kingdom') }}</a></li>
           </ul>
         </li>
-        <li class="hasmenu"><a href="#asia-south-pacific">{{ _('Asia &amp; South Pacific') }}</a>
+        <li data-id="asia" class="hasmenu region">
+          <a href="#asia-south-pacific">{{ _('Asia &amp; South Pacific') }}</a>
           <ul class="submenu">
             <li><a href="#australia">{{ _('Australia') }}</a></li>
             <li><a href="#china">{{ _('China') }}</a></li>
@@ -103,8 +107,11 @@
             <li><a href="#south-korea">{{ _('South Korea') }}</a></li>
           </ul>
         </li>
-        <li><a href="#antarctica">{{ _('Antarctica') }}</a></li>
-        <li class="hasmenu"><a href="#africa-middle-east">{{ _('Africa &amp; the Middle East') }}</a>
+        <li data-id="antarctica region">
+          <a href="#antarctica">{{ _('Antarctica') }}</a>
+        </li>
+        <li data-id="africa" class="hasmenu region">
+          <a href="#africa-middle-east">{{ _('Africa &amp; the Middle East') }}</a>
           <ul class="submenu">
             <li><a href="#">{{ _('Algeria') }}</a></li>
             <li><a href="#">{{ _('Egypt') }}</a></li>

@@ -33,6 +33,18 @@
     var initContentId = null;
     var contentCache = [];
 
+    // Community Layers
+    var northAmerica;
+    var latinAmerica;
+    var europe;
+    var asiaSouthPacific;
+    var antarctica;
+    var africaMiddleEast;
+    var hispano;
+    var francophone;
+    var communityLayers;
+    var layers = {};
+
     var mozMap = {
         /*
          * Initialize mapbox and set default control values.
@@ -43,6 +55,8 @@
             map = L.mapbox.map('map', 'mozilla-webprod.e91ef8b3');
             // disable map zoom on scroll.
             map.scrollWheelZoom.disable();
+            // initialize community layers
+            mozMap.initCommunityLayers();
             // set the initial map state on page load.
             mozMap.setMapState();
             // set initial map content
@@ -145,6 +159,8 @@
             var state = mozMap.getMapState();
 
             if (state === 'spaces') {
+                // unbind click events on community nav
+                mozMap.unbindCommunityNav();
                 // add spaces marker layer.
                 mozMap.addSpacesMarkers();
                 // bind click events on spaces nav
@@ -153,8 +169,9 @@
                 // remove spaces markers
                 mozMap.removeSpacesMarkers();
                 // unbind click events on spaces nav
-                mozMap.bindSpacesNav();
-                // TODO init community layers.
+                mozMap.unbindSpacesNav();
+                // bind click events on community nav
+                mozMap.bindCommunityNav();
             }
         },
 
@@ -169,6 +186,17 @@
             map.markerLayer.on('mouseover', mozMap.openMarkerPopup);
             map.markerLayer.on('mouseout', mozMap.closeMarkerPopup);
             map.setView([37.4, 0], 12);
+        },
+
+        /*
+         * Removes spaces markers from the map and unbinds events.
+         */
+        removeSpacesMarkers: function () {
+            map.markerLayer.setGeoJSON([]);
+            map.markerLayer.off('click', mozMap.onMarkerClick);
+            map.markerLayer.off('mouseover', mozMap.openMarkerPopup);
+            map.markerLayer.off('mouseout', mozMap.closeMarkerPopup);
+            map.setView([37.4, 0], 2);
         },
 
         /*
@@ -195,17 +223,6 @@
         },
 
         /*
-         * Removes spaces markers from the map and unbinds events.
-         */
-        removeSpacesMarkers: function () {
-            map.markerLayer.setGeoJSON([]);
-            map.markerLayer.off('click', mozMap.onMarkerClick);
-            map.markerLayer.off('mouseover', mozMap.openMarkerPopup);
-            map.markerLayer.off('mouseout', mozMap.closeMarkerPopup);
-            map.setView([37.4, 0], 2);
-        },
-
-        /*
          * Programatically finds a marker and clicks it
          * Param: @id marker string identifier
          */
@@ -221,24 +238,58 @@
          * Bind click events on spaces navigation menu.
          */
         bindSpacesNav: function () {
-            $('#nav-spaces li a').on('click', mozMap.onNavSpacesClick);
+            $('#nav-spaces li a').on('click', mozMap.onSpacesNavClick);
         },
 
         /*
          * Unbind click events on spaces navigation menu.
          */
         unbindSpacesNav: function () {
-            $('#nav-spaces li a').off('click', mozMap.onNavSpacesClick);
+            $('#nav-spaces li a').off('click', mozMap.onSpacesNavClick);
+        },
+
+        /*
+         * Bind events on top level community navigation menu
+         */
+        bindCommunityNav: function () {
+            $('#nav-community li.region > a').on('click', mozMap.onCommunityNavClick);
+        },
+
+        /*
+         * Unbind events on top level community navigation menu
+         */
+        unbindCommunityNav: function () {
+            $('#nav-community li.region > a').off('click', mozMap.onCommunityNavClick);
         },
 
         /*
          * Update current spaces nav item and then show the space
          */
-        onNavSpacesClick: function (e) {
+        onSpacesNavClick: function (e) {
             e.preventDefault();
             var current = $('#nav-spaces li.current');
             var itemId = $(this).parent().data('id');
             History.pushState({id: itemId}, null, this.href);
+        },
+
+        /*
+         * Update top level community nav item and show the region layer
+         */
+        onCommunityNavClick: function (e) {
+            e.preventDefault();
+            var id = $(this).parent().data('id');
+            // TODO push state
+            if (layers.hasOwnProperty(id)) {
+                mozMap.clearCommunityLayers();
+                communityLayers.addLayer(layers[id]);
+            }
+        },
+
+        /*
+         * Clears all community map layers
+         */
+        clearCommunityLayers: function () {
+            communityLayers.clearLayers();
         },
 
         /*
@@ -271,7 +322,7 @@
             }
 
             map.panTo(e.layer.getLatLng(), {
-                animate: false
+                animate: true
             });
         },
 
@@ -294,6 +345,70 @@
                 // request content via ajax
                 mozMap.requestContent(id, url);
             }
+        },
+
+        /*
+         * Initializes geo-json community layers ready for drawing
+         */
+        initCommunityLayers: function () {
+            // create each geoJson layer
+            northAmerica = L.geoJson(window.mozNorthAmerica, {
+                style: mozMap.styleLayer('#5cb6e0')
+            });
+            latinAmerica = L.geoJson(window.mozLatinAmerica, {
+                style: mozMap.styleLayer('#f36261')
+            });
+            europe = L.geoJson(window.mozEurope, {
+                style: mozMap.styleLayer('#7dc879')
+            });
+            asiaSouthPacific = L.geoJson(window.mozAsiaSouthPacific, {
+                style: mozMap.styleLayer('#c883c5')
+            });
+            antarctica = L.geoJson(window.mozAntarctica, {
+                style: mozMap.styleLayer('#a1b2b7')
+            });
+            africaMiddleEast = L.geoJson(window.mozAfricaMiddleEast, {
+                style: mozMap.styleLayer('#eb936e')
+            });
+            hispano = L.geoJson(window.mozHispano, {
+                style: mozMap.styleLayer('white', '#666', 0.1, 5),
+                stroke: false
+            });
+            francophone = L.geoJson(window.mozFrancophone, {
+                style: mozMap.styleLayer('white', '#666', 0.1, 5),
+                stroke: false
+            });
+
+            // create an empty layer group and add it to the map
+            communityLayers = new L.FeatureGroup();
+            communityLayers.addTo(map);
+
+            // Store a lookup key for each layer object
+            layers = {
+                'north-america': northAmerica,
+                'latin-america': latinAmerica,
+                'europe': europe,
+                'asia': asiaSouthPacific,
+                'antarctica': antarctica,
+                'africa': africaMiddleEast,
+                'hispano': hispano,
+                'francophone': francophone
+            }
+        },
+
+        /*
+         * Styles a geo-json community layer
+         */
+        styleLayer: function (fill, outline, opacity, dash) {
+            return {
+                fillColor: fill,
+                weight: 1,
+                opacity: 1,
+                color: outline || 'white',
+                fillOpacity: opacity || 0.7,
+                dashArray: dash || 'none',
+                clickable: false
+            };
         },
 
         /*
