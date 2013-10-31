@@ -450,6 +450,8 @@ MINIFY_BUNDLES = {
             'js/firefox/features.js',
         ),
         'firefox_firstrun': (
+            'js/firefox/firstrun/mozilla-uitour.js',
+            'js/firefox/firstrun/australis.js',
             'js/firefox/firstrun/firstrun.js',
         ),
         'firefox_firstrun_new_a': (
