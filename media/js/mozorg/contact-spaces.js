@@ -165,6 +165,8 @@
                 mozMap.addSpacesMarkers();
                 // bind click events on spaces nav
                 mozMap.bindSpacesNav();
+                // hide community legend
+                mozMap.hideMapLegend();
             } else if (state === 'community') {
                 // remove spaces markers
                 mozMap.removeSpacesMarkers();
@@ -172,6 +174,8 @@
                 mozMap.unbindSpacesNav();
                 // bind click events on community nav
                 mozMap.bindCommunityNav();
+                // hide community legend
+                mozMap.showMapLegend();
             }
         },
 
@@ -394,6 +398,9 @@
                 'hispano': hispano,
                 'francophone': francophone
             }
+
+            // make community legend tabbable via keyboard
+            $('#map .legend li').attr('tabIndex', 0);
         },
 
         /*
@@ -409,6 +416,31 @@
                 dashArray: dash || 'none',
                 clickable: false
             };
+        },
+
+        /*
+         * Shows the community map legend and bind click events
+         */
+        showMapLegend: function () {
+            var $legend = $('#map .legend');
+            $legend.fadeIn();
+            $legend.on('click', 'li', mozMap.onMapLegendClick);
+        },
+
+        /*
+         * Hides the community map legend and unbind click events
+         */
+        hideMapLegend: function () {
+            var $legend = $('#map .legend');
+            $legend.fadeOut();
+            $legend.off('click', 'li', mozMap.onMapLegendClick);
+        },
+
+        /*
+         * Toggles community map regions and calls push state
+         */
+        onMapLegendClick: function () {
+            // TODO - get data-id and do push state.
         },
 
         /*

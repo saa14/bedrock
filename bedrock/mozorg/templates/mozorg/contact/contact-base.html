@@ -35,7 +35,18 @@
     </p>
   </header>
 
-  <div id="map"></div>
+  <div id="map">
+    <ul class="legend" aria-controls="map entry-container">
+        <li data-id="north-america">{{ _('North America') }}</li>
+        <li data-id="latin-america">{{ _('Latin America') }}</li>
+        <li data-id="europe">{{ _('Europe') }}</li>
+        <li data-id="asia">{{ _('Asia') }}</li>
+        <li data-id="antarctica">{{ _('Antarctica') }}</li>
+        <li data-id="africa">{{ _('Africa') }}</li>
+        <li data-id="hispano" class="inactive">{{ _('Hispano') }}</li>
+        <li data-id="francophone" class="inactive">{{ _('Francophone') }}</li>
+    </ul>
+  </div>
 
   <div id="page-content" class="container">
     <ul class="category-tabs">
