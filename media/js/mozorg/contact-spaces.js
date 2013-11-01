@@ -196,6 +196,13 @@
         addSpacesMarkers: function () {
             // Add custom popups to each using our custom feature properties
             map.markerLayer.setGeoJSON(window.mozSpaces);
+            // disable keyboard focus on markers as it messes up panning :(
+            // all content is still accessible via keyboard nonetheless
+            map.markerLayer.eachLayer(function (marker) {
+                L.Util.setOptions(marker, {
+                    keyboard: false
+                });
+            });
             map.markerLayer.on('click', mozMap.onMarkerClick);
             map.markerLayer.on('mouseover', mozMap.openMarkerPopup);
             map.markerLayer.on('mouseout', mozMap.closeMarkerPopup);
