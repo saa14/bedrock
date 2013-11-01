@@ -32,6 +32,8 @@
     var xhr = null;
     var initContentId = null;
     var contentCache = [];
+    var topPane = null;
+    var topLayer = null;
 
     // Community Layers
     var northAmerica;
@@ -65,6 +67,8 @@
             mozMap.bindHistory();
             // bind events on tab navigation
             mozMap.bindTabNavigation();
+            // split the label layer for more control
+            mozMap.splitLabelLayer();
         },
 
         /*
@@ -159,6 +163,8 @@
             var state = mozMap.getMapState();
 
             if (state === 'spaces') {
+                //clear commuity layers
+                mozMap.clearCommunityLayers();
                 // unbind click events on community nav
                 mozMap.unbindCommunityNav();
                 // add spaces marker layer.
@@ -167,6 +173,8 @@
                 mozMap.bindSpacesNav();
                 // hide community legend
                 mozMap.hideMapLegend();
+                // reposition markers above the labels
+                mozMap.setLabelLayerIndex(1);
             } else if (state === 'community') {
                 // remove spaces markers
                 mozMap.removeSpacesMarkers();
@@ -176,6 +184,8 @@
                 mozMap.bindCommunityNav();
                 // hide community legend
                 mozMap.showMapLegend();
+                // reposition labels above community layer
+                mozMap.setLabelLayerIndex(7);
             }
         },
 
@@ -355,6 +365,7 @@
          * Initializes geo-json community layers ready for drawing
          */
         initCommunityLayers: function () {
+
             // create each geoJson layer
             northAmerica = L.geoJson(window.mozNorthAmerica, {
                 style: mozMap.styleLayer('#5cb6e0')
@@ -441,6 +452,40 @@
          */
         onMapLegendClick: function () {
             // TODO - get data-id and do push state.
+        },
+
+        /*
+         * Split label layer on the map so we can set it's z-index dynamically
+         * Hat tip to Alex Barth @ MapBox
+         */
+        splitLabelLayer: function () {
+            topPane = map._createPane('leaflet-top-pane', map.getPanes().mapPane);
+            topLayer = L.mapbox.tileLayer('mozilla-webprod.map-f1uagdlz');
+            topLayer.on('ready', function() {
+                var state = mozMap.getMapState();
+
+                //add the split layers
+                topLayer.addTo(map);
+                topPane.appendChild(topLayer.getContainer());
+
+                //set the initial z-index state for label layer
+                if (state === 'spaces') {
+                    topLayer.setZIndex(1);
+                } else if (state === 'community') {
+                    topLayer.setZIndex(7);
+                }
+            });
+        },
+
+        /*
+         * Sets the z-index of the labellayer so we can position country
+         * names above community layers or under markers
+         */
+        setLabelLayerIndex: function (zIndex) {
+            var i = parseInt(zIndex, 10);
+            if (topLayer) {
+                topLayer.setZIndex(i);
+            }
         },
 
         /*
