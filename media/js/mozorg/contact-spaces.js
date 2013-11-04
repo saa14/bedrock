@@ -54,8 +54,11 @@
          * This should only be called once on page load.
          */
         init: function () {
+            var touch = L.Browser.touch || L.Browser.msTouch;
             // use mozilla map style layer.
-            map = L.mapbox.map('map', 'mozilla-webprod.e91ef8b3');
+            map = L.mapbox.map('map', 'mozilla-webprod.e91ef8b3', {
+                zoomControl: !touch
+            });
             // disable map zoom on scroll.
             map.scrollWheelZoom.disable();
             // initialize spaces markers
@@ -72,6 +75,15 @@
             mozMap.bindHistory();
             // split the label layer for more control
             mozMap.splitLabelLayer();
+            // disable dragging for touch devices
+            if (touch) {
+                // disable drag and zoom handlers
+                map.dragging.disable();
+                map.touchZoom.disable();
+                map.doubleClickZoom.disable();
+                // disable tap handler, if present.
+                if (map.tap) map.tap.disable();
+            }
         },
 
         /*
