@@ -96,34 +96,34 @@
     font-size: @smallFontSize;
     text-align: right;
     background: rgba(0,0,0,0.8);
-    color: #fff;
     box-shadow: 0 0 15px rgba(0,0,0,0.2);
     border-radius: 5px;
     z-index: 10000;
 }
 
-.legend li {
+.legend li a {
+    color: #fff;
     line-height: 1.5;
     opacity: 0.8;
     -webkit-transition: opacity .3s linear;
     transition: opacity .3s linear;
 }
 
-.legend li:hover {
+.legend li a:hover {
     cursor: pointer;
     opacity: 1;
 }
 
-.legend li.current {
+.legend li.current a {
     opacity: 1;
 }
 
-.legend li.current:hover {
+.legend li.current a:hover {
     cursor: default;
     text-decoration: none;
 }
 
-.legend li.inactive {
+.legend li.inactive a {
     opacity: 0.2;
     cursor: default;
     text-decoration: none;

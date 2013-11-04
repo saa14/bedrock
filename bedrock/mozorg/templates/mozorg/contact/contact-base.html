@@ -36,26 +36,42 @@
   </header>
 
   <div id="map">
-    <ul class="legend" aria-controls="map entry-container">
-        <li data-id="north-america">{{ _('North America') }}</li>
-        <li data-id="latin-america">{{ _('Latin America') }}</li>
-        <li data-id="europe">{{ _('Europe') }}</li>
-        <li data-id="asia">{{ _('Asia') }}</li>
-        <li data-id="antarctica">{{ _('Antarctica') }}</li>
-        <li data-id="africa">{{ _('Africa') }}</li>
-        <li data-id="hispano" class="inactive">{{ _('Hispano') }}</li>
-        <li data-id="francophone" class="inactive">{{ _('Francophone') }}</li>
+    <ul class="legend" role="navigation" aria-controls="map entry-container" data-tab="community">
+        <li data-id="north-america">
+          <a href="#north-america">{{ _('North America') }}</a>
+        </li>
+        <li data-id="latin-america">
+          <a href="#latin-america">{{ _('Latin America') }}</a>
+        </li>
+        <li data-id="europe">
+          <a href="#europe">{{ _('Europe') }}</a>
+        </li>
+        <li data-id="asia">
+          <a href="#asia">{{ _('Asia') }}</a>
+        </li>
+        <li data-id="antarctica">
+          <a href="#antarctica">{{ _('Antarctica') }}</a>
+        </li>
+        <li data-id="africa">
+          <a href="#africa">{{ _('Africa') }}</a>
+        </li>
+        <li data-id="hispano" class="inactive">
+          <a href="#hispano">{{ _('Hispano') }}</a>
+        </li>
+        <li data-id="francophone" class="inactive">
+          <a href="#francophone">{{ _('Francophone') }}</a>
+        </li>
     </ul>
   </div>
 
   <div id="page-content" class="container">
     <ul class="category-tabs">
-      <li class="current" data-id="spaces"><a href="#">{{ _('Spaces') }}</a></li>
-      <li data-id="community"><a href="#">{{ _('Community') }}</a></li>
+      <li class="current" data-id="spaces"><a href="/contact/spaces">{{ _('Spaces') }}</a></li>
+      <li data-id="community"><a href="/contact/community">{{ _('Community') }}</a></li>
     </ul>
 
     <nav id="nav-spaces" class="nav-category">
-      <ul>
+      <ul data-tab="spaces">
       {# TODO: highlight current nav item #}
         <li class="current" data-id="mountain-view"><a href="{{ url('mozorg.contact.mountain-view') }}">{{ _('Mountain View') }}</a></li>
         <li data-id="auckland"><a href="{{ url('mozorg.contact.auckland') }}">{{ _('Auckland') }}</a></li>
@@ -74,17 +90,17 @@
 
 {# Hiding this for now. TODO: Tabs will toggle visibility of category nav and meta.
     <nav id="nav-community" class="nav-category accordion">
-      <ul>
+      <ul data-tab="community">
         <li data-id="north-america" class="hasmenu region">
           <a href="#north-america">{{ _('North America') }}</a>
-          <ul class="submenu">
+          <ul class="submenu" data-tab="community">
             <li><a href="#canada">{{ _('Canada') }}</a></li>
             <li><a href="#usa">{{ _('United States') }}</a></li>
           </ul>
         </li>
         <li data-id="latin-america" class="hasmenu region">
           <a href="#latin-america">{{ _('Latin America') }}</a>
-          <ul class="submenu">
+          <ul class="submenu" data-tab="community">
             <li><a href="#argentina">{{ _('Argentina') }}</a></li>
             <li><a href="#bolivia">{{ _('Bolivia') }}</a></li>
             <li><a href="#colombia">{{ _('Colombia') }}</a></li>
@@ -102,7 +118,7 @@
         </li>
         <li data-id="europe" class="hasmenu region">
           <a href="#europe">{{ _('Europe') }}</a>
-          <ul class="submenu">
+          <ul class="submenu" data-tab="community">
             <li><a href="#france">{{ _('France') }}</a></li>
             <li><a href="#germany">{{ _('Germany') }}</a></li>
             <li><a href="#united-kingdom">{{ _('United Kingdom') }}</a></li>
@@ -110,7 +126,7 @@
         </li>
         <li data-id="asia" class="hasmenu region">
           <a href="#asia-south-pacific">{{ _('Asia &amp; South Pacific') }}</a>
-          <ul class="submenu">
+          <ul class="submenu" data-tab="community">
             <li><a href="#australia">{{ _('Australia') }}</a></li>
             <li><a href="#china">{{ _('China') }}</a></li>
             <li><a href="#india">{{ _('India') }}</a></li>
@@ -123,7 +139,7 @@
         </li>
         <li data-id="africa" class="hasmenu region">
           <a href="#africa-middle-east">{{ _('Africa &amp; the Middle East') }}</a>
-          <ul class="submenu">
+          <ul class="submenu" data-tab="community">
             <li><a href="#">{{ _('Algeria') }}</a></li>
             <li><a href="#">{{ _('Egypt') }}</a></li>
             <li><a href="#">{{ _('Israel') }}</a></li>

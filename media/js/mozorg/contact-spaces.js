@@ -25,12 +25,13 @@
 
 })();
 
-(function() {
+(function($) {
     "use strict";
 
     var map = null;
     var xhr = null;
     var initContentId = null;
+    var initialTabStateId = null;
     var contentCache = [];
     var topPane = null;
     var topLayer = null;
@@ -57,16 +58,18 @@
             map = L.mapbox.map('map', 'mozilla-webprod.e91ef8b3');
             // disable map zoom on scroll.
             map.scrollWheelZoom.disable();
+            // initialize spaces markers
+            mozMap.initSpacesMarkers();
             // initialize community layers
             mozMap.initCommunityLayers();
             // set the initial map state on page load.
             mozMap.setMapState();
             // set initial map content
             mozMap.setInitialContentState();
-            // init history.js
-            mozMap.bindHistory();
             // bind events on tab navigation
             mozMap.bindTabNavigation();
+            // init history.js
+            mozMap.bindHistory();
             // split the label layer for more control
             mozMap.splitLabelLayer();
         },
@@ -76,18 +79,24 @@
          */
         bindHistory: function () {
             // Bind to statechange event. Note: We are using statechange instead of popstate
-            History.Adapter.bind(window,'statechange',function () {
+            History.Adapter.bind(window, 'statechange', function () {
                 // Note: We are using History.getState() instead of event.state
                 var state = History.getState();
                 var current = mozMap.getMapState();
 
-                if (current === 'spaces') {
+                // check if we need to change the map state
+                if (current !== state.data.tab) {
+                    mozMap.updateTabState(state.data.tab);
+                }
+
+                if (state.data.tab === 'spaces') {
                     // Update current nav item to the active space
                     mozMap.updateSpaceNavItem(state.data.id);
                     // Show the space based on event state url
                     mozMap.showSpace(state.url, state.data.id);
-                } else if (current === 'community') {
-                    // TODO - handle community spaces
+                } else if (state.data.tab === 'community') {
+                    // Update community region on the map
+                    mozMap.showCommunityRegion(state.data.id);
                 }
             });
         },
@@ -97,42 +106,27 @@
          * and communities. Only needs to be called once
          */
         bindTabNavigation: function () {
-            $('.category-tabs li a').on('click', function (e) {
-                e.preventDefault();
-                var navId = $(this).parent().data('id');
-                var space = $('#nav-spaces li.current a');
-                var community = $('#nav-community li.current a');
-                var itemId;
-                var itemUrl;
-                var state;
+            $('.category-tabs li a').on('click', mozMap.onTabNavigationClick);
+        },
 
-                // if we're already on the current tab, do nothing
-                if (navId === mozMap.getMapState()) {
-                    return;
-                }
+        /*
+         * When tab navigation is clicked we need to do push state
+         */
+        onTabNavigationClick: function (e) {
+            e.preventDefault();
+            var itemId = $(this).parent().data('id');
+            var itemUrl = this.href;
+            var state = mozMap.getMapState();
 
-                // Update the current tab class
-                $('ul.category-tabs li.current').removeClass('current');
-                $(this).parent().addClass('current');
-
-                // get the updated map state
-                state = mozMap.getMapState();
-
-                // set update the map state
-                mozMap.setMapState();
-
-                // get last current space id and url
-                if (state === 'spaces') {
-                    itemId = space.parent().data('id');
-                    itemUrl = space.attr('href');
-                } else if (state === 'community') {
-                    itemId = community.parent().data('id');
-                    itemUrl = community.attr('href');
-                }
-
-                // Update the browser history
-                History.pushState({id: itemId }, null, itemUrl);
-            });
+            // if we're already on the current tab, do nothing
+            if (itemId === state) {
+                return;
+            }
+            // Push the new url and update browser history
+            History.pushState({
+                id: itemId,
+                tab: itemId
+            }, document.title, itemUrl);
         },
 
         setInitialContentState: function () {
@@ -145,6 +139,8 @@
             } else if (state === 'community') {
                 // TODO store initial content id for community map
             }
+            //store ref to initial tab state
+            initialTabStateId = state;
         },
 
         /*
@@ -161,7 +157,6 @@
          */
         setMapState: function () {
             var state = mozMap.getMapState();
-
             if (state === 'spaces') {
                 //clear commuity layers
                 mozMap.clearCommunityLayers();
@@ -190,12 +185,24 @@
         },
 
         /*
+         * Creates spaces markers and then hide them using setFilter()
+         */
+        initSpacesMarkers: function () {
+            map.markerLayer.setGeoJSON(window.mozSpaces);
+            map.markerLayer.setFilter(function () {
+                return false;
+            });
+        },
+
+        /*
          * Creates a marker layer for office spaces and binds events.
          * Sets an initial panned out view of the world map.
          */
         addSpacesMarkers: function () {
-            // Add custom popups to each using our custom feature properties
-            map.markerLayer.setGeoJSON(window.mozSpaces);
+            map.markerLayer.setFilter(function () {
+                return true;
+            });
+
             // disable keyboard focus on markers as it messes up panning :(
             // all content is still accessible via keyboard nonetheless
             map.markerLayer.eachLayer(function (marker) {
@@ -213,7 +220,9 @@
          * Removes spaces markers from the map and unbinds events.
          */
         removeSpacesMarkers: function () {
-            map.markerLayer.setGeoJSON([]);
+            map.markerLayer.setFilter(function () {
+                return false;
+            });
             map.markerLayer.off('click', mozMap.onMarkerClick);
             map.markerLayer.off('mouseover', mozMap.openMarkerPopup);
             map.markerLayer.off('mouseout', mozMap.closeMarkerPopup);
@@ -288,9 +297,12 @@
          */
         onSpacesNavClick: function (e) {
             e.preventDefault();
-            var current = $('#nav-spaces li.current');
             var itemId = $(this).parent().data('id');
-            History.pushState({id: itemId}, null, this.href);
+            var tabId = 'spaces';
+            History.pushState({
+                id: itemId,
+                tab: tabId
+            }, document.title, this.href);
         },
 
         /*
@@ -298,12 +310,12 @@
          */
         onCommunityNavClick: function (e) {
             e.preventDefault();
-            var id = $(this).parent().data('id');
-            // TODO push state
-            if (layers.hasOwnProperty(id)) {
-                mozMap.clearCommunityLayers();
-                communityLayers.addLayer(layers[id]);
-            }
+            var itemId = $(this).parent().data('id');
+            var tabId = 'community';
+            History.pushState({
+                id: itemId,
+                tab: tabId
+            }, document.title, this.href);
         },
 
         /*
@@ -318,10 +330,18 @@
          * Param: @id space string identifier
          */
         updateSpaceNavItem: function (id) {
+            // return if the tab navigation has been clicked,
+            // as we just want to show the last selected item.
+            if (id === 'spaces') {
+                return;
+            }
+
             $('#nav-spaces li.current').removeClass('current');
+
             if (!id) {
                 // if 'id' is undefined then statechange has fired before our first
-                // pushState event, so set current item back to the initial content data id.
+                // pushState event, so set current item back to the initial content
+                // data id when the page loaded.
                 $('#nav-spaces li[data-id="' + initContentId + '"]').addClass('current');
             } else {
                 $('#nav-spaces li[data-id="' + id + '"]').addClass('current');
@@ -329,19 +349,41 @@
         },
 
         /*
+         * Updates the current active tab and then updates the map state.
+         * Param: @tab tab string identifier (e.g. 'spaces' or 'community').
+         */
+        updateTabState: function (tab) {
+            $('ul.category-tabs li.current').removeClass('current');
+            if (!tab) {
+                // if 'tab' is undefined then statechange has fired before our first
+                // pushState event, so set active tab back to the initial state when
+                // the page loaded.
+                $('ul.category-tabs li[data-id="' + initialTabStateId + '"]').addClass('current');
+            } else {
+                $('ul.category-tabs li[data-id="' + tab + '"]').addClass('current');
+            }
+            mozMap.setMapState();
+        },
+
+        /*
          * Focuses map on the marker and shows a popup tooltip
          */
         onMarkerClick: function (e) {
-
             var $itemId = $('#nav-spaces li.current').data('id');
             var markerId = e.layer.feature.properties.id;
 
+            // if the user clicks on a marker that is not related to the current space
+            // we need to do push state to update the page content.
             if (markerId !== $itemId) {
                 var url = $('#nav-spaces li[data-id="' + markerId + '"] a').attr('href');
-                History.pushState({id: markerId}, null, url);
+                History.pushState({
+                    id: markerId,
+                    tab: 'spaces'
+                }, document.title, url);
                 return;
             }
 
+            // pan to center the marker on the map
             map.panTo(e.layer.getLatLng(), {
                 animate: true
             });
@@ -355,7 +397,7 @@
             var current = $('#nav-spaces li.current');
             // get the current space id and href based on the nav
             var id = current.data('id');
-            var url = url || current.attr('href');
+            var contentUrl = url || current.attr('href');
 
             // if the content is already cached display it
             if (contentCache.hasOwnProperty(cacheId)) {
@@ -364,7 +406,18 @@
                 mozMap.doClickMarker(id);
             } else {
                 // request content via ajax
-                mozMap.requestContent(id, url);
+                mozMap.requestContent(id, contentUrl);
+            }
+        },
+
+        /*
+         * Toggles community layers on the map
+         * Params: @id string region identifier
+         */
+        showCommunityRegion: function (id) {
+            if (layers.hasOwnProperty(id)) {
+                mozMap.clearCommunityLayers();
+                communityLayers.addLayer(layers[id]);
             }
         },
 
@@ -415,10 +468,7 @@
                 'africa': africaMiddleEast,
                 'hispano': hispano,
                 'francophone': francophone
-            }
-
-            // make community legend tabbable via keyboard
-            $('#map .legend li').attr('tabIndex', 0);
+            };
         },
 
         /*
@@ -441,8 +491,8 @@
          */
         showMapLegend: function () {
             var $legend = $('#map .legend');
-            $legend.fadeIn();
-            $legend.on('click', 'li', mozMap.onMapLegendClick);
+            $legend.fadeIn('fast');
+            $legend.on('click', 'li a', mozMap.onMapLegendClick);
         },
 
         /*
@@ -450,15 +500,27 @@
          */
         hideMapLegend: function () {
             var $legend = $('#map .legend');
-            $legend.fadeOut();
-            $legend.off('click', 'li', mozMap.onMapLegendClick);
+            $legend.fadeOut('fast');
+            $legend.off('click', 'li a', mozMap.onMapLegendClick);
         },
 
         /*
-         * Toggles community map regions and calls push state
+         * Find the corresponding nav item based on data-id in the legend
+         * and fire a click event on it.
          */
-        onMapLegendClick: function () {
-            // TODO - get data-id and do push state.
+        onMapLegendClick: function (e) {
+            e.preventDefault();
+            var itemId = $(this).parent().data('id');
+            var tabId = 'community';
+
+            // for non-meta communities we do push state as
+            // they have their own url's.
+            if (itemId !== 'francophone' && itemId !== 'hispano') {
+                History.pushState({
+                    id: itemId,
+                    tab: tabId
+                }, document.title, this.href);
+            }
         },
 
         /*
@@ -515,7 +577,7 @@
                 url: url,
                 type: 'get',
                 dataType: 'html',
-                success: function(data, status, xhr) {
+                success: function(data) {
                     // pull out data we need
                     var content = $(data).find('section.entry');
                     var mapId = content.attr('id');
@@ -532,4 +594,4 @@
 
     //initialize mapbox
     mozMap.init();
-})();
+})(jQuery);
