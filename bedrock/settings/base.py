@@ -133,6 +133,9 @@ MINIFY_BUNDLES = {
             'css/libs/mapbox.css',
             'css/mozorg/contact-spaces.less',
         ),
+        'contact-spaces-ie8': (
+            'css/libs/mapbox.ie.css',
+        ),
         'contribute': (
             'css/mozorg/contribute.less',
             'css/sandstone/video-resp.less',
