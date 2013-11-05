@@ -47,6 +47,17 @@
         }, {
             type: 'Feature',
             properties: {
+                id: 'berlin',
+                'marker-color': markerColor,
+                'marker-size': markerSize
+            },
+            geometry: {
+                type: 'Point',
+                coordinates: [13.418735, 52.512408]
+            }
+        }, {
+            type: 'Feature',
+            properties: {
                 id: 'london',
                 'marker-color': markerColor,
                 'marker-size': markerSize
@@ -65,6 +76,17 @@
             geometry: {
                 type: 'Point',
                 coordinates: [2.341338, 48.871875]
+            }
+        }, {
+            type: 'Feature',
+            properties: {
+                id: 'portland',
+                'marker-color': markerColor,
+                'marker-size': markerSize
+            },
+            geometry: {
+                type: 'Point',
+                coordinates: [-122.6827999, 45.5236536]
             }
         }, {
             type: 'Feature',
@@ -120,17 +142,6 @@
             geometry: {
                 type: 'Point',
                 coordinates: [-123.1091763, 49.2824945]
-            }
-        }, {
-            type: 'Feature',
-            properties: {
-                id: 'berlin',
-                'marker-color': markerColor,
-                'marker-size': markerSize
-            },
-            geometry: {
-                type: 'Point',
-                coordinates: [13.418735, 52.512408]
             }
         }]
     };

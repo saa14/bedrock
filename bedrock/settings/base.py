@@ -130,6 +130,7 @@ MINIFY_BUNDLES = {
             'css/newsletter/newsletter.less',
         ),
         'contact-spaces': (
+            'css/libs/mapbox.css',
             'css/mozorg/contact-spaces.less',
         ),
         'contribute': (
@@ -395,6 +396,7 @@ MINIFY_BUNDLES = {
             'js/base/mozilla-image-helper.js',
         ),
         'contact-spaces': (
+            'js/libs/mapbox.js',
             'js/libs/jquery.history.js',
             'js/mozorg/contact-data.js',
             'js/mozorg/contact-spaces.js',
