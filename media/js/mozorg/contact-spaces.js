@@ -61,6 +61,8 @@
             });
             // disable map zoom on scroll.
             map.scrollWheelZoom.disable();
+            // set initial page nav state
+            mozMap.setInitialPageNavState();
             // initialize spaces markers
             mozMap.initSpacesMarkers();
             // initialize community layers
@@ -87,6 +89,26 @@
         },
 
         /*
+         * Sets the initial active tab and nav items on page load
+         * using the id and data-tab attribute of the entry section element
+         */
+        setInitialPageNavState: function () {
+            var $entry = $('#entry-container .entry');
+            var tab = $entry.data('tab');
+            var id = $entry.attr('id');
+
+            //set the current tab navigation item
+            $('ul.category-tabs li[data-id="' + tab + '"]').addClass('current');
+
+            // set the current list menu navigation item
+            if (tab === 'spaces') {
+                $('#nav-spaces li[data-id="' + id + '"]').addClass('current');
+            } else if (tab === 'community') {
+                $('#nav-community li[data-id="' + id + '"]').addClass('current');
+            }
+        },
+
+        /*
          * Initialize history.js for pushState support
          */
         bindHistory: function () {
@@ -108,7 +130,8 @@
                     mozMap.showSpace(state.url, state.data.id);
                 } else if (state.data.tab === 'community') {
                     // Update community region on the map
-                    mozMap.showCommunityRegion(state.data.id);
+                    mozMap.updateCommunityNavItem(state.data.id);
+                    mozMap.showCommunityContent(state.url, state.data.id);
                 }
             });
         },
@@ -130,10 +153,6 @@
             var itemUrl = this.href;
             var state = mozMap.getMapState();
 
-            // if we're already on the current tab, do nothing
-            if (itemId === state) {
-                return;
-            }
             // Push the new url and update browser history
             History.pushState({
                 id: itemId,
@@ -141,6 +160,9 @@
             }, document.title, itemUrl);
         },
 
+        /*
+         * Stores initial content id and tab id on page load
+         */
         setInitialContentState: function () {
             // store initial content data id on page load
             var state = mozMap.getMapState();
@@ -149,7 +171,9 @@
                 //show the current space marker
                 mozMap.showSpace();
             } else if (state === 'community') {
-                // TODO store initial content id for community map
+                initContentId = $('#nav-community li.current').data('id');
+                // show the community region
+                mozMap.showCommunityContent();
             }
             //store ref to initial tab state
             initialTabStateId = state;
@@ -225,7 +249,7 @@
             map.markerLayer.on('click', mozMap.onMarkerClick);
             map.markerLayer.on('mouseover', mozMap.openMarkerPopup);
             map.markerLayer.on('mouseout', mozMap.closeMarkerPopup);
-            map.setView([37.4, 0], 12);
+            map.setView([37.4, 0], 2);
         },
 
         /*
@@ -272,8 +296,13 @@
             map.markerLayer.eachLayer(function (marker) {
                 if (marker.feature.properties.id === id) {
                     marker.fireEvent('click');
+                    return;
                 }
             });
+            // if there's no marker id we set the default zoomed out view
+            if (!id) {
+                map.setView([37.4, 0], 2);
+            }
         },
 
         /*
@@ -343,8 +372,9 @@
          */
         updateSpaceNavItem: function (id) {
             // return if the tab navigation has been clicked,
-            // as we just want to show the last selected item.
+            // as we just want to show the landing page
             if (id === 'spaces') {
+                $('#nav-spaces li.current').removeClass('current');
                 return;
             }
 
@@ -357,6 +387,30 @@
                 $('#nav-spaces li[data-id="' + initContentId + '"]').addClass('current');
             } else {
                 $('#nav-spaces li[data-id="' + id + '"]').addClass('current');
+            }
+        },
+
+        /*
+         * Updates the spaces navigation current ite,
+         * Param: @id space string identifier
+         */
+        updateCommunityNavItem: function (id) {
+            // return if the tab navigation has been clicked,
+            // as we just want to show the landing page
+            if (id === 'community') {
+                $('#nav-community li.current').removeClass('current');
+                return;
+            }
+
+            $('#nav-community li.current').removeClass('current');
+
+            if (!id) {
+                // if 'id' is undefined then statechange has fired before our first
+                // pushState event, so set current item back to the initial content
+                // data id when the page loaded.
+                $('#nav-community li[data-id="' + initContentId + '"]').addClass('current');
+            } else {
+                $('#nav-community li[data-id="' + id + '"]').addClass('current');
             }
         },
 
@@ -396,7 +450,7 @@
             }
 
             // pan to center the marker on the map
-            map.panTo(e.layer.getLatLng(), {
+            map.setView(e.layer.getLatLng(), 12, {
                 animate: true
             });
         },
@@ -415,8 +469,15 @@
             if (contentCache.hasOwnProperty(cacheId)) {
                 $('#entry-container').html(contentCache[cacheId]);
                 // programatically find the right marker and click it
+                console.log('from ajax');
+                mozMap.doClickMarker(cacheId);
+            } else if (id === $('section.entry').attr('id')) {
+                // if we're already on the right page, just center
+                // the marker
+                console.log('right page');
                 mozMap.doClickMarker(id);
             } else {
+                console.log('request content');
                 // request content via ajax
                 mozMap.requestContent(id, contentUrl);
             }
@@ -430,6 +491,30 @@
             if (layers.hasOwnProperty(id)) {
                 mozMap.clearCommunityLayers();
                 communityLayers.addLayer(layers[id]);
+            }
+        },
+
+        /*
+         * Show the current active community information.
+         * Determined using data-id attribute and .current list item.
+         */
+        showCommunityContent: function (url, cacheId) {
+            var current = $('#nav-community li.current');
+            // get the current space id and href based on the nav
+            var id = current.data('id');
+            var contentUrl = url || current.attr('href');
+
+            if (contentCache.hasOwnProperty(cacheId)) {
+                // if the content is already cached display it
+                $('#entry-container').html(contentCache[cacheId]);
+                mozMap.showCommunityRegion(cacheId);
+            } else if (id === $('section.entry').attr('id')) {
+                // if we're already on the right page,
+                // just show the map layer
+                mozMap.showCommunityRegion(id);
+            } else {
+                // request content via ajax
+                mozMap.requestContent(id, contentUrl);
             }
         },
 
@@ -574,11 +659,6 @@
          * Params: @id space identifier string, @url url to request
          */
         requestContent: function (id, url) {
-            //if we're already on the right page just show popup
-            if (id === $('section.entry').attr('id')) {
-                mozMap.doClickMarker(id);
-                return;
-            }
             //abort previous request if one exists
             if (xhr && xhr.readystate !== 4) {
                 xhr.abort();
@@ -599,6 +679,8 @@
                     $('#entry-container').html(content);
                     // programatically find the right marker and click it
                     mozMap.doClickMarker(id);
+
+                    mozMap.showCommunityRegion(id);
                 }
             });
         }
