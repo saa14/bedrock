@@ -34,7 +34,7 @@
   </header>
 
   <div id="map">
-    <ul class="legend" role="navigation" aria-controls="map entry-container" data-tab="community">
+    <ul class="legend" role="navigation" aria-controls="map entry-container" data-tab="communities">
         <li data-id="north-america">
           <a href="{{ url('mozorg.contact.communities.north-america') }}">{{ _('North America') }}</a>
         </li>
@@ -65,12 +65,13 @@
   <div id="page-content" class="container">
     <ul class="category-tabs" role="navigation" aria-controls="map entry-container">
       <li data-id="spaces"><a href="{{ url('mozorg.contact.spaces.spaces-landing') }}">{{ _('Spaces') }}</a></li>
-      <li data-id="community"><a href="{{ url('mozorg.contact.communities.community-landing') }}">{{ _('Community') }}</a></li>
+      <li data-id="communities"><a href="{{ url('mozorg.contact.communities.communities-landing') }}">{{ _('Communities') }}</a></li>
     </ul>
+
+    {% block contact_entry %}{% endblock %}
 
     <nav id="nav-spaces" class="nav-category" role="navigation" aria-controls="map entry-container">
       <ul data-tab="spaces">
-      {# TODO: highlight current nav item #}
         <li data-id="mountain-view"><a href="{{ url('mozorg.contact.spaces.mountain-view') }}">{{ _('Mountain View') }}</a></li>
         <li data-id="auckland"><a href="{{ url('mozorg.contact.spaces.auckland') }}">{{ _('Auckland') }}</a></li>
         <li data-id="beijing"><a href="{{ url('mozorg.contact.spaces.beijing') }}">{{ _('Beijing') }}</a></li>
@@ -86,50 +87,92 @@
       </ul>
     </nav>
 
-{# Hiding this for now. TODO: Tabs will toggle visibility of category nav and meta.
-    <nav id="nav-community" class="nav-category accordion" role="navigation" aria-controls="map entry-container">
-      <ul data-tab="community">
+{# Hide this for now
+    <nav id="nav-communities" class="nav-category accordion" role="navigation" aria-controls="map entry-container">
+      <ul data-tab="communities">
         <li data-id="north-america" class="hasmenu region">
           <a href="{{ url('mozorg.contact.communities.north-america') }}">{{ _('North America') }}</a>
-          <ul class="submenu" data-tab="community">
+          <ul class="submenu" data-tab="communities">
             <li><a href="#canada">{{ _('Canada') }}</a></li>
             <li><a href="#usa">{{ _('United States') }}</a></li>
           </ul>
         </li>
         <li data-id="latin-america" class="hasmenu region">
           <a href="{{ url('mozorg.contact.communities.latin-america') }}">{{ _('Latin America') }}</a>
-          <ul class="submenu" data-tab="community">
-            <li><a href="#argentina">{{ _('Argentina') }}</a></li>
-            <li><a href="#bolivia">{{ _('Bolivia') }}</a></li>
-            <li><a href="#colombia">{{ _('Colombia') }}</a></li>
-            <li><a href="#costa-rica">{{ _('Costa Rica') }}</a></li>
-            <li><a href="#chile">{{ _('Chile') }}</a></li>
-            <li><a href="#cuba">{{ _('Cuba') }}</a></li>
-            <li><a href="#ecuador">{{ _('Ecuador') }}</a></li>
-            <li><a href="#nicaragua">{{ _('Nicaragua') }}</a></li>
-            <li><a href="#mexico">{{ _('Mexico') }}</a></li>
-            <li><a href="#paraguay">{{ _('Paraguay') }}</a></li>
-            <li><a href="#peru">{{ _('Peru') }}</a></li>
-            <li><a href="#uruguay">{{ _('Uruguay') }}</a></li>
-            <li><a href="#venezuela">{{ _('Venezuela') }}</a></li>
+          <ul class="submenu" data-tab="communities">
+            <li><a href="#">{{ _('Argentina') }}</a></li>
+            <li><a href="#">{{ _('Bolivia') }}</a></li>
+            <li><a href="#">{{ _('Brazil') }}</a></li>
+            <li><a href="#">{{ _('Chile') }}</a></li>
+            <li><a href="#">{{ _('Colombia') }}</a></li>
+            <li><a href="#">{{ _('Costa Rica') }}</a></li>
+            <li><a href="#">{{ _('Cuba') }}</a></li>
+            <li><a href="#">{{ _('Ecuador') }}</a></li>
+            <li><a href="#">{{ _('Mexico') }}</a></li>
+            <li><a href="#">{{ _('Nicaragua') }}</a></li>
+            <li><a href="#">{{ _('Paraguay') }}</a></li>
+            <li><a href="#">{{ _('Peru') }}</a></li>
+            <li><a href="#">{{ _('Uruguay') }}</a></li>
+            <li><a href="#">{{ _('Venezuela') }}</a></li>
           </ul>
         </li>
         <li data-id="europe" class="hasmenu region">
           <a href="{{ url('mozorg.contact.communities.europe') }}">{{ _('Europe') }}</a>
-          <ul class="submenu" data-tab="community">
-            <li><a href="#france">{{ _('France') }}</a></li>
-            <li><a href="#germany">{{ _('Germany') }}</a></li>
+          <ul class="submenu" data-tab="communities">
+            <li><a href="#">{{ _('Armenia') }}</a></li>
+            <li><a href="#">{{ _('Austria') }}</a></li>
+            <li><a href="#">{{ _('Basque') }}</a></li>
+            <li><a href="#">{{ _('Belgium') }}</a></li>
+            <li><a href="#">{{ _('Bosnia and Herzegovina') }}</a></li>
+            <li><a href="#">{{ _('Bulgaria') }}</a></li>
+            <li><a href="#">{{ _('Catalan') }}</a></li>
+            <li><a href="#">{{ _('Croatia') }}</a></li>
+            <li><a href="#">{{ _('Czhech Republic') }}</a></li>
+            <li><a href="#">{{ _('Denmark') }}</a></li>
+            <li><a href="#">{{ _('Finland') }}</a></li>
+            <li><a href="#">{{ _('France') }}</a></li>
+            <li><a href="#">{{ _('Germany') }}</a></li>
+            <li><a href="#">{{ _('Greece') }}</a></li>
+            <li><a href="#">{{ _('Hungary') }}</a></li>
+            <li><a href="#">{{ _('Ireland') }}</a></li>
+            <li><a href="#">{{ _('Italy') }}</a></li>
+            <li><a href="#">{{ _('Kosovo') }}</a></li>
+            <li><a href="#">{{ _('Lithuania') }}</a></li>
+            <li><a href="#">{{ _('Norway') }}</a></li>
+            <li><a href="#">{{ _('Poland') }}</a></li>
+            <li><a href="#">{{ _('Portugal') }}</a></li>
+            <li><a href="#">{{ _('Macedonia') }}</a></li>
+            <li><a href="#">{{ _('Russia') }}</a></li>
+            <li><a href="#">{{ _('Serbia') }}</a></li>
+            <li><a href="#">{{ _('Slovakia') }}</a></li>
+            <li><a href="#">{{ _('Slovenia') }}</a></li>
+            <li><a href="#">{{ _('Spain') }}</a></li>
+            <li><a href="#">{{ _('Switzerland') }}</a></li>
+            <li><a href="#">{{ _('The Netherlands') }}</a></li>
+            <li><a href="#">{{ _('Turkey') }}</a></li>
+            <li><a href="#">{{ _('Ukraine') }}</a></li>
             <li><a href="#united-kingdom">{{ _('United Kingdom') }}</a></li>
           </ul>
         </li>
         <li data-id="asia" class="hasmenu region">
           <a href="{{ url('mozorg.contact.communities.asia-south-pacific') }}">{{ _('Asia &amp; South Pacific') }}</a>
-          <ul class="submenu" data-tab="community">
-            <li><a href="#australia">{{ _('Australia') }}</a></li>
-            <li><a href="#china">{{ _('China') }}</a></li>
-            <li><a href="#india">{{ _('India') }}</a></li>
-            <li><a href="#japan">{{ _('Japan') }}</a></li>
-            <li><a href="#south-korea">{{ _('South Korea') }}</a></li>
+          <ul class="submenu" data-tab="communities">
+            <li><a href="#">{{ _('Bangladesh') }}</a></li>
+            <li><a href="#">{{ _('Cambodia') }}</a></li>
+            <li><a href="#">{{ _('China') }}</a></li>
+            <li><a href="#">{{ _('India') }}</a></li>
+            <li><a href="#">{{ _('Indonesia') }}</a></li>
+            <li><a href="#">{{ _('Japan') }}</a></li>
+            <li><a href="#">{{ _('Malaysia') }}</a></li>
+            <li><a href="#">{{ _('Myanmar') }}</a></li>
+            <li><a href="#">{{ _('Nepal') }}</a></li>
+            <li><a href="#">{{ _('Philippines') }}</a></li>
+            <li><a href="#">{{ _('Singapore') }}</a></li>
+            <li><a href="#">{{ _('South Korea') }}</a></li>
+            <li><a href="#">{{ _('Sri Lanka') }}</a></li>
+            <li><a href="#">{{ _('Taiwan') }}</a></li>
+            <li><a href="#">{{ _('Thailand') }}</a></li>
+            <li><a href="#">{{ _('Vietnam') }}</a></li>
           </ul>
         </li>
         <li data-id="antarctica" class="region">
@@ -137,18 +180,23 @@
         </li>
         <li data-id="africa" class="hasmenu region">
           <a href="{{ url('mozorg.contact.communities.africa-middle-east') }}">{{ _('Africa &amp; the Middle East') }}</a>
-          <ul class="submenu" data-tab="community">
+          <ul class="submenu" data-tab="communities">
             <li><a href="#">{{ _('Algeria') }}</a></li>
             <li><a href="#">{{ _('Egypt') }}</a></li>
+            <li><a href="#">{{ _('Ghana') }}</a></li>
             <li><a href="#">{{ _('Israel') }}</a></li>
+            <li><a href="#">{{ _('Jordan') }}</a></li>
+            <li><a href="#">{{ _('Kenya') }}</a></li>
+            <li><a href="#">{{ _('Palestine') }}</a></li>
+            <li><a href="#">{{ _('Senegal') }}</a></li>
+            <li><a href="#">{{ _('Tunisia') }}</a></li>
+            <li><a href="#">{{ _('Uganda') }}</a></li>
             <li><a href="#">{{ _('Zimbabwe') }}</a></li>
           </ul>
         </li>
       </ul>
     </nav>
-end hiding #}
-
-    {% block contact_entry %}{% endblock %}
+End hiding #}
 
     <aside id="spaces-meta" class="category-meta">
       <ul class="meta-help">
@@ -163,7 +211,7 @@ end hiding #}
     </aside>
 
 {# Hiding this for now. TODO: Tabs will toggle visibility of category nav and meta.
-    <aside id="community-meta" class="category-meta">
+    <aside id="communities-meta" class="category-meta">
       <ul class="meta-help">
         <li><a href="#getinvolved">{{ _('Get involved') }}</a></li>
         <li><a href="#start">{{ _('Start a Mozilla community') }}</a></li>

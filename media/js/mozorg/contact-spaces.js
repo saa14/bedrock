@@ -103,8 +103,8 @@
             // set the current list menu navigation item
             if (tab === 'spaces') {
                 $('#nav-spaces li[data-id="' + id + '"]').addClass('current');
-            } else if (tab === 'community') {
-                $('#nav-community li[data-id="' + id + '"]').addClass('current');
+            } else if (tab === 'communities') {
+                $('#nav-communities li[data-id="' + id + '"]').addClass('current');
             }
         },
 
@@ -128,7 +128,7 @@
                     mozMap.updateSpaceNavItem(state.data.id);
                     // Show the space based on event state url
                     mozMap.showSpace(state.url, state.data.id);
-                } else if (state.data.tab === 'community') {
+                } else if (state.data.tab === 'communities') {
                     // Update community region on the map
                     mozMap.updateCommunityNavItem(state.data.id);
                     mozMap.showCommunityContent(state.url, state.data.id);
@@ -170,8 +170,8 @@
                 initContentId = $('#nav-spaces li.current').data('id');
                 //show the current space marker
                 mozMap.showSpace();
-            } else if (state === 'community') {
-                initContentId = $('#nav-community li.current').data('id');
+            } else if (state === 'communities') {
+                initContentId = $('#nav-communities li.current').data('id');
                 // show the community region
                 mozMap.showCommunityContent();
             }
@@ -181,7 +181,7 @@
 
         /*
          * Get the current map state
-         * Return values are either 'spaces' or 'community'
+         * Return values are either 'spaces' or 'communities'
          */
         getMapState: function () {
             return $('ul.category-tabs li.current').data('id');
@@ -206,7 +206,7 @@
                 mozMap.hideMapLegend();
                 // reposition markers above the labels
                 mozMap.setLabelLayerIndex(1);
-            } else if (state === 'community') {
+            } else if (state === 'communities') {
                 // remove spaces markers
                 mozMap.removeSpacesMarkers();
                 // unbind click events on spaces nav
@@ -323,14 +323,14 @@
          * Bind events on top level community navigation menu
          */
         bindCommunityNav: function () {
-            $('#nav-community li.region > a').on('click', mozMap.onCommunityNavClick);
+            $('#nav-communities li.region > a').on('click', mozMap.onCommunityNavClick);
         },
 
         /*
          * Unbind events on top level community navigation menu
          */
         unbindCommunityNav: function () {
-            $('#nav-community li.region > a').off('click', mozMap.onCommunityNavClick);
+            $('#nav-communities li.region > a').off('click', mozMap.onCommunityNavClick);
         },
 
         /*
@@ -352,7 +352,7 @@
         onCommunityNavClick: function (e) {
             e.preventDefault();
             var itemId = $(this).parent().data('id');
-            var tabId = 'community';
+            var tabId = 'communities';
             History.pushState({
                 id: itemId,
                 tab: tabId
@@ -397,26 +397,26 @@
         updateCommunityNavItem: function (id) {
             // return if the tab navigation has been clicked,
             // as we just want to show the landing page
-            if (id === 'community') {
-                $('#nav-community li.current').removeClass('current');
+            if (id === 'communities') {
+                $('#nav-communities li.current').removeClass('current');
                 return;
             }
 
-            $('#nav-community li.current').removeClass('current');
+            $('#nav-communities li.current').removeClass('current');
 
             if (!id) {
                 // if 'id' is undefined then statechange has fired before our first
                 // pushState event, so set current item back to the initial content
                 // data id when the page loaded.
-                $('#nav-community li[data-id="' + initContentId + '"]').addClass('current');
+                $('#nav-communities li[data-id="' + initContentId + '"]').addClass('current');
             } else {
-                $('#nav-community li[data-id="' + id + '"]').addClass('current');
+                $('#nav-communities li[data-id="' + id + '"]').addClass('current');
             }
         },
 
         /*
          * Updates the current active tab and then updates the map state.
-         * Param: @tab tab string identifier (e.g. 'spaces' or 'community').
+         * Param: @tab tab string identifier (e.g. 'spaces' or 'communities').
          */
         updateTabState: function (tab) {
             $('ul.category-tabs li.current').removeClass('current');
@@ -499,7 +499,7 @@
          * Determined using data-id attribute and .current list item.
          */
         showCommunityContent: function (url, cacheId) {
-            var current = $('#nav-community li.current');
+            var current = $('#nav-communities li.current');
             // get the current space id and href based on the nav
             var id = current.data('id');
             var contentUrl = url || current.attr('href');
@@ -608,7 +608,7 @@
         onMapLegendClick: function (e) {
             e.preventDefault();
             var itemId = $(this).parent().data('id');
-            var tabId = 'community';
+            var tabId = 'communities';
 
             // for non-meta communities we do push state as
             // they have their own url's.
@@ -637,7 +637,7 @@
                 //set the initial z-index state for label layer
                 if (state === 'spaces') {
                     topLayer.setZIndex(1);
-                } else if (state === 'community') {
+                } else if (state === 'communities') {
                     topLayer.setZIndex(7);
                 }
             });

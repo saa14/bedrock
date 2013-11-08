@@ -231,14 +231,54 @@
         background-color: #fff;
         background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAFBAMAAABlfdtYAAAAHlBMVEXj2dnj2dnj2dnj2dnj2dnj2dnj2dnj2dkAAADj2dkWOMusAAAACXRSTlO9FY0G16cPxQCXNA3IAAAAJklEQVQIHWPqaGTsaGBieDz5AQPTb1FWbgYmJgUGJQamJQwMLAsAgvQHHy1uf2MAAAAASUVORK5CYII=');
     }
-
 }
+
+#nav-communities .region > a {
+    padding-left: 50px;
+    position: relative;
+
+    &:before {
+        content: '';
+        display: inline-block;
+        height: .75em;
+        width: 20px;
+        position: absolute;
+        left: 20px;
+        top: 1.05em;
+    }
+}
+
+#nav-communities li[data-id='north-america'] > a:before {
+    background: #30b2dc; // blue
+}
+
+#nav-communities li[data-id='latin-america'] > a:before {
+    background: #ff605f; // red
+}
+
+#nav-communities li[data-id='europe'] > a:before {
+    background: #77c579; // green
+}
+
+#nav-communities li[data-id='asia'] > a:before {
+    background: #cb87c5; // purple
+}
+
+#nav-communities li[data-id='antarctica'] > a:before {
+    background: #9eb2b7; // gray
+}
+
+#nav-communities li[data-id='africa'] > a:before {
+    background: #f5906c; // orange
+}
+
 
 
 
 // Single entry (either a space or a community)
 .entry {
     .span(9);
+    float: right;
     margin-bottom: 30px;
 
     .card {
