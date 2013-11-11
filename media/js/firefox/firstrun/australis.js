@@ -8,43 +8,24 @@
     ];
     var currentThemeUrl = null;
 
-    // function goNext() {
-    //     var $list = $('#featureList');
-    //     $list.css('textIndent', (-$list.prop('offsetWidth')) + 'px');
-    //     $('#nextButton').hide();
-    //     $('#prevButton').show();
-    // }
-
-    // function goPrev() {
-    //     $('#featureList').css('textIndent', '0px');
-    //     $('#nextButton').show();
-    //     $('#prevButton').hide();
-    // }
-
-    $('.tour-highlight').on('mouseover', function () {
+    $('.tour-highlight').on('tour-step', function () {
         Mozilla.UITour.showHighlight(this.dataset.target);
-    }).on('mouseout', function() {
-        Mozilla.UITour.hideHighlight();
     });
 
-    $('.tour-info').on('click', function () {
+    $('.tour-info').on('tour-step', function () {
         Mozilla.UITour.showInfo(this.dataset.target, this.dataset.title, this.dataset.text);
     });
 
-    $('.tour-url-capture').on('click', function () {
+    $('.tour-url-capture').on('tour-step', function () {
         Mozilla.UITour.startUrlbarCapture(this.dataset.capturetext, this.dataset.captureurl);
     });
 
-    $('.tour-menu').on('click', function () {
+    $('.tour-menu').on('tour-step', function () {
         Mozilla.UITour.showMenu(this.dataset.target);
     });
 
-    $('.tour-pin-add').on('click', function () {
+    $('.tour-pin-add').on('tour-step', function () {
         Mozilla.UITour.addPinnedTab();
-    });
-
-    $('.tour-pin-remove').on('click', function () {
-        Mozilla.UITour.removePinnedTab();
     });
 
     $('.tour-cycle-theme').on('mouseover', function() {
@@ -58,11 +39,55 @@
         window.open(currentThemeUrl);
     });
 
-        // $('#closeButton').on('click', Mozilla.Modal.closeModal);
-        // $('#nextButton').on('click', goNext);
-        // $('#prevButton').on('click', goPrev);
+    function updateControls () {
+        var $current = $('.ui-tour-list li.current');
 
-        // var $modal_content = $('#firstrun').detach().show();
-        // Mozilla.Modal.createModal(document.documentElement, $modal_content, {});
+        if ($current.hasClass('first')) {
+            $('button.prev').attr('disabled', 'disabled');
+        } else if ($current.hasClass('last')) {
+            $('button.next').attr('disabled', 'disabled');
+        } else {
+            $('button.step').removeAttr('disabled');
+        }
+    }
+
+    function onTourStep () {
+        Mozilla.UITour.hideHighlight();
+        Mozilla.UITour.removePinnedTab();
+        $('.ui-tour-list li.current .step-target').trigger('tour-step');
+        $('.ui-tour-list li').not('.current').hide();
+        $('.ui-tour-list li.out').removeClass('out');
+    }
+
+    $('button.step').on('click', function (e) {
+        e.preventDefault();
+        var step = $(this).hasClass('prev') ? 'prev' : 'next';
+        var $current = $('.ui-tour-list li.current');
+        var prev = $current.prev();
+        var next = $current.next();
+        if (step === 'prev') {
+            $current.removeClass('current').addClass('out');
+            $current.prev().show();
+            setTimeout(function () {
+                $current.prev().addClass('current');
+                updateControls();
+            }, 100);
+        } else if (step === 'next') {
+            $current.removeClass('current').addClass('out');
+            $current.next().show();
+            setTimeout(function () {
+                $current.next().addClass('current');
+                updateControls();
+            }, 100);
+        }
+    });
+
+    $(document).on('transitionend', '.ui-tour-list li.current', onTourStep);
+
+    var $modal_content = $('#firstrun').detach().show();
+    Mozilla.Modal.createModal(document.documentElement, $modal_content, { allowScroll: false });
+
+    $('.ui-tour-list li.current').show();
+    onTourStep();
 
 })(window.jQuery);

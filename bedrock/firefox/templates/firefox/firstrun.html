@@ -20,21 +20,15 @@
   {{ css('firefox_firstrun') }}
 {% endblock %}
 
+{% block string_data %}
+  {# L10n: This is the label for a button that closes a modal dialog #}
+  data-close="{{ _('Close') }}"
+{% endblock %}
+
 {% block content %}
 <h1 id="firstrun-header">{{ _('Welcome to Firefox!') }}</h1>
 
 <article id="main-content" class="billboard">
-
-  <ul style="width: 200px; text-align: left;">
-    <li class="tour-highlight" data-target="bookmarks">Hover to highlight Bookmarks</li>
-    <li class="tour-info" data-target="bookmarks" data-title="{{ _('Info title') }}" data-text="{{ _('Info description') }}">Click to show info</li>
-    <li class="tour-url-capture tour-info" data-target="urlbar" data-capturetext="{{ _('I love Firefox') }}" data-captureurl="https://mozilla.org" data-title="{{ _('Enter a URL') }}" data-text="{{ _('Try: I Love Firefox') }}">Capture URL input</li>
-    <li class="tour-menu" data-target="bookmarks">Click to open menu</li>
-    <li class="tour-pin-add" data-target="pinnedtab">Click to add a pin</li>
-    <li class="tour-pin-remove" data-target="pinnedtab">Click to remove a pin</li>
-    <li class="tour-cycle-theme">Hover to cycle themes (click to open)</li>
-    <li class="tour-menu" data-target="appmenu">Open app menu (Australis only)</li>
-  </ul>
 
   <div id="video-player" class="mozilla-video-control mozilla-video-shadow">
     <video
@@ -49,6 +43,36 @@
   </div>
 
 </article>
+
+  <div id="firstrun" style="display:none;">
+    <ul class="ui-tour-list">
+      <li class="tour-step current first">
+        <h2 class="tour-info step-target" data-target="home" data-title="{{ _('Info title') }}" data-text="{{ _('Info description') }}">Show info panel</h2>
+      </li>
+      <li class="tour-step">
+        <h2 class="tour-highlight step-target" data-target="bookmarks">Highlight icon</h2>
+      </li>
+      <li class="tour-step">
+        <h2 class="tour-url-capture tour-info step-target" data-target="urlbar" data-capturetext="{{ _('I love Firefox') }}" data-captureurl="https://mozilla.org" data-title="{{ _('Enter a URL') }}" data-text="{{ _('Try: I Love Firefox') }}">Capture URL input</h2>
+      </li>
+      <li class="tour-step">
+        <h2 class="tour-menu tour-highlight step-target" data-target="bookmarks">Open menu</h2>
+      </li>
+      <li class="tour-step">
+        <h2 class="tour-pin-add tour-highlight step-target" data-target="pinnedtab">Add Pinned Tab</h2>
+      </li>
+      <li class="tour-step last">
+        <h2 class="tour-cycle-theme step-target">Hover to cycle themes (click to open)</h2>
+      </li>
+<!--       <li class="tour-step step-target last">
+        <div class="tour-menu" data-target="appmenu">Open app menu (Australis only)</div>
+      </li> -->
+    </ul>
+    <div class="ui-tour-controls">
+      <button class="step prev">Prev</button>
+      <button class="step next">Next</button>
+    </div>
+  </div>
 {% endblock %}
 
 {% block email_form %}
