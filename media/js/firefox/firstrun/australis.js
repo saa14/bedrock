@@ -57,6 +57,9 @@
         $('.ui-tour-list .tour-step').not('.current');
         $('.ui-tour-list li.out').removeClass('out');
         $('.ui-tour-list li.current .step-target').delay(100).trigger('tour-step');
+        var step = $('.ui-tour-list li.current').data('step');
+        $('.progress-step span').text(step);
+        $('.progress-step progress').val(step);
     }
 
     $('button.step').on('click', function (e) {
@@ -96,7 +99,7 @@
 
         $('.ui-tour-list li.current').show();
 
-        $('.tour-inner').addClass('fade-in');
+        $('#modal .inner').addClass('fade-in');
         onTourStep();
     });
 

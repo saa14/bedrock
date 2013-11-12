@@ -132,9 +132,25 @@ body.noscroll {
     background: rgba(0, 0, 0, 0.8);
     z-index: 100;
 
-    .inner,
+    .inner {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        height: 250px;
+        width: 100%;
+        background-color: #f6f6f6;
+        opacity: 0;
+        &.fade-in {
+            transition: opacity .7s linear;
+            opacity: 1;
+        }
+    }
+
     #firstrun {
+        position: relative;
         height: 100%;
+        width: @widthDesktop;
+        margin: 0 auto;
     }
 
     .tour-inner {
@@ -143,19 +159,13 @@ body.noscroll {
         bottom: 0;
         height: 250px;
         width: 100%;
-        background: #f6f6f6;
         transition: opacity .7s linear;
-        opacity: 0;
-        &.fade-in {
-            transition: opacity .7s linear;
-            opacity: 1;
-        }
     }
 
     .ui-tour-list {
         position: relative;
         list-style-type: none;
-        width: 80%;
+        width: 90%;
         height: 250px;
         margin: 0 auto;
         padding: 0;
@@ -209,19 +219,24 @@ body.noscroll {
         border-radius: 10px;
         border: 4px solid #f6f6f6;
 
-        .prev {
+        button {
             -moz-appearance: none;
             border: none;
             text-indent: -9999px;
-            background: transparent url(/media/img/sandstone/arrow-go.png) top left no-repeat;
-            transform: rotate(180deg);
+            margin: 0 10px;
+            cursor: pointer;
+        }
+
+        .prev {
+            background: transparent url(/media/img/firefox/firstrun/australis-tour/menu-prev.png) top left no-repeat;
         }
 
         .next {
-            -moz-appearance: none;
-            border: none;
-            text-indent: -9999px;
-            background: transparent url(/media/img/sandstone/arrow-go.png) top left no-repeat;
+            background: transparent url(/media/img/firefox/firstrun/australis-tour/menu-next.png) top left no-repeat;
+        }
+
+        #modal-close {
+            background: transparent url(/media/img/firefox/firstrun/australis-tour/tour-close.png) top left no-repeat;
         }
     }
 
@@ -233,10 +248,21 @@ body.noscroll {
         font-size: 12px;
         color: #424F5A;
         line-height: 22px;
+        progress {
+            display: block;
+            max-width: 50%;
+            margin: 0 auto;
+        }
+        .logo {
+            width: 43px;
+            height: 44px;
+            margin: @baseLine auto @baseLine / 2 auto;
+            background: transparent url(/media/img/firefox/firstrun/australis-tour/logo.png) top left no-repeat;
+        }
     }
 
     .tour-item {
-        width: 60%;
+        width: 70%;
         float: left;
         li {
             font-size: 15px;
@@ -250,7 +276,8 @@ body.noscroll {
         width: 28%;
         .video {
             width: auto;
-            height: 200px;
+            height: 150px;
+            margin-top: @baseLine;
             background: #FF8300;
         }
     }

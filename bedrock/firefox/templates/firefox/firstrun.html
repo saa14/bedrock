@@ -46,11 +46,13 @@
 
   <div id="firstrun">
     <div class="tour-inner">
+      <div class="progress-step">
+        <div class="logo"></div>
+        <span>1</span>/5
+        <progress max="5" value="1"></progress>
+      </div>
       <ul class="ui-tour-list">
-        <li class="tour-step current first">
-          <div class="progress-step">
-            1/5
-          </div>
+        <li class="tour-step current first" data-step="1">
           <div class="tour-item">
             <h2 class="tour-highlight step-target" data-target="appmenu">{{ _('Menu Button') }}</h2>
             <ul>
@@ -58,10 +60,7 @@
             </ul>
           </div>
         </li>
-        <li class="tour-step">
-          <div class="progress-step">
-            2/5
-          </div>
+        <li class="tour-step" data-step="2">
           <div class="tour-item">
             <h2 class="tour-highlight step-target" data-target="appmenu">{{ _('New Menu Panel') }}</h2>
             <ul>
@@ -73,10 +72,7 @@
             <div class="video"></div>
           </div>
         </li>
-        <li class="tour-step">
-          <div class="progress-step">
-            3/5
-          </div>
+        <li class="tour-step" data-step="3">
           <div class="tour-item">
             <h2 class="tour-highlight step-target" data-target="appmenu">{{ _('Easier Customization') }}</h2>
             <ul>
@@ -85,18 +81,12 @@
             </ul>
           </div>
         </li>
-        <li class="tour-step">
-          <div class="progress-step">
-            4/5
-          </div>
+        <li class="tour-step" data-step="4">
           <div class="tour-item">
             <h2 class="tour-highlight step-target" data-target="bookmarks">Bookmarks</h2>
           </div>
         </li>
-        <li class="tour-step last">
-          <div class="progress-step">
-            5/5
-          </div>
+        <li class="tour-step last" data-step="5">
           <div class="tour-item">
             <h2 class="step-target">{{ _('Look & Feel conclusion') }}</h2>
             <ul>
@@ -104,21 +94,6 @@
             </ul>
           </div>
         </li>
-
-  <!--       <li class="tour-step last">
-          <h2 class="tour-url-capture tour-info step-target" data-target="urlbar" data-capturetext="{{ _('I love Firefox') }}" data-captureurl="https://mozilla.org" data-title="" data-text="{{ _('Try typing: I Love Firefox') }}">{{ _('Thank you for update! <br>Start browsing by searching in the address bar!') }}</h2>
-        </li> -->
-
-  <!--
-        <li class="tour-step">
-          <h2 class="tour-pin-add tour-highlight step-target" data-target="pinnedtab">Add Pinned Tab</h2>
-        </li>
-        <li class="tour-step last">
-          <h2 class="tour-cycle-theme step-target">Hover to cycle themes (click to open)</h2>
-        </li> -->
-  <!--       <li class="tour-step step-target last">
-          <div class="tour-menu" data-target="appmenu">Open app menu (Australis only)</div>
-        </li> -->
       </ul>
       <div class="tour-info tour-highlight tour-init" data-target="appmenu" data-title="{{ _('Welcome to the new Firefox!') }}" data-text="{{ _('Your Firefox Menu is now moved here, more visual and easier to customize!') }}">Menu button</div>
       <div class="ui-tour-controls">
