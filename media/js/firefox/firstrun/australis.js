@@ -54,9 +54,9 @@
     function onTourStep () {
         Mozilla.UITour.hideHighlight();
         Mozilla.UITour.removePinnedTab();
-        $('.ui-tour-list li.current .step-target').trigger('tour-step');
-        $('.ui-tour-list li').not('.current').hide();
+        $('.ui-tour-list .tour-step').not('.current');
         $('.ui-tour-list li.out').removeClass('out');
+        $('.ui-tour-list li.current .step-target').delay(100).trigger('tour-step');
     }
 
     $('button.step').on('click', function (e) {
@@ -67,27 +67,37 @@
         var next = $current.next();
         if (step === 'prev') {
             $current.removeClass('current').addClass('out');
-            $current.prev().show();
-            setTimeout(function () {
-                $current.prev().addClass('current');
-                updateControls();
-            }, 100);
+            $current.prev().addClass('current');
+            updateControls();
         } else if (step === 'next') {
             $current.removeClass('current').addClass('out');
-            $current.next().show();
-            setTimeout(function () {
-                $current.next().addClass('current');
-                updateControls();
-            }, 100);
+            $current.next().addClass('current');
+            updateControls();
         }
     });
 
     $(document).on('transitionend', '.ui-tour-list li.current', onTourStep);
 
-    var $modal_content = $('#firstrun').detach().show();
-    Mozilla.Modal.createModal(document.documentElement, $modal_content, { allowScroll: false });
+    $('.tour-init').trigger('tour-step');
 
-    $('.ui-tour-list li.current').show();
-    onTourStep();
+    $(document).one('click', function () {
+        var $modal_content = $('#firstrun').detach().show();
+        Mozilla.Modal.createModal(document.documentElement, $modal_content, { allowScroll: false });
+
+        $('#modal-close').detach().appendTo($('.ui-tour-controls'));
+
+        $('#modal-close').on('click', function () {
+            Mozilla.UITour.hideHighlight();
+            Mozilla.UITour.removePinnedTab();
+        });
+
+        $('button.step').removeAttr('disabled');
+        updateControls();
+
+        $('.ui-tour-list li.current').show();
+
+        $('.tour-inner').addClass('fade-in');
+        onTourStep();
+    });
 
 })(window.jQuery);
