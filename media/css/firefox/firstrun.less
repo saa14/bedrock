@@ -4,6 +4,20 @@
 
 @import "template-resp.less";
 
+@font-face {
+    font-family: 'Fira Light';
+    src: url('/media/fonts/FiraSans-Light.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Clear Sans Regular';
+    src: url('/media/fonts/ClearSans-Regular.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
 #wrapper {
     padding-bottom: 0;
 }
@@ -48,6 +62,7 @@
     z-index: 9;
     text-align: center;
     border-bottom: 0;
+    height: 1000px;
 }
 
 #email-form-wrapper {
@@ -119,11 +134,8 @@ body.noscroll {
   overflow: hidden;
 }
 
-#firstrun {
-    display: none;
-}
-
 #modal {
+    display: none;
     position: absolute;
     top: 0;
     left: 0;
@@ -131,71 +143,70 @@ body.noscroll {
     height: 100%;
     background: rgba(0, 0, 0, 0.8);
     z-index: 100;
+    font-family: 'Clear Sans Regular';
+    color: #424F5A;
 
-    .inner {
+    #firstrun {
         position: absolute;
         left: 0;
         bottom: 0;
-        height: 250px;
+        height: 270px;
         width: 100%;
+        margin: 0 auto;
         background-color: #f6f6f6;
+        transition: all .5s cubic-bezier(.6,-0.08,.6,1.08);
+        transform: translate(0, 270px);
         opacity: 0;
-        &.fade-in {
-            transition: opacity .7s linear;
+        &.in {
+            transform: translate(0, 0);
             opacity: 1;
         }
     }
 
-    #firstrun {
+    .tour-inner {
         position: relative;
         height: 100%;
         width: @widthDesktop;
         margin: 0 auto;
     }
 
-    .tour-inner {
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        height: 250px;
-        width: 100%;
-        transition: opacity .7s linear;
-    }
-
     .ui-tour-list {
         position: relative;
         list-style-type: none;
         width: 90%;
-        height: 250px;
+        height: 100%;
         margin: 0 auto;
         padding: 0;
         color: #000;
         overflow: hidden;
+        ul li {
+            list-style-type: disc;
+        }
         .tour-step {
             position: absolute;
             left: 0;
             top: 0;
             width: 100%;
-            height: 250px;
+            height: 100%;
             margin: 0;
             padding: @baseLine 0 0 0;
             opacity: 0;
-            transition: all .5s linear;
-            transform: translate(0, -100%);
+            transform: translate(100%, 0);
             &.current {
-                transition: all .5s linear;
+                transition: all 1s cubic-bezier(.6,-0.05,.6,1.06);
                 transform: translate(0, 0);
                 opacity: 1;
             }
             &.out {
-                transition: all .5s linear;
-                transform: translate(0, 100%);
+                transition: all 1s cubic-bezier(.6,-0.06,.6,1.06);
+                transform: translate(-100%, 0);
                 opacity: 0;
             }
             .step-target {
                 margin: @baseLine auto;
             }
             h2 {
+                font-family: 'Fira Light';
                 font-size: 35px;
                 color: #737980;
                 line-height: 35px;
@@ -208,11 +219,11 @@ body.noscroll {
     .ui-tour-controls {
         position: absolute;
         left: 50%;
-        bottom: 226px;
+        bottom: 246px;
         height: 40px;
-        width: 200px;
-        line-height: 40px;
-        margin: 0 auto 0 -100px;
+        width: 106px;
+        line-height: 36px;
+        margin: 0 auto 0 -53px;
         text-align: center;
         overflow: hidden;
         background: #f1f1f1;
@@ -223,7 +234,7 @@ body.noscroll {
             -moz-appearance: none;
             border: none;
             text-indent: -9999px;
-            margin: 0 10px;
+            margin: 0 5px;
             cursor: pointer;
         }
 
@@ -262,7 +273,7 @@ body.noscroll {
     }
 
     .tour-item {
-        width: 70%;
+        width: 60%;
         float: left;
         li {
             font-size: 15px;
@@ -273,13 +284,37 @@ body.noscroll {
 
     .tour-video {
         float: right;
-        width: 28%;
+        width: 35%;
         .video {
             width: auto;
-            height: 150px;
+            height: 173px;
+            width: 302px;
             margin-top: @baseLine;
-            background: #FF8300;
+            background: transparent url(/media/img/firefox/firstrun/australis-tour/video.png) top left no-repeat;
         }
+    }
+}
+
+@media only screen and (min-resolution: 120dpi) {
+    #modal .progress-step .logo {
+        background: transparent url(/media/img/firefox/firstrun/australis-tour/logo@2x.png) top left no-repeat;
+        background-size: 43px 44px;
+    }
+    #modal .ui-tour-controls .next {
+        background: transparent url(/media/img/firefox/firstrun/australis-tour/menu-next@2x.png) top left no-repeat;
+        background-size: 14px 15px;
+    }
+    #modal .ui-tour-controls .prev {
+        background: transparent url(/media/img/firefox/firstrun/australis-tour/menu-prev@2x.png) top left no-repeat;
+        background-size: 14px 15px;
+    }
+    #modal .ui-tour-controls #modal-close {
+        background: transparent url(/media/img/firefox/firstrun/australis-tour/tour-close@2x.png) top left no-repeat;
+        background-size: 15px 15px;
+    }
+    #modal .tour-video .video {
+        background: transparent url(/media/img/firefox/firstrun/australis-tour/video@2x.png) top left no-repeat;
+        background-size: 302px 173px;
     }
 }
 

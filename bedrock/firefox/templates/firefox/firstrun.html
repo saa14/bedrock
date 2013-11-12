@@ -30,20 +30,9 @@
 
 <article id="main-content" class="billboard">
 
-  <div id="video-player" class="mozilla-video-control mozilla-video-shadow">
-    <video
-      controls="controls"
-      poster="{{ media('/img/firefox/firstrun/video-poster.jpg') }}"
-      height="360"
-      width="640"
-      data-overlay-hidden-text="{{_('Play video')}}"
-      id="firstrun-video">
-      <source src="//videos-cdn.mozilla.net/brand/Mozilla_Firefox_Manifesto_v0.2_640.webm">
-    </video>
-  </div>
-
 </article>
 
+<div id="modal">
   <div id="firstrun">
     <div class="tour-inner">
       <div class="progress-step">
@@ -99,9 +88,11 @@
       <div class="ui-tour-controls">
         <button class="step prev">Prev</button>
         <button class="step next">Next</button>
+        <button id="modal-close">Close</button>
       </div>
     </div>
   </div>
+</div>
 {% endblock %}
 
 {% block email_form %}

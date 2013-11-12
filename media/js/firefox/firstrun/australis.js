@@ -52,12 +52,12 @@
     }
 
     function onTourStep () {
+        var step = $('.ui-tour-list li.current').data('step');
         Mozilla.UITour.hideHighlight();
         Mozilla.UITour.removePinnedTab();
         $('.ui-tour-list .tour-step').not('.current');
         $('.ui-tour-list li.out').removeClass('out');
         $('.ui-tour-list li.current .step-target').delay(100).trigger('tour-step');
-        var step = $('.ui-tour-list li.current').data('step');
         $('.progress-step span').text(step);
         $('.progress-step progress').val(step);
     }
@@ -68,6 +68,7 @@
         var $current = $('.ui-tour-list li.current');
         var prev = $current.prev();
         var next = $current.next();
+        var width = $current.width();
         if (step === 'prev') {
             $current.removeClass('current').addClass('out');
             $current.prev().addClass('current');
@@ -82,24 +83,25 @@
     $(document).on('transitionend', '.ui-tour-list li.current', onTourStep);
 
     $('.tour-init').trigger('tour-step');
+    var $modal_content = $('#modal').detach().show();
 
     $(document).one('click', function () {
-        var $modal_content = $('#firstrun').detach().show();
-        Mozilla.Modal.createModal(document.documentElement, $modal_content, { allowScroll: false });
 
-        $('#modal-close').detach().appendTo($('.ui-tour-controls'));
+        $('body').append($modal_content).addClass('noscroll');
 
         $('#modal-close').on('click', function () {
             Mozilla.UITour.hideHighlight();
             Mozilla.UITour.removePinnedTab();
+            $('#modal').fadeOut();
         });
+
+        $('#modal').show().focus();
 
         $('button.step').removeAttr('disabled');
         updateControls();
 
         $('.ui-tour-list li.current').show();
-
-        $('#modal .inner').addClass('fade-in');
+        $('#firstrun').addClass('in');
         onTourStep();
     });
 
