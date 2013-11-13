@@ -90,16 +90,20 @@
     $(document).on('transitionend', '.ui-tour-list li.current', onTourStep);
 
     $('.tour-init').trigger('tour-step');
-    var $modal_content = $('#modal').detach().show();
+    var $tourContent = $('#modal').detach().show();
+    var $stickyFooter = $('.tour-sticky-footer').detach();
 
-    $(document).one('click', function () {
-
-        $('body').append($modal_content).addClass('noscroll');
+    function startTour() {
+        $('body').append($tourContent).addClass('noscroll');
 
         $('#modal-close').on('click', function () {
             Mozilla.UITour.hideHighlight();
             Mozilla.UITour.removePinnedTab();
-            $('#modal').fadeOut();
+            $('#firstrun').removeClass('in');
+            $('#modal').fadeOut('slow', function () {
+                $('body').append($stickyFooter).removeClass('noscroll');
+                $stickyFooter.fadeIn();
+            });
         });
 
         $('#modal').show().focus();
@@ -110,6 +114,12 @@
         $('.ui-tour-list li.current').show();
         $('#firstrun').addClass('in');
         $('.ui-tour-list li.current .step-target').trigger('tour-step');
-    });
+    }
+
+    //$(document).one('click', startTour);
+
+    startTour();
+
+    $(document).on('click', '.tour-sticky-footer', startTour);
 
 })(window.jQuery);

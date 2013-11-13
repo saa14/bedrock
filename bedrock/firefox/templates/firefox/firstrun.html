@@ -51,7 +51,7 @@
         </li>
         <li class="tour-step" data-step="2">
           <div class="tour-item">
-            <h2 class="tour-highlight step-target" data-target="appmenu">{{ _('New Menu Panel') }}</h2>
+            <h2 class="tour-menu step-target" data-target="appmenu">{{ _('New Menu Panel') }}</h2>
             <ul>
               <li>Find your tools handy all in one place</li>
               <li>More visual and touch friendly</li>
@@ -63,9 +63,9 @@
         </li>
         <li class="tour-step" data-step="3">
           <div class="tour-item">
-            <h2 class="tour-highlight step-target" data-target="appmenu">{{ _('Easier Customization') }}</h2>
+            <h2 class="tour-menu step-target" data-target="appmenu">{{ _('Easier Customization') }}</h2>
             <ul>
-              <li>Customize Firefox just the way you want</li>
+              <li class="tour-highlight step-target" data-target="customize">Customize Firefox just the way you want</li>
               <li>Easy and effortless</li>
             </ul>
           </div>
@@ -84,7 +84,7 @@
           </div>
         </li>
       </ul>
-      <div class="tour-info tour-highlight tour-init" data-target="appmenu" data-title="{{ _('Welcome to the new Firefox!') }}" data-text="{{ _('Your Firefox Menu is now moved here, more visual and easier to customize!') }}">Menu button</div>
+      <div class="tour-info tour-init" data-target="appmenu" data-title="{{ _('Welcome to the new Firefox!') }}" data-text="{{ _('Your Firefox Menu is now moved here, more visual and easier to customize!') }}" data-icon="{{ MEDIA_URL }}img/firefox/firstrun/australis-tour/logo.png"></div>
       <div class="ui-tour-controls">
         <button class="step prev">Prev</button>
         <button class="step next">Next</button>
@@ -93,6 +93,8 @@
     </div>
   </div>
 </div>
+
+<div class="tour-sticky-footer">Return to Tour</div>
 {% endblock %}
 
 {% block email_form %}

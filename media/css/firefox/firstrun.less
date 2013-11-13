@@ -157,9 +157,16 @@ body.noscroll {
         transition: all .5s cubic-bezier(.6,-0.08,.6,1.08);
         transform: translate(0, 270px);
         opacity: 0;
+        z-index: 1;
         &.in {
+            transition: all .5s cubic-bezier(.6,-0.08,.6,1.08);
             transform: translate(0, 0);
             opacity: 1;
+        }
+        &.out {
+            transition: all .5s cubic-bezier(.6,-0.08,.6,1.08);
+            transform: translate(0, 270px);
+            opacity: 0;
         }
     }
 
@@ -300,6 +307,19 @@ body.noscroll {
             background: transparent url(/media/img/firefox/firstrun/australis-tour/video.png) top left no-repeat;
         }
     }
+}
+
+.tour-sticky-footer {
+    display: none;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 44px;
+    line-height: 44px;
+    text-align: center;
+    background: #fff;
+    z-index: 99;
 }
 
 @media only screen and (min-resolution: 120dpi) {
