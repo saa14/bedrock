@@ -43,10 +43,12 @@
       <ul class="ui-tour-list">
         <li class="tour-step current first" data-step="1">
           <div class="tour-item">
-            <h2 class="tour-menu step-target" data-target="appmenu">{{ _('New Menu Panel') }}</h2>
+            <h2 class="tour-menu step-target" data-target="appmenu">{{ _('New Menu Panel for efficient browsing') }}</h2>
+            <div class="tour-highlight step-target" data-target="addons"></div>
             <ul>
-              <li class="tour-highlight step-target" data-target="addons">Find your tools handy all in one place</li>
-              <li>More visual and touch friendly</li>
+              <li>Find all your tools handy in one place</li>
+              <li>Visually appealing and touch friendly</li>
+              <li>Add more tools from thouthands of Add-ons</li>
             </ul>
           </div>
           <div class="tour-video">
@@ -55,28 +57,37 @@
         </li>
         <li class="tour-step" data-step="2">
           <div class="tour-item">
-            <h2 class="tour-menu step-target" data-target="appmenu">{{ _('Easier Customization') }}</h2>
+            <h2 class="tour-menu step-target" data-target="appmenu">{{ _('Easier way to customize your browser') }}</h2>
+            <div class="tour-highlight step-target" data-target="customize"></div>
             <ul>
-              <li class="tour-highlight step-target" data-target="customize">Customize Firefox just the way you want</li>
-              <li>Easy and effortless</li>
+              <li>A easy-to-discover customization button</li>
+              <li>Arrange what tool goes where for your specific needs</li>
+              <li>Customize Firefox just the way you want it</li>
             </ul>
           </div>
         </li>
         <li class="tour-step" data-step="3">
           <div class="tour-item">
-            <h2 class="tour-highlight step-target" data-target="bookmarks">Bookmarks</h2>
+            <h2 class="tour-highlight step-target" data-target="bookmarks">Better Bookmarking</h2>
+            <ul>
+              <li>New split bookmarks button</li>
+              <li>One-click bookmarking using the star</li>
+              <li>Quick access to all things you saved</li>
+            </ul>
           </div>
         </li>
         <li class="tour-step last" data-step="4">
           <div class="tour-item">
-            <h2 class="step-target">{{ _('Look & Feel conclusion') }}</h2>
+            <h2 class="step-target">{{ _('Beautiful browsing starts now!') }}</h2>
             <ul>
-              <li>Tabbed browsing is shown</li>
+              <li>The most modern, simple and clean browser</li>
+              <li>The most customizable browser that caters just your needs</li>
+              <li>Enjoy the new Firefox that is faster than ever before</li>
             </ul>
           </div>
         </li>
       </ul>
-      <div class="tour-info tour-init" data-target="appmenu" data-title="{{ _('Welcome to the new Firefox!') }}" data-text="{{ _('Your Firefox Menu is now moved here, more visual and easier to customize!') }}" data-icon="{{ MEDIA_URL }}img/firefox/firstrun/australis-tour/logo.png"></div>
+      <div class="tour-info tour-init" data-target="appmenu" data-title="{{ _('Wonder what this button does?') }}" data-text="{{ _('Click to see! Show me next time') }}" data-icon="{{ MEDIA_URL }}img/firefox/firstrun/australis-tour/logo.png"></div>
       <div class="ui-tour-controls">
         <button class="step prev">Prev</button>
         <button class="step next">Next</button>
