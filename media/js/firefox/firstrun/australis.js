@@ -51,15 +51,15 @@
         }
     }
 
-    function onTourStep () {
-        var step = $('.ui-tour-list li.current').data('step');
-        Mozilla.UITour.hideHighlight();
-        Mozilla.UITour.removePinnedTab();
-        $('.ui-tour-list .tour-step').not('.current');
-        $('.ui-tour-list li.out').removeClass('out');
-        $('.ui-tour-list li.current .step-target').delay(100).trigger('tour-step');
-        $('.progress-step span').text(step);
-        $('.progress-step progress').val(step);
+    function onTourStep (e) {
+        if (e.originalEvent.propertyName == 'transform') {
+            var step = $('.ui-tour-list li.current').data('step');
+            Mozilla.UITour.hideHighlight();
+            Mozilla.UITour.removePinnedTab();
+            $('.ui-tour-list li.current .step-target').delay(100).trigger('tour-step');
+            $('.progress-step span').text(step);
+            $('.progress-step progress').val(step);
+        }
     }
 
     $('button.step').on('click', function (e) {
@@ -70,15 +70,22 @@
         var next = $current.next();
         var width = $current.width();
         if (step === 'prev') {
-            $current.removeClass('current').addClass('out');
+            $current.removeClass('current next-out').addClass('prev-out');
             $current.prev().addClass('current');
-            updateControls();
         } else if (step === 'next') {
-            $current.removeClass('current').addClass('out');
+            $current.removeClass('current prev-out').addClass('next-out');
             $current.next().addClass('current');
-            updateControls();
         }
+        updateControls();
     });
+
+    function goToStep(step) {
+        $('.ui-tour-list .tour-step.current').removeClass('current');
+        $('.ui-tour-list .tour-step[data-step="' + step + '"]').addClass('current');
+        $('.ui-tour-list .tour-step:gt(' + step + ')').addClass('prev-out');
+        $('.ui-tour-list .tour-step:lt(' + step + ')').addClass('next-out');
+        updateControls();
+    }
 
     $(document).on('transitionend', '.ui-tour-list li.current', onTourStep);
 
@@ -102,7 +109,7 @@
 
         $('.ui-tour-list li.current').show();
         $('#firstrun').addClass('in');
-        onTourStep();
+        $('.ui-tour-list li.current .step-target').trigger('tour-step');
     });
 
 })(window.jQuery);
