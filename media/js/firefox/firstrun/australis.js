@@ -93,24 +93,29 @@
     var $tourContent = $('#modal').detach().show();
     var $stickyFooter = $('.tour-sticky-footer').detach();
 
+    function closeTour() {
+        Mozilla.UITour.hideHighlight();
+        Mozilla.UITour.removePinnedTab();
+        //$('.ui-tour-controls').addClass('compact');
+        $('#firstrun').removeClass('in');
+        $('body').append($stickyFooter);
+        $stickyFooter.show();
+        $('#modal').fadeOut('slow', function () {
+            $('body').removeClass('noscroll');
+        });
+    }
+
     function startTour() {
+        window.scrollTo(0,0);
         $('body').append($tourContent).addClass('noscroll');
 
-        $('#modal-close').on('click', function () {
-            Mozilla.UITour.hideHighlight();
-            Mozilla.UITour.removePinnedTab();
-            $('#firstrun').removeClass('in');
-            $('#modal').fadeOut('slow', function () {
-                $('body').append($stickyFooter).removeClass('noscroll');
-                $stickyFooter.fadeIn();
-            });
-        });
+        $('#modal-close').one('click', closeTour);
 
         $('#modal').show().focus();
 
         $('button.step').removeAttr('disabled');
         updateControls();
-
+        //$('.ui-tour-controls').removeClass('compact');
         $('.ui-tour-list li.current').show();
         $('#firstrun').addClass('in');
         $('.ui-tour-list li.current .step-target').trigger('tour-step');
