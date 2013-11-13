@@ -102,8 +102,10 @@
 
             // set the current list menu navigation item
             if (tab === 'spaces') {
+                $('#nav-spaces, #meta-spaces').show();
                 $('#nav-spaces li[data-id="' + id + '"]').addClass('current');
             } else if (tab === 'communities') {
+                $('#nav-communities, #meta-communities').show();
                 $('#nav-communities li[data-id="' + id + '"]').addClass('current');
             }
         },
@@ -124,11 +126,15 @@
                 }
 
                 if (state.data.tab === 'spaces') {
+                    // Hide community nav+meta and show spaces nav+meta
+                    $('#nav-communities, #meta-communities').fadeOut(100, function(){ $('#nav-spaces, #meta-spaces').show(); });
                     // Update current nav item to the active space
                     mozMap.updateSpaceNavItem(state.data.id);
                     // Show the space based on event state url
                     mozMap.showSpace(state.url, state.data.id);
                 } else if (state.data.tab === 'communities') {
+                    // Hide spaces nav+meta and show community nav+meta
+                    $('#nav-spaces, #meta-spaces').fadeOut(100, function(){ $('#nav-communities, #meta-communities').show(); });
                     // Update community region on the map
                     mozMap.updateCommunityNavItem(state.data.id);
                     mozMap.showCommunityContent(state.url, state.data.id);
@@ -168,10 +174,14 @@
             var state = mozMap.getMapState();
             if (state === 'spaces') {
                 initContentId = $('#nav-spaces li.current').data('id');
+                // Show spaces nav+meta
+                $('#nav-spaces, #meta-spaces').show();
                 //show the current space marker
                 mozMap.showSpace();
             } else if (state === 'communities') {
                 initContentId = $('#nav-communities li.current').data('id');
+                // Show community nav+meta
+                $('#nav-communities, #meta-communities').show();
                 // show the community region
                 mozMap.showCommunityContent();
             }
@@ -612,12 +622,12 @@
 
             // for non-meta communities we do push state as
             // they have their own url's.
-            if (itemId !== 'francophone' && itemId !== 'hispano') {
+//            if (itemId !== 'francophone' && itemId !== 'hispano') {
                 History.pushState({
                     id: itemId,
                     tab: tabId
                 }, document.title, this.href);
-            }
+//           }
         },
 
         /*

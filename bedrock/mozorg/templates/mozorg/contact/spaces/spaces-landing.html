@@ -9,13 +9,14 @@
 {% block contact_entry %}
   <div id="entry-container">
     <section class="entry" id="spaces-landing" data-tab="spaces">
-      <h2>{{ _('Mozilla Spaces') }}</h2>
-      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque
-        volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra
-        non, semper suscipit, posuere a, pede.</p>
-
-      <p>Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci.
-        Aenean dignissim pellentesque felis.</p>
+      <h2>{{ _('Contacting Mozilla') }}</h2>
+      <p>
+      {% trans %}
+        Mozilla Spaces are open environments where Mozillians can work side by side —
+        hacking, coding, designing, researching and creating. They are places for us to
+        meet, collaborate and continue to build a brighter future for the Web.
+      {% endtrans %}
+      </p>
     </section>
   </div>
 {% endblock %}

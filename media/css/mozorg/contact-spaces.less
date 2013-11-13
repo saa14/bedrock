@@ -91,22 +91,33 @@
     right: 10px;
     bottom: 10px;
     width: auto;
-    padding: 6px 8px;
+    padding: 5px 0;
     margin: 0;
     font-size: @smallFontSize;
-    text-align: right;
-    background: rgba(0,0,0,0.8);
-    box-shadow: 0 0 15px rgba(0,0,0,0.2);
-    border-radius: 5px;
+    background: rgba(0, 0, 0, .75);
+    box-shadow: 3px 3px 1px rgba(0, 0, 0, .1);
     z-index: 10000;
-}
 
-.legend li a {
-    color: #fff;
-    line-height: 1.5;
-    opacity: 0.8;
-    -webkit-transition: opacity .3s linear;
-    transition: opacity .3s linear;
+    li {
+        margin: 0;
+    }
+
+    a {
+        color: #fff;
+        display: block;
+        padding: 0 20px 0 40px;
+        position: relative;
+
+        &:before {
+            content: '';
+            display: inline-block;
+            height: .75em;
+            width: 20px;
+            position: absolute;
+            left: 10px;
+            top: .45em;
+        }
+    }
 }
 
 .legend li a:hover {
@@ -175,7 +186,10 @@
     }
 }
 
-
+.js .nav-category,
+.js .meta-category {
+    display: none;
+}
 
 // Navigation within a category
 // A list of spaces/communities; may contain submenus in an accordion
@@ -248,32 +262,50 @@
     }
 }
 
-#nav-communities li[data-id='north-america'] > a:before {
+#nav-communities li[data-id='north-america'] > a:before,
+.legend li[data-id='north-america'] > a:before {
     background: #30b2dc; // blue
 }
 
-#nav-communities li[data-id='latin-america'] > a:before {
+#nav-communities li[data-id='latin-america'] > a:before,
+.legend li[data-id='latin-america'] > a:before {
     background: #ff605f; // red
 }
 
-#nav-communities li[data-id='europe'] > a:before {
+#nav-communities li[data-id='europe'] > a:before,
+.legend li[data-id='europe'] > a:before {
     background: #77c579; // green
 }
 
-#nav-communities li[data-id='asia'] > a:before {
+#nav-communities li[data-id='asia'] > a:before,
+.legend li[data-id='asia'] > a:before {
     background: #cb87c5; // purple
 }
 
-#nav-communities li[data-id='antarctica'] > a:before {
+#nav-communities li[data-id='antarctica'] > a:before,
+.legend li[data-id='antarctica'] > a:before {
     background: #9eb2b7; // gray
 }
 
-#nav-communities li[data-id='africa'] > a:before {
+#nav-communities li[data-id='africa'] > a:before,
+.legend li[data-id='africa'] > a:before {
     background: #f5906c; // orange
 }
 
+#nav-communities li[data-id='arabic'] > a:before,
+.legend li[data-id='arabic'] > a:before {
+    outline: 2px solid #f79937; // orange
+}
 
+#nav-communities li[data-id='francophone'] > a:before,
+.legend li[data-id='francophone'] > a:before {
+    outline: 2px solid #3b73c5; // dark blue
+}
 
+#nav-communities li[data-id='hispano'] > a:before,
+.legend li[data-id='hispano'] > a:before {
+    outline: 2px solid #c71929; // dark red
+}
 
 // Single entry (either a space or a community)
 .entry {
@@ -284,13 +316,23 @@
     .card {
         .box-shadow(0 1px 0 rgba(0, 0, 0, .1));
         background: @lightGray;
+        border: 1px solid @lightGray;
         font-size: 12px;
         margin: 0 0 20px;
         min-height: 210px;
-        padding: 20px 10px 20px 480px;
+        padding: 20px 10px;
         position: relative;
 
-        .fn {
+        .logo {
+            display: block;
+            margin: -10px auto 1em;
+            background: #fff;
+            border: 1px solid #eee;
+            padding: 5px;
+            max-height: 80px;
+        }
+
+        h2 {
             .open-sans;
             font-size: 18px;
             font-weight: normal;
@@ -339,9 +381,8 @@
         }
     }
 
-    // A primary image for each entry; a zoomed map for spaces, a logo for communities.
+    // A feature image for each entry; either a mini-map or logo.
     .feature-img {
-        width: 460px;
         height: 250px;
         position: absolute;
         left: 0;
@@ -350,6 +391,21 @@
     }
 }
 
+.entry-space .card {
+    padding-left: 480px;
+
+    .feature-img {
+        width: 460px;
+    }
+}
+
+.entry-community .card {
+    padding-left: 400px;
+
+    .feature-img {
+        width: 380px;
+    }
+}
 
 
 // @Gallery
@@ -385,7 +441,7 @@
 
 // @Category meta info
 // General footers for the tab content, one for spaces and one for community.
-.category-meta {
+.meta-category {
     .clearfix;
     border-top: 1px solid @lightBeige;
     clear: both;

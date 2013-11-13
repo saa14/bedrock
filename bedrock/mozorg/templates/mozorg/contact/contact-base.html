@@ -28,7 +28,7 @@
     <h1 class="page-title">{{ _('Where is Mozilla?') }}</h1>
     <p class="help">
     {% trans link_sumo='https://support.mozilla.org/' %}
-      Looking for Firefox help? <a href="{{ link_sumo }}" class="go">Ask our support team a question</a>
+      Need help with Firefox? <a href="{{ link_sumo }}" class="go">Get it on our support site</a>
     {% endtrans %}
     </p>
   </header>
@@ -53,11 +53,14 @@
         <li data-id="africa">
           <a href="{{ url('mozorg.contact.communities.africa-middle-east') }}">{{ _('Africa') }}</a>
         </li>
-        <li data-id="hispano" class="inactive">
-          <a href="#hispano">{{ _('Hispano') }}</a>
+        <li data-id="arabic">
+          <a href="{{ url('mozorg.contact.communities.arabic') }}">{{ _('Arabic') }}</a>
         </li>
-        <li data-id="francophone" class="inactive">
-          <a href="#francophone">{{ _('Francophone') }}</a>
+        <li data-id="francophone">
+          <a href="{{ url('mozorg.contact.communities.francophone') }}">{{ _('Francophone') }}</a>
+        </li>
+        <li data-id="hispano">
+          <a href="{{ url('mozorg.contact.communities.hispano') }}">{{ _('Hispano') }}</a>
         </li>
     </ul>
   </div>
@@ -87,21 +90,20 @@
       </ul>
     </nav>
 
-{# Hide this for now
     <nav id="nav-communities" class="nav-category accordion" role="navigation" aria-controls="map entry-container">
       <ul data-tab="communities">
         <li data-id="north-america" class="hasmenu region">
           <a href="{{ url('mozorg.contact.communities.north-america') }}">{{ _('North America') }}</a>
           <ul class="submenu" data-tab="communities">
-            <li><a href="#canada">{{ _('Canada') }}</a></li>
-            <li><a href="#usa">{{ _('United States') }}</a></li>
+            <li><a href="{{ url('mozorg.contact.communities.canada') }}">{{ _('Canada') }}</a></li>
+            <li><a href="{{ url('mozorg.contact.communities.united-states') }}">{{ _('United States') }}</a></li>
           </ul>
         </li>
         <li data-id="latin-america" class="hasmenu region">
           <a href="{{ url('mozorg.contact.communities.latin-america') }}">{{ _('Latin America') }}</a>
           <ul class="submenu" data-tab="communities">
-            <li><a href="#">{{ _('Argentina') }}</a></li>
-            <li><a href="#">{{ _('Bolivia') }}</a></li>
+            <li><a href="{{ url('mozorg.contact.communities.argentina') }}">{{ _('Argentina') }}</a></li>
+            <li><a href="{{ url('mozorg.contact.communities.bolivia') }}">{{ _('Bolivia') }}</a></li>
             <li><a href="#">{{ _('Brazil') }}</a></li>
             <li><a href="#">{{ _('Chile') }}</a></li>
             <li><a href="#">{{ _('Colombia') }}</a></li>
@@ -151,7 +153,7 @@
             <li><a href="#">{{ _('The Netherlands') }}</a></li>
             <li><a href="#">{{ _('Turkey') }}</a></li>
             <li><a href="#">{{ _('Ukraine') }}</a></li>
-            <li><a href="#united-kingdom">{{ _('United Kingdom') }}</a></li>
+            <li><a href="#">{{ _('United Kingdom') }}</a></li>
           </ul>
         </li>
         <li data-id="asia" class="hasmenu region">
@@ -194,30 +196,40 @@
             <li><a href="#">{{ _('Zimbabwe') }}</a></li>
           </ul>
         </li>
+        <li data-id="arabic" class="region pseudo">
+          <a href="{{ url('mozorg.contact.communities.arabic') }}">Arabic</a>
+        </li>
+        <li data-id="hispano" class="region pseudo">
+          <a href="{{ url('mozorg.contact.communities.hispano') }}">Hispano</a>
+        </li>
+        <li data-id="francophone" class="region pseudo">
+          <a href="{{ url('mozorg.contact.communities.francophone') }}">Francophone</a>
+        </li>
       </ul>
     </nav>
-End hiding #}
 
-    <aside id="spaces-meta" class="category-meta">
+    <aside id="meta-spaces" class="meta-category">
       <ul class="meta-help">
-        <li><a href="#guidelines">{{ _('MozSpace Guidelines') }}</a></li>
-        <li><a href="#question">{{ _('I have a question about MozSpaces') }}</a></li>
+        <li><a href="https://wiki.mozilla.org/People:MozSpaces_Guidelines">{{ _('MozSpace Guidelines') }}</a></li>
+        <li>
+        {% trans link_question='#' %}{# TODO: where? #}
+          Have a question about MozSpaces? <a href="{{ link_question }}" class="go">Ask us here</a>
+        {% endtrans %}
+        </li>
       </ul>
 
       <ul class="meta-contact">
-        <li>IRC: #MozillaSpaces</li>
+        <li>IRC: <a href="irc://irc.mozilla.org/MozillaSpaces">#MozillaSpaces</a></li>
         <li><a href="https://twitter.com/MozillaSpaces">@MozillaSpaces</a></li>
       </ul>
     </aside>
 
-{# Hiding this for now. TODO: Tabs will toggle visibility of category nav and meta.
-    <aside id="communities-meta" class="category-meta">
+    <aside id="meta-communities" class="meta-category">
       <ul class="meta-help">
         <li><a href="#getinvolved">{{ _('Get involved') }}</a></li>
         <li><a href="#start">{{ _('Start a Mozilla community') }}</a></li>
       </ul>
     </aside>
-end hiding #}
 
   </div>{# end page-content #}
 
@@ -254,7 +266,6 @@ end hiding #}
         <li><a href="https://support.mozilla.org/">{{ _('Get support') }}</a></li>
         <li><a href="{{ press_blog_url() }}">{{ _('Press inquiries') }}</a></li>
         <li><a href="#licensing">{{ _('Browser distribution &amp; licensing') }}</a></li>
-        <li><a href="#swag">{{ _('Merchandise questions') }}</a></li>
         <li><a href="#fxfeedback">{{ _('Firefox feedback') }}</a></li>
         <li><a href="#broken">{{ _('Report a broken site') }}</a></li>
         <li><a href="#software">{{ _('Software issues') }}</a></li>

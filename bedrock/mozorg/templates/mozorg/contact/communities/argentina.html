@@ -1,0 +1,21 @@
+{# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/. #}
+
+{% extends "mozorg/contact/contact-base.html" %}
+
+{% block page_title %}{{ _('Contacts, Spaces and Communities') }} — {{ _('Agentina') }}{% endblock %}
+
+{% block contact_entry %}
+  <div id="entry-container">
+    <section class="entry entry-community" id="argentina" data-tab="communities">
+      <div class="card">
+        <h2>{{ _('Argentina') }}</h2>
+
+        <figure class="feature-img">
+          <img src="http://placecage.com/380/250" alt="">
+        </figure>
+      </div>
+    </section>
+  </div>
+{% endblock %}
