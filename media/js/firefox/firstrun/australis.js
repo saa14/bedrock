@@ -121,9 +121,9 @@
         $('.ui-tour-list li.current .step-target').trigger('tour-step');
     }
 
-    //$(document).one('click', startTour);
+    $(document).one('click', startTour);
 
-    startTour();
+    //startTour();
 
     $(document).on('click', '.tour-sticky-footer', startTour);
 
