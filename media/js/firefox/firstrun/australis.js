@@ -123,6 +123,7 @@
         //$('.ui-tour-controls').removeClass('compact');
         $('.ui-tour-list li.current').show();
         $('#firstrun').addClass('in');
+        Mozilla.UITour.hideInfo();
         $('.ui-tour-list li.current .step-target').trigger('tour-step');
     }
 
