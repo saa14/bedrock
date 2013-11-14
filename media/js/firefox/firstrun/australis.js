@@ -60,6 +60,11 @@
             $('.ui-tour-list li.current .step-target').delay(100).trigger('tour-step');
             $('.progress-step span').text(step);
             $('.progress-step progress').val(step);
+
+            // hide menu panel when not needed as it's now sticky.
+            if (!$('.ui-tour-list li.current').hasClass('app-menu')) {
+                Mozilla.UITour.hideMenu('appmenu');
+            }
         }
     }
 
@@ -97,6 +102,7 @@
 
     function closeTour() {
         Mozilla.UITour.hideHighlight();
+        Mozilla.UITour.hideMenu('appmenu');
         // Mozilla.UITour.removePinnedTab();
         //$('.ui-tour-controls').addClass('compact');
         $('#firstrun').removeClass('in');
