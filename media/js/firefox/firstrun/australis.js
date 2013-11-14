@@ -54,6 +54,7 @@
     function onTourStep (e) {
         if (e.originalEvent.propertyName == 'transform') {
             var step = $('.ui-tour-list li.current').data('step');
+            Mozilla.UITour.hideInfo();
             Mozilla.UITour.hideHighlight();
             // Mozilla.UITour.removePinnedTab();
             $('.ui-tour-list li.current .step-target').delay(100).trigger('tour-step');
