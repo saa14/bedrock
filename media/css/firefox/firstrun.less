@@ -145,29 +145,35 @@ body.noscroll {
     z-index: 100;
     font-family: 'Clear Sans Regular';
     color: #424F5A;
+}
 
-    #firstrun {
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        height: 270px;
-        width: 100%;
-        margin: 0 auto;
-        background-color: #f6f6f6;
+#firstrun {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 270px;
+    width: 100%;
+    margin: 0 auto;
+    background-color: #f6f6f6;
+    transition: all .5s cubic-bezier(.6,-0.08,.6,1.08);
+    transform: translate(0, 270px);
+    opacity: 0;
+    z-index: 101;
+    &.in {
+        transition: all .5s cubic-bezier(.6,-0.08,.6,1.08);
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+    &.out {
         transition: all .5s cubic-bezier(.6,-0.08,.6,1.08);
         transform: translate(0, 270px);
         opacity: 0;
-        z-index: 1;
-        &.in {
-            transition: all .5s cubic-bezier(.6,-0.08,.6,1.08);
-            transform: translate(0, 0);
-            opacity: 1;
-        }
-        &.out {
-            transition: all .5s cubic-bezier(.6,-0.08,.6,1.08);
-            transform: translate(0, 270px);
-            opacity: 0;
-        }
+    }
+    &.compact {
+        position: fixed;
+        transition: all .5s cubic-bezier(.6,-0.08,.6,1.08);
+        transform: translate(0, 198px);
+        opacity: 1;
     }
 
     .tour-inner {
@@ -216,9 +222,6 @@ body.noscroll {
                 transform: translate(-100%, 0);
                 opacity: 0;
             }
-            .step-target {
-                margin: @baseLine auto;
-            }
             h2 {
                 font-family: 'Fira Light';
                 font-size: 35px;
@@ -226,6 +229,7 @@ body.noscroll {
                 line-height: 35px;
                 padding-bottom: @baseLine;
                 border-bottom: 1px solid #C7C7C7;
+                margin: @baseLine auto;
             }
         }
     }
@@ -269,19 +273,10 @@ body.noscroll {
             background: transparent url(/media/img/firefox/firstrun/australis-tour/menu-next.png) center center no-repeat;
         }
 
-        #modal-close {
+        .close {
             background: transparent url(/media/img/firefox/firstrun/australis-tour/tour-close.png) center center no-repeat;
         }
     }
-
-    // #firstrun.in {
-    //     .ui-tour-controls.compact {
-    //         .prev {
-    //             transition: transform .2s linear;
-    //             transform: rotate(90deg);
-    //         }
-    //     }
-    // }
 
     .progress-step {
         float: left;
@@ -293,7 +288,7 @@ body.noscroll {
         line-height: 22px;
         progress {
             display: block;
-            width: 50px;
+            width: 45px;
             margin: 0 auto;
         }
         .logo {
@@ -327,56 +322,58 @@ body.noscroll {
     }
 }
 
-.tour-sticky-footer {
-    display: none;
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 44px;
-    line-height: 44px;
-    text-align: center;
-    background: #fff;
-    border-top: 1px solid #ddd;
-    z-index: 99;
-
-    .inner {
-        width: @widthDesktop;
-        margin: 0 auto;
+#firstrun.compact {
+    .ui-tour-controls {
+        .up {
+            position: relative;
+            overflow: hidden;
+            transition: transform .5s linear;
+            transform: rotate(-90deg);
+        }
     }
-
+    .ui-tour-list {
+        .tour-step {
+            padding: 0;
+        }
+        h2 {
+            margin: 0 0 0 10px;
+            padding: 0;
+            font-size: 16px;
+            line-height: 72px;
+        }
+    }
     .progress-step {
-        float: left;
-        text-align: center;
-        font-size: 12px;
-        color: #424F5A;
-        line-height: 44px;
+        margin-top: @baseLine / 2;
+        border-right: 1px solid #c7c7c7;
+        padding: 0 10px (@baseLine / 2) 0;
         progress {
-            display: inline-block;
-            width: 50px;
+            margin: 0 auto;
+        }
+        .logo {
+            float: left;
             margin: 0 10px 0 0;
         }
     }
 }
 
 @media only screen and (min-resolution: 120dpi) {
-    #modal .progress-step .logo {
+    #firstrun .progress-step .logo {
         background: transparent url(/media/img/firefox/firstrun/australis-tour/logo@2x.png) top left no-repeat;
         background-size: 43px 44px;
     }
-    #modal .ui-tour-controls .next {
+    #firstrun .ui-tour-controls .next {
         background: transparent url(/media/img/firefox/firstrun/australis-tour/menu-next@2x.png) center center no-repeat;
         background-size: 14px 15px;
     }
-    #modal .ui-tour-controls .prev {
+    #firstrun .ui-tour-controls .prev {
         background: transparent url(/media/img/firefox/firstrun/australis-tour/menu-prev@2x.png) center center no-repeat;
         background-size: 14px 15px;
     }
-    #modal .ui-tour-controls .close {
+    #firstrun .ui-tour-controls .close {
         background: transparent url(/media/img/firefox/firstrun/australis-tour/tour-close@2x.png) center center no-repeat;
         background-size: 15px 15px;
     }
-    #modal .tour-video .video {
+    #firstrun .tour-video .video {
         background: transparent url(/media/img/firefox/firstrun/australis-tour/video@2x.png) top left no-repeat;
         background-size: 302px 173px;
     }

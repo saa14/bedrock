@@ -32,18 +32,20 @@
 
 </article>
 
-<div id="modal">
-  <div id="firstrun">
-    <div class="tour-inner">
-      <div class="progress-step">
-        <div class="logo"></div>
-        <span>1</span>/4
-        <progress max="4" value="1"></progress>
-      </div>
-      <ul class="ui-tour-list">
-        <li class="tour-step current first app-menu" data-step="1">
-          <div class="tour-item">
-            <h2 class="tour-menu step-target" data-target="appmenu">{{ _('New Menu Panel for efficient browsing') }}</h2>
+<div id="modal"></div>
+
+<div id="firstrun">
+  <div class="tour-inner">
+    <div class="progress-step">
+      <div class="logo"></div>
+      <span>1</span>/4
+      <progress max="4" value="1"></progress>
+    </div>
+    <ul class="ui-tour-list">
+      <li class="tour-step current first app-menu" data-step="1">
+        <div class="tour-item">
+          <h2 class="tour-menu step-target" data-target="appmenu">{{ _('New Menu Panel for efficient browsing') }}</h2>
+          <div class="tour-content">
             <div class="tour-highlight step-target" data-target="addons"></div>
             <ul>
               <li>Find all your tools handy in one place</li>
@@ -51,13 +53,15 @@
               <li>Add more tools from thouthands of Add-ons</li>
             </ul>
           </div>
-          <div class="tour-video">
-            <div class="video"></div>
-          </div>
-        </li>
-        <li class="tour-step app-menu" data-step="2">
-          <div class="tour-item">
-            <h2 class="tour-menu step-target" data-target="appmenu">{{ _('Easier way to customize your browser') }}</h2>
+        </div>
+        <div class="tour-video">
+          <div class="video"></div>
+        </div>
+      </li>
+      <li class="tour-step app-menu" data-step="2">
+        <div class="tour-item">
+          <h2 class="tour-menu step-target" data-target="appmenu">{{ _('Easier way to customize your browser') }}</h2>
+          <div class="tour-content">
             <div class="tour-highlight step-target" data-target="customize"></div>
             <ul>
               <li>A easy-to-discover customization button</li>
@@ -65,45 +69,40 @@
               <li>Customize Firefox just the way you want it</li>
             </ul>
           </div>
-        </li>
-        <li class="tour-step" data-step="3">
-          <div class="tour-item">
-            <h2 class="tour-highlight step-target" data-target="bookmarks">Better Bookmarking</h2>
+        </div>
+      </li>
+      <li class="tour-step" data-step="3">
+        <div class="tour-item">
+          <h2 class="tour-highlight step-target" data-target="bookmarks">Better Bookmarking</h2>
+          <div class="tour-content">
             <ul>
               <li>New split bookmarks button</li>
               <li>One-click bookmarking using the star</li>
               <li>Quick access to all things you saved</li>
             </ul>
           </div>
-        </li>
-        <li class="tour-step last" data-step="4">
-          <div class="tour-item">
-            <h2 class="step-target">{{ _('Beautiful browsing starts now!') }}</h2>
+        </div>
+      </li>
+      <li class="tour-step last" data-step="4">
+        <div class="tour-item">
+          <h2 class="step-target">{{ _('Beautiful browsing starts now!') }}</h2>
+          <div class="tour-content">
             <ul>
               <li>The most modern, simple and clean browser</li>
               <li>The most customizable browser that caters just your needs</li>
               <li>Enjoy the new Firefox that is faster than ever before</li>
             </ul>
           </div>
-        </li>
-      </ul>
-      <div class="tour-info tour-init tour-highlight" data-target="appmenu" data-title="{{ _('Wonder what this button does?') }}" data-text="{{ _('Click to see! Show me next time') }}" data-icon="{{ MEDIA_URL }}img/firefox/firstrun/australis-tour/logo.png"></div>
-      <div class="ui-tour-controls">
-        <button class="step prev">Prev</button>
-        <button class="step next">Next</button>
-        <button class="close">Close</button>
-      </div>
+        </div>
+      </li>
+    </ul>
+    <div class="tour-info tour-init tour-highlight" data-target="appmenu" data-title="{{ _('Wonder what this button does?') }}" data-text="{{ _('Click to see! Show me next time') }}" data-icon="{{ MEDIA_URL }}img/firefox/firstrun/australis-tour/logo.png"></div>
+    <div class="ui-tour-controls">
+      <button class="step prev">Prev</button>
+      <button class="step next">Next</button>
+      <button class="close">Close</button>
     </div>
   </div>
-</div>
-
-<div class="tour-sticky-footer">
-  <div class="inner">
-    <div class="progress-step">
-      <progress max="4" value="1"></progress><span>1</span>/4
-    </div>
-  </div>
-  Return to Tour
 </div>
 {% endblock %}
 

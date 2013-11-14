@@ -70,6 +70,9 @@
 
     $('button.step').on('click', function (e) {
         e.preventDefault();
+        if ($(this).hasClass('up')) {
+            return;
+        }
         var step = $(this).hasClass('prev') ? 'prev' : 'next';
         var $current = $('.ui-tour-list li.current');
         var prev = $current.prev();
@@ -84,6 +87,11 @@
         }
         updateControls();
     });
+
+    $('button.up').on('click', function (e) {
+        e.preventDefault();
+        startTour();
+    })
 
     function goToStep(step) {
         $('.ui-tour-list .tour-step.current').removeClass('current');
@@ -100,40 +108,63 @@
     var $stickyFooter = $('.tour-sticky-footer').detach();
     var tourIsVisible = false;
 
-    function closeTour() {
+    function compactTour() {
         Mozilla.UITour.hideHighlight();
         Mozilla.UITour.hideMenu('appmenu');
         // Mozilla.UITour.removePinnedTab();
         //$('.ui-tour-controls').addClass('compact');
-        $('#firstrun').removeClass('in');
-        $('body').append($stickyFooter);
-        $stickyFooter.show();
+        $('#firstrun').removeClass('in').addClass('compact');
+        $('.ui-tour-list .tour-step.current .tour-content').hide();
+        $('.ui-tour-list .tour-step.current .tour-video').fadeOut();
+        $('.ui-tour-controls .prev').fadeOut();
+        $('.ui-tour-controls .close').fadeOut();
+        $('.ui-tour-controls .next').addClass('up');
+        $('button.up').one('click', expandTour);
         $('#modal').fadeOut('slow', function () {
             $('body').removeClass('noscroll');
             tourIsVisible = false;
         });
     }
 
+    function expandTour() {
+        window.scrollTo(0,0);
+        $('#firstrun').removeClass('compact').addClass('in');
+        $('.ui-tour-list .tour-step.current .tour-content').show();
+        $('.ui-tour-list .tour-step.current .tour-video').fadeIn();
+        $('.ui-tour-controls .prev').fadeIn();
+        $('.ui-tour-controls .close').fadeIn();
+        $('.ui-tour-controls .up').removeClass('up');
+        $('button.close').one('click', compactTour);
+        $('#modal').fadeIn('slow', function () {
+            $('body').addClass('noscroll');
+            tourIsVisible = true;
+        });
+    }
+
+    var $tour = $('#firstrun').detach();
+    var $modal = $('#modal').detach().show();
+
     function startTour() {
-        var $tourContent = $('#modal').detach().show();
+
         window.scrollTo(0,0);
         tourIsVisible = true;
-        $('body').append($tourContent).addClass('noscroll');
+        $('body').append($modal).append($tour).addClass('noscroll');
 
-        $('button.close').one('click', closeTour);
-
-        $('#modal').show().focus();
+        $('button.close').one('click', compactTour);
 
         $('button.step').removeAttr('disabled');
         updateControls();
-        //$('.ui-tour-controls').removeClass('compact');
-        $('.ui-tour-list li.current').show();
-        $('#firstrun').addClass('in');
+
+        $('#modal').fadeIn('fast', function () {
+            $tour.addClass('in');
+            tourIsVisible = true;
+        });
+
         Mozilla.UITour.hideInfo();
         $('.ui-tour-list li.current .step-target').trigger('tour-step');
     }
 
-    $(document).one('click', startTour);
+    $('#main-content').on('click', startTour);
 
     $(document).on('visibilitychange', function () {
         if (document.hidden) {
@@ -152,9 +183,5 @@
 
         }
     });
-
-    //startTour();
-
-    $(document).on('click', '.tour-sticky-footer', startTour);
 
 })(window.jQuery);
