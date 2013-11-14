@@ -32,8 +32,12 @@
 Click here to start the tour
 </article>
 
-<div id="modal"></div>
-
+<div id="modal" role="dialog" aria-labelledby="firstrun" tabindex="-1">
+<div class="modal-inner">
+  <h1 id="modal-header">{{ _('Welcome to Firefox!') }}</h1>
+  <p><em>Congrats, you're up to date!</em></p>
+</div>
+</div>
 <div id="firstrun">
   <div class="tour-inner">
     <div class="progress-step">
@@ -53,9 +57,6 @@ Click here to start the tour
               <li>Add more tools from thouthands of Add-ons</li>
             </ul>
           </div>
-        </div>
-        <div class="tour-video">
-          <div class="video"></div>
         </div>
       </li>
       <li class="tour-step app-menu" data-step="2">

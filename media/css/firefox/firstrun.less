@@ -145,6 +145,37 @@ body.noscroll {
     z-index: 100;
     font-family: 'Clear Sans Regular';
     color: #424F5A;
+
+    .modal-inner {
+        position: relative;
+        width: @widthDesktop;
+        margin: 0 auto;
+        h1 {
+            width: 850px;
+            margin: 45px auto 0 auto;
+            padding: 20px 0 40px 150px;
+            min-height: 50px;
+            background: url(/media/img/firefox/firstrun/logo.png?2013-06) 0 0 no-repeat;
+            position: relative;
+            z-index: 10;
+            font-size: 72px;
+            letter-spacing: -3px;
+            color: white;
+            text-shadow: none;
+        }
+        p {
+            font-size: 24px;
+            color: #fff;
+            padding-left: 150px;
+            margin-top: -20px;
+        }
+        transition: all .5s linear;
+        transform: opacity;
+        opacity: 1;
+        &.out {
+            opacity: 0;
+        }
+    }
 }
 
 #firstrun {
@@ -276,6 +307,15 @@ body.noscroll {
         .close {
             background: transparent url(/media/img/firefox/firstrun/australis-tour/tour-close.png) center center no-repeat;
         }
+
+        .done:hover {
+            background-color: #82C809;
+        }
+
+        .done {
+            border-radius: 5px;
+            background: #6CBE44 url(/media/img/firefox/firstrun/australis-tour/menu-done.png) center center no-repeat;
+        }
     }
 
     .progress-step {
@@ -372,6 +412,10 @@ body.noscroll {
     #firstrun .ui-tour-controls .close {
         background: transparent url(/media/img/firefox/firstrun/australis-tour/tour-close@2x.png) center center no-repeat;
         background-size: 15px 15px;
+    }
+    #firstrun .ui-tour-controls .done {
+        background: #6CBE44 url(/media/img/firefox/firstrun/australis-tour/menu-done.png) center center no-repeat;
+        background-size: 15px 12px;
     }
     #firstrun .tour-video .video {
         background: transparent url(/media/img/firefox/firstrun/australis-tour/video@2x.png) top left no-repeat;

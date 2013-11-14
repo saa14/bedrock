@@ -41,6 +41,13 @@
 
     function updateControls () {
         var $current = $('.ui-tour-list li.current');
+        var step = $('.ui-tour-list li.current').data('step');
+
+        if (step === 4) {
+            $('button.close').off().one('click', closeTour).addClass('done');
+        } else {
+            $('button.close').off().one('click', compactTour).removeClass('done');
+        }
 
         if ($current.hasClass('first')) {
             $('button.prev').attr('disabled', 'disabled');
@@ -108,6 +115,11 @@
     var $stickyFooter = $('.tour-sticky-footer').detach();
     var tourIsVisible = false;
 
+    function closeTour() {
+        $tour.removeClass('in');
+        $('#modal').fadeOut();
+    }
+
     function compactTour() {
         Mozilla.UITour.hideHighlight();
         Mozilla.UITour.hideMenu('appmenu');
@@ -144,11 +156,12 @@
     var $tour = $('#firstrun').detach();
     var $modal = $('#modal').detach().show();
 
+    $('body').append($modal).append($tour).addClass('noscroll');
+
     function startTour() {
 
         window.scrollTo(0,0);
         tourIsVisible = true;
-        $('body').append($modal).append($tour).addClass('noscroll');
 
         $('button.close').one('click', compactTour);
 
@@ -160,11 +173,13 @@
             tourIsVisible = true;
         });
 
+        $('.modal-inner').addClass('out');
+
         Mozilla.UITour.hideInfo();
         $('.ui-tour-list li.current .step-target').trigger('tour-step');
     }
 
-    $('#main-content').on('click', startTour);
+    $modal.on('click', startTour);
 
     $(document).on('visibilitychange', function () {
         if (document.hidden) {
