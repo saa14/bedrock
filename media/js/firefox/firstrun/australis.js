@@ -55,7 +55,7 @@
         if (e.originalEvent.propertyName == 'transform') {
             var step = $('.ui-tour-list li.current').data('step');
             Mozilla.UITour.hideHighlight();
-            Mozilla.UITour.removePinnedTab();
+            // Mozilla.UITour.removePinnedTab();
             $('.ui-tour-list li.current .step-target').delay(100).trigger('tour-step');
             $('.progress-step span').text(step);
             $('.progress-step progress').val(step);
@@ -90,26 +90,30 @@
     $(document).on('transitionend', '.ui-tour-list li.current', onTourStep);
 
     $('.tour-init').trigger('tour-step');
-    var $tourContent = $('#modal').detach().show();
+
     var $stickyFooter = $('.tour-sticky-footer').detach();
+    var tourIsVisible = false;
 
     function closeTour() {
         Mozilla.UITour.hideHighlight();
-        Mozilla.UITour.removePinnedTab();
+        // Mozilla.UITour.removePinnedTab();
         //$('.ui-tour-controls').addClass('compact');
         $('#firstrun').removeClass('in');
         $('body').append($stickyFooter);
         $stickyFooter.show();
         $('#modal').fadeOut('slow', function () {
             $('body').removeClass('noscroll');
+            tourIsVisible = false;
         });
     }
 
     function startTour() {
+        var $tourContent = $('#modal').detach().show();
         window.scrollTo(0,0);
+        tourIsVisible = true;
         $('body').append($tourContent).addClass('noscroll');
 
-        $('#modal-close').one('click', closeTour);
+        $('button.close').one('click', closeTour);
 
         $('#modal').show().focus();
 
@@ -122,6 +126,24 @@
     }
 
     $(document).one('click', startTour);
+
+    $(document).on('visibilitychange', function () {
+        if (document.hidden) {
+            Mozilla.UITour.hideHighlight();
+            Mozilla.UITour.hideInfo();
+            Mozilla.UITour.hideMenu('appmenu');
+        } else  {
+            if (tourIsVisible) {
+                var step = $('.ui-tour-list li.current').data('step');
+                $('.ui-tour-list li.current .step-target').delay(100).trigger('tour-step');
+                $('.progress-step span').text(step);
+                $('.progress-step progress').val(step);
+            } else {
+                $('.tour-init').trigger('tour-step');
+            }
+
+        }
+    });
 
     //startTour();
 

@@ -236,7 +236,7 @@ body.noscroll {
         bottom: 246px;
         height: 40px;
         width: 106px;
-        line-height: 36px;
+        line-height: 34px;
         margin: 0 auto 0 -53px;
         text-align: center;
         overflow: hidden;
@@ -251,19 +251,26 @@ body.noscroll {
             border: none;
             text-indent: -9999px;
             margin: 0 5px;
+            border: 1px solid transparent;
             cursor: pointer;
         }
 
+        button:hover {
+            border-radius: 5px;
+            background-color: rgba(255,255,255,0.50);
+            border: 1px solid #FFFFFF;
+        }
+
         .prev {
-            background: transparent url(/media/img/firefox/firstrun/australis-tour/menu-prev.png) top left no-repeat;
+            background: transparent url(/media/img/firefox/firstrun/australis-tour/menu-prev.png) center center no-repeat;
         }
 
         .next {
-            background: transparent url(/media/img/firefox/firstrun/australis-tour/menu-next.png) top left no-repeat;
+            background: transparent url(/media/img/firefox/firstrun/australis-tour/menu-next.png) center center no-repeat;
         }
 
         #modal-close {
-            background: transparent url(/media/img/firefox/firstrun/australis-tour/tour-close.png) top left no-repeat;
+            background: transparent url(/media/img/firefox/firstrun/australis-tour/tour-close.png) center center no-repeat;
         }
     }
 
@@ -358,15 +365,15 @@ body.noscroll {
         background-size: 43px 44px;
     }
     #modal .ui-tour-controls .next {
-        background: transparent url(/media/img/firefox/firstrun/australis-tour/menu-next@2x.png) top left no-repeat;
+        background: transparent url(/media/img/firefox/firstrun/australis-tour/menu-next@2x.png) center center no-repeat;
         background-size: 14px 15px;
     }
     #modal .ui-tour-controls .prev {
-        background: transparent url(/media/img/firefox/firstrun/australis-tour/menu-prev@2x.png) top left no-repeat;
+        background: transparent url(/media/img/firefox/firstrun/australis-tour/menu-prev@2x.png) center center no-repeat;
         background-size: 14px 15px;
     }
-    #modal .ui-tour-controls #modal-close {
-        background: transparent url(/media/img/firefox/firstrun/australis-tour/tour-close@2x.png) top left no-repeat;
+    #modal .ui-tour-controls .close {
+        background: transparent url(/media/img/firefox/firstrun/australis-tour/tour-close@2x.png) center center no-repeat;
         background-size: 15px 15px;
     }
     #modal .tour-video .video {
