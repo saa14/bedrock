@@ -67,6 +67,7 @@
     }
 
     function closeTour() {
+        Mozilla.UITour.hideHighlight();
         $tour.removeClass('in');
         $('#modal').fadeOut();
     }
