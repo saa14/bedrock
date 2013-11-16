@@ -12,8 +12,12 @@
       <div class="card">
         <h2>{{ _('Argentina') }}</h2>
 
+        <ul class="extra">
+          <li><a href="http://www.mozilla-ar.org/" class="website">mozilla-ar.org</a></li>
+        </ul>
+
         <figure class="feature-img">
-          <img src="http://placecage.com/380/250" alt="">
+          <img src="//api.tiles.mapbox.com/v3/{{ settings.MAPBOX_TOKEN }}/-65.12,-37.23,3/380x250.png" alt="">
         </figure>
       </div>
     </section>

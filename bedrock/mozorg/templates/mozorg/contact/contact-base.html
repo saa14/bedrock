@@ -244,7 +244,7 @@
     <div class="contact-online">
       <h4>{{ _('Find us online') }}</h4>
       <ul>
-        <li><a href="#facebook" hreflang="en-US">{{ _('Facebook') }}</a></li>
+        <li><a href="https://facebook.com/mozilla" hreflang="en-US">{{ _('Facebook') }}</a></li>
         <li><a href="https://twitter.com/mozilla" hreflang="en-US">{{ _('Twitter') }}</a></li>
         <li><a href="#forums">{{ _('Forums &amp; e-mail lists') }}</a></li>
         <li><a href="#irc">{{ _('IRC channels') }}</a></li>
@@ -273,6 +273,11 @@
     </div>
   </section>
 
+  <p class="attribution container">
+  {% trans link_mapbox='http://mapbox.com', link_openstreetmap='http://openstreetmap.org' %}
+    Maps by <a href="{{ link_mapbox }}">MapBox</a> and <a href="{{ link_openstreetmap }}">OpenStreetMap</a>
+  {% endtrans %}
+  </p>
 </main>
 
 {% endblock %}

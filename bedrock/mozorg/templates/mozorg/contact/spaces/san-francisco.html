@@ -12,18 +12,21 @@
       <div class="card vcard">
         <h2 class="fn">{{ _('San Francisco') }}</h2>
         <p class="adr">
+        {# L10n: Addresses are marked up with hCard microformat. See http://microformats.org/wiki/h-card #}
+        {% trans %}
           <span class="street-address">2 Harrison Street</span><br>
           <span class="extended-address">Suite 175</span><br>
           <span class="locality">San Francisco</span>, <abbr class="region" title="California">CA</abbr> <span class="postal-code">94105</span><br>
           <span class="country-name">USA</span>
+        {% endtrans %}
         </p>
 
         <ul class="extra">
-          <li><a href="mailto:mozspaces@mozilla.com" class="email">mozspaces@mozilla.com</a></li>
+          <li><a href="https://twitter.com/MozSF" class="twitter">@MozSF</a></li>
         </ul>
 
         <figure class="feature-img">
-          <img src="http://placedog.com/460/250" alt="">
+          <img src="//api.tiles.mapbox.com/v3/{{ settings.MAPBOX_TOKEN }}/pin-m+b70900(-122.389326,37.789031)/-122.389326,37.789031,16/460x250.png" alt="">
         </figure>
       </div>
     </section>

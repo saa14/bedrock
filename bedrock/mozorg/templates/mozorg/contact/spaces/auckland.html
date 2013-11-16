@@ -12,11 +12,14 @@
       <div class="card vcard">
         <h2 class="fn">{{ _('Auckland') }}</h2>
         <p class="adr">
+        {# L10n: Addresses are marked up with hCard microformat. See http://microformats.org/wiki/h-card #}
+        {% trans %}
           <span class="extended-address">Level 7</span><br>
           <span class="street-address">5 Short St</span><br>
           <span class="locality">Newmarket</span><br>
           <abbr class="region">Auckland</abbr> <span class="postal-code">1023</span><br>
           <span class="country-name">New Zealand</span>
+        {% endtrans %}
         </p>
 
         <ul class="extra">
@@ -24,7 +27,7 @@
         </ul>
 
         <figure class="feature-img">
-          <img src="http://placebear.com/460/250" alt="">
+          <img src="//api.tiles.mapbox.com/v3/mozilla-webprod.e91ef8b3/pin-m+b70900(174.777106,-36.866596)/174.777106,-36.866596,16/460x250.png" alt="">
         </figure>
       </div>
     </section>

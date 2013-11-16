@@ -12,17 +12,16 @@
       <div class="card vcard">
         <h2 class="fn">{{ _('Taipei') }}</h2>
         <p class="adr">
+        {# L10n: Addresses are marked up with hCard microformat. See http://microformats.org/wiki/h-card #}
+        {% trans %}
           <span class="street-address">4F-A1, No. 106, Sec. 5, Xinyi Rd.</span>, <span class="extended-address">Xinyi Dist.</span><br>
           <span class="locality">Taipei City</span> <span class="postal-code">11047</span><br>
           <span class="country-name">Taiwan</span>
+        {% endtrans %}
         </p>
 
-        <ul class="extra">
-          <li><a href="mailto:mozspaces@mozilla.com" class="email">mozspaces@mozilla.com</a></li>
-        </ul>
-
         <figure class="feature-img">
-          <img src="http://placecage.com/460/250" alt="">
+          <img src="//api.tiles.mapbox.com/v3/{{ settings.MAPBOX_TOKEN }}/pin-m+b70900(121.567422,25.032329)/121.567422,25.032329,16/460x250.png" alt="">
         </figure>
       </div>
     </section>
