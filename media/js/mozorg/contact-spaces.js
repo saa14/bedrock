@@ -2,28 +2,28 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-(function() {
-    "use strict";
+// (function() {
+//     "use strict";
 
-    function accordion() {
-      $('.accordion .submenu').hide();
-//      $('.accordion .submenu:first').show().parent().addClass('open'); // open first submenu
-      $('.accordion .hasmenu > a').on('click', function(e) {
-        e.preventDefault();
-        var next = $(this).next();
-        if((next.is('.submenu')) && (next.is(':visible'))) {
-            next.slideUp().parent().removeClass('open');
-        }
-        if((next.is('.submenu')) && (!next.is(':visible'))) {
-            $('.accordion .submenu:visible').slideUp().parent().removeClass('open');
-            next.slideDown().parent().addClass('open');
-        }
-      });
-    }
-    // Call it once onload to initialize
-    accordion();
+//     function accordion() {
+//       $('.accordion .submenu').hide();
+// //      $('.accordion .submenu:first').show().parent().addClass('open'); // open first submenu
+//       $('.accordion .hasmenu > a').on('click', function(e) {
+//         e.preventDefault();
+//         var next = $(this).next();
+//         if((next.is('.submenu')) && (next.is(':visible'))) {
+//             next.slideUp().parent().removeClass('open');
+//         }
+//         if((next.is('.submenu')) && (!next.is(':visible'))) {
+//             $('.accordion .submenu:visible').slideUp().parent().removeClass('open');
+//             next.slideDown().parent().addClass('open');
+//         }
+//       });
+//     }
+//     // Call it once onload to initialize
+//     accordion();
 
-})();
+// })();
 
 (function($) {
     "use strict";
@@ -94,6 +94,7 @@
          */
         setInitialPageNavState: function () {
             var $entry = $('#entry-container .entry');
+            var $parentNav;
             var tab = $entry.data('tab');
             var id = $entry.attr('id');
 
@@ -108,6 +109,11 @@
                 $('#nav-communities, #meta-communities').show();
                 $('#nav-communities li[data-id="' + id + '"]').addClass('current');
             }
+
+            // hide the community sub menu's
+            $('.accordion .submenu').hide();
+
+            mozMap.toggleCommunitySubMenu();
         },
 
         /*
@@ -123,23 +129,63 @@
                 // check if we need to change the map state
                 if (current !== state.data.tab) {
                     mozMap.updateTabState(state.data.tab);
+                    mozMap.setMapState();
                 }
 
                 if (state.data.tab === 'spaces') {
                     // Hide community nav+meta and show spaces nav+meta
-                    $('#nav-communities, #meta-communities').fadeOut(100, function(){ $('#nav-spaces, #meta-spaces').show(); });
+                    mozMap.toggleNav('spaces');
                     // Update current nav item to the active space
                     mozMap.updateSpaceNavItem(state.data.id);
                     // Show the space based on event state url
                     mozMap.showSpace(state.url, state.data.id);
                 } else if (state.data.tab === 'communities') {
                     // Hide spaces nav+meta and show community nav+meta
-                    $('#nav-spaces, #meta-spaces').fadeOut(100, function(){ $('#nav-communities, #meta-communities').show(); });
+                    mozMap.toggleNav('communities');
                     // Update community region on the map
                     mozMap.updateCommunityNavItem(state.data.id);
                     mozMap.showCommunityContent(state.url, state.data.id);
                 }
             });
+        },
+
+        /*
+         * Toggles the active tab nav menu visibility
+         */
+        toggleNav: function (tab) {
+            if (tab === 'spaces') {
+                $('#nav-communities, #meta-communities').fadeOut(100, function () {
+                    $('#nav-spaces, #meta-spaces').show();
+                });
+            } else if (tab === 'communities') {
+                $('#nav-spaces, #meta-spaces').fadeOut(100, function () {
+                    $('#nav-communities, #meta-communities').show();
+                });
+            }
+        },
+
+        /*
+         * Toggles the active community submenu nav
+         */
+        toggleCommunitySubMenu: function () {
+            var $current = $('#nav-communities li.current');
+            var $parent;
+            var $next;
+
+            if ($current.hasClass('hasmenu') && !$current.hasClass('open')) {
+                $('.accordion .submenu:visible').slideUp().parent().removeClass('open');
+                $current.addClass('open');
+                $current.find('.submenu').slideDown();
+                return;
+            }
+
+            $parent = $current.parent();
+
+            if ($parent.hasClass('submenu') && !$parent.is(':visible')) {
+                $('.accordion .submenu:visible').slideUp().parent().removeClass('open');
+                $parent.slideDown().parent().addClass('open');
+                return;
+            }
         },
 
         /*
@@ -259,7 +305,6 @@
             map.markerLayer.on('click', mozMap.onMarkerClick);
             map.markerLayer.on('mouseover', mozMap.openMarkerPopup);
             map.markerLayer.on('mouseout', mozMap.closeMarkerPopup);
-            map.setView([37.4, 0], 2);
         },
 
         /*
@@ -333,14 +378,14 @@
          * Bind events on top level community navigation menu
          */
         bindCommunityNav: function () {
-            $('#nav-communities li.region > a').on('click', mozMap.onCommunityNavClick);
+            $('#nav-communities li > a').on('click', mozMap.onCommunityNavClick);
         },
 
         /*
          * Unbind events on top level community navigation menu
          */
         unbindCommunityNav: function () {
-            $('#nav-communities li.region > a').off('click', mozMap.onCommunityNavClick);
+            $('#nav-communities li > a').off('click', mozMap.onCommunityNavClick);
         },
 
         /*
@@ -361,8 +406,10 @@
          */
         onCommunityNavClick: function (e) {
             e.preventDefault();
-            var itemId = $(this).parent().data('id');
+            var $current = $(this).parent();
+            var itemId = $current.data('id');
             var tabId = 'communities';
+
             History.pushState({
                 id: itemId,
                 tab: tabId
@@ -405,14 +452,20 @@
          * Param: @id space string identifier
          */
         updateCommunityNavItem: function (id) {
+            var $current = $('#nav-communities li.current');
+            var $nav = $current.parent();
             // return if the tab navigation has been clicked,
             // as we just want to show the landing page
             if (id === 'communities') {
-                $('#nav-communities li.current').removeClass('current');
+                $current.removeClass('current');
+                // hide the community sub menu's
+                $('.accordion .submenu').hide();
+                // clear the community layers
+                mozMap.clearCommunityLayers();
                 return;
             }
 
-            $('#nav-communities li.current').removeClass('current');
+            $current.removeClass('current');
 
             if (!id) {
                 // if 'id' is undefined then statechange has fired before our first
@@ -422,6 +475,7 @@
             } else {
                 $('#nav-communities li[data-id="' + id + '"]').addClass('current');
             }
+            mozMap.toggleCommunitySubMenu();
         },
 
         /*
@@ -438,7 +492,12 @@
             } else {
                 $('ul.category-tabs li[data-id="' + tab + '"]').addClass('current');
             }
-            mozMap.setMapState();
+            //remove current sub menu class as we're going to a landing page
+            $('.nav-category li.current').removeClass('current');
+
+            // hide the community sub menu's
+            $('.accordion .submenu').hide();
+            $('.accordion .hasmenu').removeClass('open');
         },
 
         /*
@@ -479,15 +538,12 @@
             if (contentCache.hasOwnProperty(cacheId)) {
                 $('#entry-container').html(contentCache[cacheId]);
                 // programatically find the right marker and click it
-                console.log('from ajax');
                 mozMap.doClickMarker(cacheId);
             } else if (id === $('section.entry').attr('id')) {
                 // if we're already on the right page, just center
                 // the marker
-                console.log('right page');
                 mozMap.doClickMarker(id);
             } else {
-                console.log('request content');
                 // request content via ajax
                 mozMap.requestContent(id, contentUrl);
             }
@@ -498,9 +554,17 @@
          * Params: @id string region identifier
          */
         showCommunityRegion: function (id) {
-            if (layers.hasOwnProperty(id)) {
+            var region = id;
+            var $nav = $('#nav-communities li.current').parent();
+
+            if ($nav.hasClass('submenu')) {
+                region = $nav.parent().data('id');
+            }
+
+            if (layers.hasOwnProperty(region)) {
                 mozMap.clearCommunityLayers();
-                communityLayers.addLayer(layers[id]);
+                communityLayers.addLayer(layers[region]);
+                mozMap.fitRegionToLayer(region);
             }
         },
 
@@ -526,6 +590,30 @@
                 // request content via ajax
                 mozMap.requestContent(id, contentUrl);
             }
+        },
+
+        fitRegionToLayer: function (id) {
+            switch(id) {
+            case 'north-america':
+                map.setView([65, -110], 2);
+                break;
+            case 'latin-america':
+                map.setView([-20, -80], 2);
+                break;
+            case 'europe':
+                map.setView([50, 20], 3);
+                break;
+            case 'asia':
+                map.setView([25, 100], 2);
+                break;
+            case 'antarctica':
+                map.setView([-40, 0], 1);
+                break;
+            case 'africa':
+                map.setView([10, 10], 3);
+                break;
+            }
+            // TODO - Francophone and Hispano
         },
 
         /*
@@ -613,26 +701,22 @@
 
         /*
          * Find the corresponding nav item based on data-id in the legend
-         * and fire a click event on it.
+         * and call push state to update the page content
          */
         onMapLegendClick: function (e) {
             e.preventDefault();
             var itemId = $(this).parent().data('id');
             var tabId = 'communities';
 
-            // for non-meta communities we do push state as
-            // they have their own url's.
-//            if (itemId !== 'francophone' && itemId !== 'hispano') {
-                History.pushState({
-                    id: itemId,
-                    tab: tabId
-                }, document.title, this.href);
-//           }
+            History.pushState({
+                id: itemId,
+                tab: tabId
+            }, document.title, this.href);
         },
 
         /*
          * Split label layer on the map so we can set it's z-index dynamically
-         * Hat tip to Alex Barth @ MapBox
+         * (thanks to to Alex Barth @ MapBox)
          */
         splitLabelLayer: function () {
             topPane = map._createPane('leaflet-top-pane', map.getPanes().mapPane);
@@ -654,7 +738,7 @@
         },
 
         /*
-         * Sets the z-index of the labellayer so we can position country
+         * Sets the z-index of the label layer so we can position country
          * names above community layers or under markers
          */
         setLabelLayerIndex: function (zIndex) {
