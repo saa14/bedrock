@@ -84,7 +84,9 @@
                 map.touchZoom.disable();
                 map.doubleClickZoom.disable();
                 // disable tap handler, if present.
-                if (map.tap) map.tap.disable();
+                if (map.tap) {
+                    map.tap.disable();
+                }
             }
         },
 
@@ -94,7 +96,6 @@
          */
         setInitialPageNavState: function () {
             var $entry = $('#entry-container .entry');
-            var $parentNav;
             var tab = $entry.data('tab');
             var id = $entry.attr('id');
 
@@ -170,13 +171,11 @@
         toggleCommunitySubMenu: function () {
             var $current = $('#nav-communities li.current');
             var $parent;
-            var $next;
 
             if ($current.hasClass('hasmenu') && !$current.hasClass('open')) {
                 $('.accordion .submenu:visible').slideUp().parent().removeClass('open');
                 $current.addClass('open');
                 $current.find('.submenu').slideDown();
-                return;
             }
 
             $parent = $current.parent();
@@ -184,7 +183,14 @@
             if ($parent.hasClass('submenu') && !$parent.is(':visible')) {
                 $('.accordion .submenu:visible').slideUp().parent().removeClass('open');
                 $parent.slideDown().parent().addClass('open');
-                return;
+            }
+
+            // if user has scrolled past the map then autoscroll to the top of the
+            // content when the menu accordion resizes
+            if ($(window).scrollTop() > 500) {
+                $('html, body').animate({
+                    scrollTop: 400
+                }, 500);
             }
         },
 
@@ -203,7 +209,6 @@
             e.preventDefault();
             var itemId = $(this).parent().data('id');
             var itemUrl = this.href;
-            var state = mozMap.getMapState();
 
             // Push the new url and update browser history
             History.pushState({
@@ -452,12 +457,10 @@
          * Param: @id space string identifier
          */
         updateCommunityNavItem: function (id) {
-            var $current = $('#nav-communities li.current');
-            var $nav = $current.parent();
             // return if the tab navigation has been clicked,
             // as we just want to show the landing page
             if (id === 'communities') {
-                $current.removeClass('current');
+                $('#nav-communities li.current').removeClass('current');
                 // hide the community sub menu's
                 $('.accordion .submenu').hide();
                 // clear the community layers
@@ -465,7 +468,7 @@
                 return;
             }
 
-            $current.removeClass('current');
+            $('#nav-communities li.current').removeClass('current');
 
             if (!id) {
                 // if 'id' is undefined then statechange has fired before our first
