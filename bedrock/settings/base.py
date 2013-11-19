@@ -881,3 +881,6 @@ MOBILIZER_LOCALE_LINK = {
     'gr': 'https://wiki.mozilla.org/Mobilizer/MobilizerGreece/',
     'cs': 'https://wiki.mozilla.org/Mobilizer/MobilizerCzechRepublic/'
 }
+
+# Mapbox token for Mozilla map styles
+MAPBOX_TOKEN = 'mozilla-webprod.e91ef8b3'

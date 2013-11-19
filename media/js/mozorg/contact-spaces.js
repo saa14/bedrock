@@ -32,7 +32,8 @@
     var xhr = null;
     var initContentId = null;
     var initialTabStateId = null;
-    var contentCache = [];
+    var contentCache = []; // page content cache
+    var titleCache = []; // page title cache
     var topPane = null;
     var topLayer = null;
 
@@ -54,32 +55,35 @@
          * This should only be called once on page load.
          */
         init: function () {
+            // mapbox api token.
+            var token = $('#main-content').data('mapbox');
+            // touch support detection.
             var touch = L.Browser.touch || L.Browser.msTouch;
-            // use mozilla map style layer.
-            map = L.mapbox.map('map', 'mozilla-webprod.e91ef8b3', {
+            // initiate map.
+            map = L.mapbox.map('map', token, {
                 zoomControl: !touch
             });
             // disable map zoom on scroll.
             map.scrollWheelZoom.disable();
-            // set initial page nav state
+            // set page nav state.
             mozMap.setInitialPageNavState();
-            // initialize spaces markers
+            // crerate spaces markers.
             mozMap.initSpacesMarkers();
-            // initialize community layers
+            // create community layers.
             mozMap.initCommunityLayers();
-            // set the initial map state on page load.
+            // set the map state (i.e. spaces or communities)
             mozMap.setMapState();
-            // set initial map content
+            // store reference to the initial map content
             mozMap.setInitialContentState();
-            // bind events on tab navigation
+            // bind events on tab navigation.
             mozMap.bindTabNavigation();
-            // init history.js
+            // init history.js.
             mozMap.bindHistory();
-            // split the label layer for more control
+            // split the label layer for more control.
             mozMap.splitLabelLayer();
-            // disable dragging for touch devices
+            // disable dragging for touch devices.
             if (touch) {
-                // disable drag and zoom handlers
+                // disable drag and zoom handlers.
                 map.dragging.disable();
                 map.touchZoom.disable();
                 map.doubleClickZoom.disable();
@@ -353,16 +357,18 @@
          * Param: @id marker string identifier
          */
         doClickMarker: function (id) {
+            // if we're on the landing page zoom out to show all markers.
+            if (id === 'spaces-landing') {
+                map.setView([37.4, 0], 2);
+                return;
+            }
+            // else find the right marker and fire a click.
             map.markerLayer.eachLayer(function (marker) {
                 if (marker.feature.properties.id === id) {
                     marker.fireEvent('click');
                     return;
                 }
             });
-            // if there's no marker id we set the default zoomed out view
-            if (!id) {
-                map.setView([37.4, 0], 2);
-            }
         },
 
         /*
@@ -542,13 +548,15 @@
                 $('#entry-container').html(contentCache[cacheId]);
                 // programatically find the right marker and click it
                 mozMap.doClickMarker(cacheId);
+                // update the page title
+                mozMap.setPageTitle(cacheId);
             } else if (id === $('section.entry').attr('id')) {
                 // if we're already on the right page, just center
                 // the marker
                 mozMap.doClickMarker(id);
             } else {
                 // request content via ajax
-                mozMap.requestContent(id, contentUrl);
+                mozMap.requestContent(contentUrl);
             }
         },
 
@@ -564,7 +572,8 @@
                 region = $nav.parent().data('id');
             }
 
-            if (layers.hasOwnProperty(region)) {
+            // if the layer exists and is not currently shown clear the map and add it.
+            if (layers.hasOwnProperty(region) && !communityLayers.hasLayer(layers[region])) {
                 mozMap.clearCommunityLayers();
                 communityLayers.addLayer(layers[region]);
                 mozMap.fitRegionToLayer(region);
@@ -585,13 +594,15 @@
                 // if the content is already cached display it
                 $('#entry-container').html(contentCache[cacheId]);
                 mozMap.showCommunityRegion(cacheId);
+                // update the page title
+                mozMap.setPageTitle(cacheId);
             } else if (id === $('section.entry').attr('id')) {
                 // if we're already on the right page,
                 // just show the map layer
                 mozMap.showCommunityRegion(id);
             } else {
                 // request content via ajax
-                mozMap.requestContent(id, contentUrl);
+                mozMap.requestContent(contentUrl);
             }
         },
 
@@ -752,10 +763,19 @@
         },
 
         /*
+         * Sets the page title from cache
+         */
+        setPageTitle: function (id) {
+            if (titleCache.hasOwnProperty(id)) {
+                document.title = titleCache[id];
+            }
+        },
+
+        /*
          * Requests content for displaying current space information
          * Params: @id space identifier string, @url url to request
          */
-        requestContent: function (id, url) {
+        requestContent: function (url) {
             //abort previous request if one exists
             if (xhr && xhr.readystate !== 4) {
                 xhr.abort();
@@ -769,14 +789,20 @@
                 success: function(data) {
                     // pull out data we need
                     var content = $(data).find('section.entry');
-                    var mapId = content.attr('id');
+                    var title = data.match(/<title>(.*?)<\/title>/);
+                    var id = content.attr('id');
+
                     // add content to the cache for future retrieval
-                    contentCache[mapId] = content;
+                    contentCache[id] = content;
+                    titleCache[id] = title[1];
                     // update content in the page
                     $('#entry-container').html(content);
+
+                    // update the page title
+                    mozMap.setPageTitle(id);
                     // programatically find the right marker and click it
                     mozMap.doClickMarker(id);
-
+                    // show the corresponding community region
                     mozMap.showCommunityRegion(id);
                 }
             });
