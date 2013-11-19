@@ -626,6 +626,12 @@
             case 'africa':
                 map.setView([10, 10], 3);
                 break;
+            case 'francophone':
+                map.setView([40, -20], 2);
+                break;
+            case 'hispano':
+                map.setView([-10, -40], 2);
+                break;
             }
             // TODO - Francophone and Hispano
         },
@@ -655,12 +661,10 @@
                 style: mozMap.styleLayer('#eb936e')
             });
             hispano = L.geoJson(window.mozHispano, {
-                style: mozMap.styleLayer('white', '#666', 0.1, 5),
-                stroke: false
+                style: mozMap.styleLayer('white', '#c71929', 0.1, 'none', 2)
             });
             francophone = L.geoJson(window.mozFrancophone, {
-                style: mozMap.styleLayer('white', '#666', 0.1, 5),
-                stroke: false
+                style: mozMap.styleLayer('white', '#3b9bc5', 0.1, 'none', 2)
             });
 
             // create an empty layer group and add it to the map
@@ -683,10 +687,10 @@
         /*
          * Styles a geo-json community layer
          */
-        styleLayer: function (fill, outline, opacity, dash) {
+        styleLayer: function (fill, outline, opacity, dash, weight) {
             return {
                 fillColor: fill,
-                weight: 1,
+                weight: weight || 1,
                 opacity: 1,
                 color: outline || 'white',
                 fillOpacity: opacity || 0.7,
