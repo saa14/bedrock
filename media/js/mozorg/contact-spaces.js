@@ -46,6 +46,7 @@
     var africaMiddleEast;
     var hispano;
     var francophone;
+    var arabic;
     var communityLayers;
     var layers = {};
 
@@ -174,7 +175,8 @@
          */
         toggleCommunitySubMenu: function () {
             var $current = $('#nav-communities li.current');
-            var $parent;
+            var $parent = $current.parent();
+            var contentOffset = $('#page-content').offset().top;
 
             if ($current.hasClass('hasmenu') && !$current.hasClass('open')) {
                 $('.accordion .submenu:visible').slideUp().parent().removeClass('open');
@@ -182,18 +184,16 @@
                 $current.find('.submenu').slideDown();
             }
 
-            $parent = $current.parent();
-
             if ($parent.hasClass('submenu') && !$parent.is(':visible')) {
                 $('.accordion .submenu:visible').slideUp().parent().removeClass('open');
                 $parent.slideDown().parent().addClass('open');
             }
 
-            // if user has scrolled past the map then autoscroll to the top of the
+            // if user has scrolled past the map, autoscroll to the top of the
             // content when the menu accordion resizes
-            if ($(window).scrollTop() > 500) {
+            if ($(window).scrollTop() > contentOffset) {
                 $('html, body').animate({
-                    scrollTop: 400
+                    scrollTop: contentOffset
                 }, 500);
             }
         },
@@ -555,6 +555,7 @@
                 // the marker
                 mozMap.doClickMarker(id);
             } else {
+                $('#entry-container').empty();
                 // request content via ajax
                 mozMap.requestContent(contentUrl);
             }
@@ -601,6 +602,7 @@
                 // just show the map layer
                 mozMap.showCommunityRegion(id);
             } else {
+                $('#entry-container').empty();
                 // request content via ajax
                 mozMap.requestContent(contentUrl);
             }
@@ -631,6 +633,9 @@
                 break;
             case 'hispano':
                 map.setView([-10, -40], 2);
+                break;
+            case 'arabic':
+                map.setView([20, 10], 2);
                 break;
             }
             // TODO - Francophone and Hispano
@@ -666,6 +671,9 @@
             francophone = L.geoJson(window.mozFrancophone, {
                 style: mozMap.styleLayer('white', '#3b9bc5', 0.1, 'none', 2)
             });
+            arabic = L.geoJson(window.mozArabic, {
+                style: mozMap.styleLayer('white', '#f79937', 0.1, 'none', 2)
+            });
 
             // create an empty layer group and add it to the map
             communityLayers = new L.FeatureGroup();
@@ -680,7 +688,8 @@
                 'antarctica': antarctica,
                 'africa': africaMiddleEast,
                 'hispano': hispano,
-                'francophone': francophone
+                'francophone': francophone,
+                'arabic': arabic
             };
         },
 
@@ -790,6 +799,7 @@
                 url: url,
                 type: 'get',
                 dataType: 'html',
+                cache: 'false',
                 success: function(data) {
                     // pull out data we need
                     var content = $(data).find('section.entry');
