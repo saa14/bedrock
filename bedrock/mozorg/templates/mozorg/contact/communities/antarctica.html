@@ -8,14 +8,19 @@
 
 {% block contact_entry %}
   <div id="entry-container">
-    <section class="entry" id="antarctica" data-tab="communities">
+    <section class="entry entry-community" id="antarctica" data-tab="communities">
+      <div class="card">
         <h2>{{ _('Antarctica') }}</h2>
-        <p>
-          Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit, posuere a, pede.
-        </p>
-        <p>
-          Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci. Aenean dignissim pellentesque felis.
-        </p>
+
+        <ul class="extra">
+          <li><a href="http://mozilla-antarctica.org/" class="website">mozilla-antarctica.org</a></li>
+          <li><a href="https://www.facebook.com/MozillaAntarctica" class="facebook">Facebook</a></li>
+        </ul>
+
+        <figure class="feature-img">
+          <img src="{{ media('img/contact/logo-antarctica-lg.png') }}" alt="">
+        </figure>
+      </div>
     </section>
   </div>
 {% endblock %}
