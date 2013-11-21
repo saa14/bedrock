@@ -884,4 +884,3 @@ MOBILIZER_LOCALE_LINK = {
 
 # Mapbox token for Mozilla map styles
 MAPBOX_TOKEN = 'mozilla-webprod.e91ef8b3'
-MAPBOX_LABEL_TOKEN = 'mozilla-webprod.map-f1uagdlz'

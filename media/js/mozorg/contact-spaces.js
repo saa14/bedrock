@@ -766,9 +766,9 @@
          * (thanks to to Alex Barth @ MapBox)
          */
         splitLabelLayer: function () {
-            var labelToken = $('#main-content').data('mapboxLabels');
             topPane = map._createPane('leaflet-top-pane', map.getPanes().mapPane);
-            topLayer = L.mapbox.tileLayer(labelToken);
+            // this custom map layer only contains country names, no map!
+            topLayer = L.mapbox.tileLayer('mozilla-webprod.map-f1uagdlz');
             topLayer.on('ready', function() {
                 var state = mozMap.getMapState();
 
