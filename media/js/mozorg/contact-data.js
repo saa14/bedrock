@@ -7,6 +7,10 @@
     // Default marker styles for office spaces
     var markerColor = '#B70900';
     var markerSize = 'large';
+    var markerIcon = location.protocol + '//' + location.host + '/media/img/contact/moz-map-pin.png';
+    var iconSize = [35, 90];
+    var iconAnchor = [17.5, 45];
+    var popupAnchor = [0, -46];
 
     // Mozilla office space geoJson data
     window.mozSpaces = {
@@ -16,7 +20,13 @@
             properties: {
                 id: 'mountain-view',
                 'marker-color': markerColor,
-                'marker-size': markerSize
+                'marker-size': markerSize,
+                'icon': {
+                  'iconUrl': markerIcon,
+                  'iconSize': iconSize,
+                  'iconAnchor': iconAnchor,
+                  'popupAnchor': popupAnchor
+                }
             },
             geometry: {
                 type: 'Point',
@@ -27,7 +37,13 @@
             properties: {
                 id: 'auckland',
                 'marker-color': markerColor,
-                'marker-size': markerSize
+                'marker-size': markerSize,
+                'icon': {
+                  'iconUrl': markerIcon,
+                  'iconSize': iconSize,
+                  'iconAnchor': iconAnchor,
+                  'popupAnchor': popupAnchor
+                }
             },
             geometry: {
                 type: 'Point',
@@ -38,7 +54,13 @@
             properties: {
                 id: 'beijing',
                 'marker-color': markerColor,
-                'marker-size': markerSize
+                'marker-size': markerSize,
+                'icon': {
+                  'iconUrl': markerIcon,
+                  'iconSize': iconSize,
+                  'iconAnchor': iconAnchor,
+                  'popupAnchor': popupAnchor
+                }
             },
             geometry: {
                 type: 'Point',
@@ -49,7 +71,13 @@
             properties: {
                 id: 'berlin',
                 'marker-color': markerColor,
-                'marker-size': markerSize
+                'marker-size': markerSize,
+                'icon': {
+                  'iconUrl': markerIcon,
+                  'iconSize': iconSize,
+                  'iconAnchor': iconAnchor,
+                  'popupAnchor': popupAnchor
+                }
             },
             geometry: {
                 type: 'Point',
@@ -60,7 +88,13 @@
             properties: {
                 id: 'london',
                 'marker-color': markerColor,
-                'marker-size': markerSize
+                'marker-size': markerSize,
+                'icon': {
+                  'iconUrl': markerIcon,
+                  'iconSize': iconSize,
+                  'iconAnchor': iconAnchor,
+                  'popupAnchor': popupAnchor
+                }
             },
             geometry: {
                 type: 'Point',
@@ -71,7 +105,13 @@
             properties: {
                 id: 'paris',
                 'marker-color': markerColor,
-                'marker-size': markerSize
+                'marker-size': markerSize,
+                'icon': {
+                  'iconUrl': markerIcon,
+                  'iconSize': iconSize,
+                  'iconAnchor': iconAnchor,
+                  'popupAnchor': popupAnchor
+                }
             },
             geometry: {
                 type: 'Point',
@@ -82,7 +122,13 @@
             properties: {
                 id: 'portland',
                 'marker-color': markerColor,
-                'marker-size': markerSize
+                'marker-size': markerSize,
+                'icon': {
+                  'iconUrl': markerIcon,
+                  'iconSize': iconSize,
+                  'iconAnchor': iconAnchor,
+                  'popupAnchor': popupAnchor
+                }
             },
             geometry: {
                 type: 'Point',
@@ -93,7 +139,13 @@
             properties: {
                 id: 'san-francisco',
                 'marker-color': markerColor,
-                'marker-size': markerSize
+                'marker-size': markerSize,
+                'icon': {
+                  'iconUrl': markerIcon,
+                  'iconSize': iconSize,
+                  'iconAnchor': iconAnchor,
+                  'popupAnchor': popupAnchor
+                }
             },
             geometry: {
                 type: 'Point',
@@ -104,7 +156,13 @@
             properties: {
                 id: 'taipei',
                 'marker-color': markerColor,
-                'marker-size': markerSize
+                'marker-size': markerSize,
+                'icon': {
+                  'iconUrl': markerIcon,
+                  'iconSize': iconSize,
+                  'iconAnchor': iconAnchor,
+                  'popupAnchor': popupAnchor
+                }
             },
             geometry: {
                 type: 'Point',
@@ -115,7 +173,13 @@
             properties: {
                 id: 'tokyo',
                 'marker-color': markerColor,
-                'marker-size': markerSize
+                'marker-size': markerSize,
+                'icon': {
+                  'iconUrl': markerIcon,
+                  'iconSize': iconSize,
+                  'iconAnchor': iconAnchor,
+                  'popupAnchor': popupAnchor
+                }
             },
             geometry: {
                 type: 'Point',
@@ -126,7 +190,13 @@
             properties: {
                 id: 'toronto',
                 'marker-color': markerColor,
-                'marker-size': markerSize
+                'marker-size': markerSize,
+                'icon': {
+                  'iconUrl': markerIcon,
+                  'iconSize': iconSize,
+                  'iconAnchor': iconAnchor,
+                  'popupAnchor': popupAnchor
+                }
             },
             geometry: {
                 type: 'Point',
@@ -137,7 +207,13 @@
             properties: {
                 id: 'vancouver',
                 'marker-color': markerColor,
-                'marker-size': markerSize
+                'marker-size': markerSize,
+                'icon': {
+                  'iconUrl': markerIcon,
+                  'iconSize': iconSize,
+                  'iconAnchor': iconAnchor,
+                  'popupAnchor': popupAnchor
+                }
             },
             geometry: {
                 type: 'Point',

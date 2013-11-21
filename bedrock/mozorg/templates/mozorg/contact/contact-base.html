@@ -23,7 +23,7 @@
 
 {% block content %}
 
-<main id="main-content" role="main" data-mapbox="{{ settings.MAPBOX_TOKEN }}">
+<main id="main-content" role="main" data-mapbox="{{ settings.MAPBOX_TOKEN }}" data-mapbox-labels="{{ settings.MAPBOX_LABEL_TOKEN }}">
   <header class="page-head container">
     <h1 class="page-title">{{ _('Where is Mozilla?') }}</h1>
     <p class="help">
@@ -56,11 +56,11 @@
         <li data-id="arabic">
           <a href="{{ url('mozorg.contact.communities.arabic') }}">{{ _('Arabic') }}</a>
         </li>
-        <li data-id="francophone">
-          <a href="{{ url('mozorg.contact.communities.francophone') }}">{{ _('Francophone') }}</a>
-        </li>
         <li data-id="hispano">
           <a href="{{ url('mozorg.contact.communities.hispano') }}">{{ _('Hispano') }}</a>
+        </li>
+        <li data-id="francophone">
+          <a href="{{ url('mozorg.contact.communities.francophone') }}">{{ _('Francophone') }}</a>
         </li>
     </ul>
   </div>

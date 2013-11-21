@@ -189,6 +189,10 @@
                 $parent.slideDown().parent().addClass('open');
             }
 
+            if  (!$current.hasClass('hasmenu') && !$parent.hasClass('submenu')) {
+                $('.accordion .submenu:visible').slideUp().parent().removeClass('open');
+            }
+
             // if user has scrolled past the map, autoscroll to the top of the
             // content when the menu accordion resizes
             if ($(window).scrollTop() > contentOffset) {
@@ -289,6 +293,12 @@
          * Creates spaces markers and then hide them using setFilter()
          */
         initSpacesMarkers: function () {
+            map.markerLayer.on('layeradd', function(e) {
+                var marker = e.layer,
+                    feature = marker.feature;
+
+                marker.setIcon(L.icon(feature.properties.icon));
+            });
             map.markerLayer.setGeoJSON(window.mozSpaces);
             map.markerLayer.setFilter(function () {
                 return false;
@@ -326,7 +336,7 @@
             map.markerLayer.off('click', mozMap.onMarkerClick);
             map.markerLayer.off('mouseover', mozMap.openMarkerPopup);
             map.markerLayer.off('mouseout', mozMap.closeMarkerPopup);
-            map.setView([37.4, 0], 2);
+            map.setView([32, 0], 2);
         },
 
         /*
@@ -359,7 +369,7 @@
         doClickMarker: function (id) {
             // if we're on the landing page zoom out to show all markers.
             if (id === 'spaces-landing') {
-                map.setView([37.4, 0], 2);
+                map.setView([32, 0], 2);
                 return;
             }
             // else find the right marker and fire a click.
@@ -579,6 +589,8 @@
                 communityLayers.addLayer(layers[region]);
                 mozMap.fitRegionToLayer(region);
             }
+
+            mozMap.highlightLegend(region);
         },
 
         /*
@@ -639,6 +651,14 @@
                 break;
             }
             // TODO - Francophone and Hispano
+        },
+
+        highlightLegend: function (id) {
+            var $current = $('#map .legend li[data-id="' + id + '"] a');
+            $('.legend li a.active').removeClass('active');
+            if ($current.length > 0) {
+                $current.addClass('active');
+            }
         },
 
         /*
@@ -746,8 +766,9 @@
          * (thanks to to Alex Barth @ MapBox)
          */
         splitLabelLayer: function () {
+            var labelToken = $('#main-content').data('mapboxLabels');
             topPane = map._createPane('leaflet-top-pane', map.getPanes().mapPane);
-            topLayer = L.mapbox.tileLayer('mozilla-webprod.map-f1uagdlz');
+            topLayer = L.mapbox.tileLayer(labelToken);
             topLayer.on('ready', function() {
                 var state = mozMap.getMapState();
 
