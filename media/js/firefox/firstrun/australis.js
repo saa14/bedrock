@@ -2,6 +2,7 @@
     'use strict';
 
     var tourIsVisible = false;
+    var tourHasFinished = false;
     var $tour = $('#firstrun').detach();
     var $modal = $('#modal').detach().show();
 
@@ -69,38 +70,47 @@
     function closeTour() {
         Mozilla.UITour.hideHighlight();
         $tour.removeClass('in');
-        $('#modal').fadeOut();
+        $modal.fadeOut(function () {
+            $('body').removeClass('noscroll');
+            tourIsVisible = false;
+            tourHasFinished = true;
+        });
     }
 
     function compactTour() {
+        var title = $('.ui-tour-list .tour-step.current h2').text();
         tourIsVisible = false;
         Mozilla.UITour.hideHighlight();
         Mozilla.UITour.hideMenu('appmenu');
-        $('#firstrun').removeClass('in').addClass('compact');
-        $('.ui-tour-list .tour-step.current .tour-content').fadeOut();
-        $('.ui-tour-list .tour-step.current .tour-video').fadeOut();
+        $tour.removeClass('in').addClass('compact');
+        $('.ui-tour-list').fadeOut('fast');
+        $('.progress-step').fadeOut('fast');
         $('.ui-tour-controls .prev').fadeOut();
         $('.ui-tour-controls .close').fadeOut();
         $('.ui-tour-controls .next').addClass('up');
         $('button.up').one('click', expandTour);
-        $('#modal').fadeOut('slow', function () {
+        $modal.fadeOut('slow', function () {
             $('body').removeClass('noscroll');
+            $('.compact-title').html('<h2>' + title + '</h2>').fadeIn();
+            $('.progress-step').addClass('compact').fadeIn();
         });
     }
 
     function expandTour() {
         tourIsVisible = true;
         window.scrollTo(0,0);
-        $('#firstrun').removeClass('compact').addClass('in');
-        $('.ui-tour-list .tour-step.current .tour-content').fadeIn();
-        $('.ui-tour-list .tour-step.current .tour-video').fadeIn();
+        $tour.removeClass('compact').addClass('in');
+        $('.compact-title').fadeOut('fast');
+        $('.progress-step').fadeOut('fast');
         $('.ui-tour-controls .prev').fadeIn();
         $('.ui-tour-controls .close').fadeIn();
         $('.ui-tour-controls .up').removeClass('up');
         $('button.close').one('click', compactTour);
-        $('#modal').fadeIn('slow', function () {
+        $modal.fadeIn('slow', function () {
             $('body').addClass('noscroll');
             $('.ui-tour-list li.current .step-target').trigger('tour-step');
+            $('.ui-tour-list').fadeIn();
+            $('.progress-step').removeClass('compact').fadeIn();
         });
 
     }
@@ -115,8 +125,8 @@
         $('button.step').removeAttr('disabled');
         updateControls();
 
-        $('#modal').fadeIn('fast', function () {
-            $tour.addClass('in');
+        $modal.fadeIn('fast', function () {
+            $tour.addClass('in').focus();
             tourIsVisible = true;
         });
 
@@ -131,13 +141,13 @@
             Mozilla.UITour.hideHighlight();
             Mozilla.UITour.hideInfo();
             Mozilla.UITour.hideMenu('appmenu');
-        } else  {
+        } else {
             if (tourIsVisible) {
                 var step = $('.ui-tour-list li.current').data('step');
                 $('.ui-tour-list li.current .step-target').delay(100).trigger('tour-step');
                 $('.progress-step span').text(step);
                 $('.progress-step progress').val(step);
-            } else {
+            } else if (!tourHasFinished) {
                 $('.tour-init').trigger('tour-step');
             }
         }
@@ -145,6 +155,7 @@
 
     function init () {
         var $doc = $(document);
+        window.scrollTo(0,0);
         $('body').append($modal).append($tour).addClass('noscroll');
 
         $('.tour-highlight').on('tour-step', function () {

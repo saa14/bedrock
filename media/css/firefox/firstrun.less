@@ -214,6 +214,15 @@ body.noscroll {
         margin: 0 auto;
     }
 
+    .compact-title {
+        display: none;
+        float: left;
+        h2 {
+            font-size: 16px;
+            padding: 27px 0 0 5px;
+        }
+    }
+
     .ui-tour-list {
         position: relative;
         list-style-type: none;
@@ -372,32 +381,18 @@ body.noscroll {
             transform: rotate(-90deg);
         }
     }
-    .ui-tour-list {
-        .tour-step {
-            padding: 0;
-        }
-        .tour-content {
-            display: none;
-        }
-        h2 {
-            margin: 0 0 0 10px;
-            padding: 0;
-            font-size: 16px;
-            line-height: 72px;
-            transition: font 1s ease;
-        }
+}
+
+#firstrun .progress-step.compact {
+    margin-top: @baseLine / 2;
+    border-right: 1px solid #c7c7c7;
+    padding: 0 10px (@baseLine / 2) 0;
+    progress {
+        margin: 0 auto;
     }
-    .progress-step {
-        margin-top: @baseLine / 2;
-        border-right: 1px solid #c7c7c7;
-        padding: 0 10px (@baseLine / 2) 0;
-        progress {
-            margin: 0 auto;
-        }
-        .logo {
-            float: left;
-            margin: 0 10px 0 0;
-        }
+    .logo {
+        float: left;
+        margin: 0 10px 0 0;
     }
 }
 
