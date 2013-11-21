@@ -2,7 +2,7 @@
     'use strict';
 
     var tourIsVisible = false;
-    var tourHasFinished = false;
+    var tourHasStarted = false;
     var $tour = $('#firstrun').detach();
     var $modal = $('#modal').detach().show();
 
@@ -73,7 +73,6 @@
         $modal.fadeOut(function () {
             $('body').removeClass('noscroll');
             tourIsVisible = false;
-            tourHasFinished = true;
         });
     }
 
@@ -128,6 +127,7 @@
         $modal.fadeIn('fast', function () {
             $tour.addClass('in').focus();
             tourIsVisible = true;
+            tourHasStarted = true;
         });
 
         $('.modal-inner').addClass('out');
@@ -147,7 +147,7 @@
                 $('.ui-tour-list li.current .step-target').delay(100).trigger('tour-step');
                 $('.progress-step span').text(step);
                 $('.progress-step progress').val(step);
-            } else if (!tourHasFinished) {
+            } else if (!tourHasStarted) {
                 $('.tour-init').trigger('tour-step');
             }
         }
