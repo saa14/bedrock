@@ -80,6 +80,6 @@ urlpatterns = patterns('',
     # In the future this should automatically go to the latest version's notes
     redirect(r'^firefox/os/notes/$', '/firefox/os/notes/1.0.1/'),
 
+    # Bug 896585 - Send /contact/ to the spaces landing
     redirect(r'^contact/', '/contact/spaces/'),
-#    redirect(r'^contact/spaces/$', '/contact/spaces/mountain-view/'),
 )
