@@ -2,29 +2,6 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-// (function() {
-//     "use strict";
-
-//     function accordion() {
-//       $('.accordion .submenu').hide();
-// //      $('.accordion .submenu:first').show().parent().addClass('open'); // open first submenu
-//       $('.accordion .hasmenu > a').on('click', function(e) {
-//         e.preventDefault();
-//         var next = $(this).next();
-//         if((next.is('.submenu')) && (next.is(':visible'))) {
-//             next.slideUp().parent().removeClass('open');
-//         }
-//         if((next.is('.submenu')) && (!next.is(':visible'))) {
-//             $('.accordion .submenu:visible').slideUp().parent().removeClass('open');
-//             next.slideDown().parent().addClass('open');
-//         }
-//       });
-//     }
-//     // Call it once onload to initialize
-//     accordion();
-
-// })();
-
 (function($) {
     "use strict";
 
@@ -56,43 +33,50 @@
          * This should only be called once on page load.
          */
         init: function () {
-            // mapbox api token.
+            // get the mapbox api token.
             var token = $('#main-content').data('mapbox');
-            // touch support detection.
-            var touch = L.Browser.touch || L.Browser.msTouch;
-            // initiate map.
-            map = L.mapbox.map('map', token, {
-                zoomControl: !touch
+            // initialize map and center.
+            map = L.mapbox.map('map').setView([32, 0], 2);
+            // load mozilla custom map tiles
+            var mapLayer = L.mapbox.tileLayer(token,{
+                detectRetina: true
             });
-            // disable map zoom on scroll.
-            map.scrollWheelZoom.disable();
-            // set page nav state.
-            mozMap.setInitialPageNavState();
-            // crerate spaces markers.
-            mozMap.initSpacesMarkers();
-            // create community layers.
-            mozMap.initCommunityLayers();
-            // set the map state (i.e. spaces or communities)
-            mozMap.setMapState();
-            // store reference to the initial map content
-            mozMap.setInitialContentState();
-            // bind events on tab navigation.
-            mozMap.bindTabNavigation();
-            // init history.js.
-            mozMap.bindHistory();
-            // split the label layer for more control.
-            mozMap.splitLabelLayer();
-            // disable dragging for touch devices.
-            if (touch) {
-                // disable drag and zoom handlers.
-                map.dragging.disable();
-                map.touchZoom.disable();
-                map.doubleClickZoom.disable();
-                // disable tap handler, if present.
-                if (map.tap) {
-                    map.tap.disable();
+            // when ready, set the map and page default states
+            mapLayer.on('ready', function () {
+                // touch support detection.
+                var touch = L.Browser.touch || L.Browser.msTouch;
+                // add tile layer to the map
+                mapLayer.addTo(map);
+                // disable map zoom on scroll.
+                map.scrollWheelZoom.disable();
+                // set page nav state.
+                mozMap.setInitialPageNavState();
+                // crerate spaces markers.
+                mozMap.initSpacesMarkers();
+                // create community layers.
+                mozMap.initCommunityLayers();
+                // set the map state (i.e. spaces or communities)
+                mozMap.setMapState();
+                // store reference to the initial map content
+                mozMap.setInitialContentState();
+                // bind events on tab navigation.
+                mozMap.bindTabNavigation();
+                // init history.js.
+                mozMap.bindHistory();
+                // split the label layer for more control.
+                mozMap.splitLabelLayer();
+                // disable dragging for touch devices.
+                if (touch) {
+                    // disable drag and zoom handlers.
+                    map.dragging.disable();
+                    map.touchZoom.disable();
+                    map.doubleClickZoom.disable();
+                    // disable tap handler, if present.
+                    if (map.tap) {
+                        map.tap.disable();
+                    }
                 }
-            }
+            });
         },
 
         /*
@@ -768,7 +752,9 @@
         splitLabelLayer: function () {
             topPane = map._createPane('leaflet-top-pane', map.getPanes().mapPane);
             // this custom map layer only contains country names, no map!
-            topLayer = L.mapbox.tileLayer('mozilla-webprod.map-f1uagdlz');
+            topLayer = L.mapbox.tileLayer('mozilla-webprod.map-f1uagdlz', {
+                detectRetina: true
+            });
             topLayer.on('ready', function() {
                 var state = mozMap.getMapState();
 
