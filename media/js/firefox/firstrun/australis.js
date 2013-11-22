@@ -97,7 +97,7 @@
 
     function expandTour() {
         tourIsVisible = true;
-        window.scrollTo(0,0);
+        //window.scrollTo(0,0);
         $tour.removeClass('compact').addClass('in');
         $('.compact-title').fadeOut('fast');
         $('.progress-step').fadeOut('fast');
@@ -116,7 +116,7 @@
 
     function startTour() {
 
-        window.scrollTo(0,0);
+        //window.scrollTo(0,0);
         tourIsVisible = true;
 
         $('button.close').one('click', compactTour);
@@ -155,7 +155,7 @@
 
     function init () {
         var $doc = $(document);
-        window.scrollTo(0,0);
+        //window.scrollTo(0,0);
         $('body').append($modal).append($tour).addClass('noscroll');
 
         $('.tour-highlight').on('tour-step', function () {
