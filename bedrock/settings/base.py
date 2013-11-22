@@ -882,5 +882,5 @@ MOBILIZER_LOCALE_LINK = {
     'cs': 'https://wiki.mozilla.org/Mobilizer/MobilizerCzechRepublic/'
 }
 
-# Mapbox token for Mozilla map styles
-MAPBOX_TOKEN = 'mozilla-webprod.e91ef8b3'
+# Mapbox token for spaces and communities pages
+MAPBOX_TOKEN = 'examples.map-9ijuk24y'
