@@ -19,6 +19,11 @@
   {{ js('contact-spaces') }}
 {% endblock %}
 
+{% block string_data %}
+  {# L10n: Used as a label for a form dropdown to navigate to other pages. #}
+  data-nav-select='{{_('Select')}}'
+{% endblock %}
+
 {% block site_header_logo %}{% endblock %}
 
 {% block content %}
@@ -131,12 +136,12 @@
             <li data-id="brazil"><a href="{{ url('mozorg.contact.communities.brazil') }}">{{ _('Brazil') }}</a></li>
             <li data-id="chile"><a href="{{ url('mozorg.contact.communities.chile') }}">{{ _('Chile') }}</a></li>
             <li data-id="colombia"><a href="{{ url('mozorg.contact.communities.colombia') }}">{{ _('Colombia') }}</a></li>
-            <li data-id="costa-rica"><a href="#">{{ _('Costa Rica') }}</a></li>
+            <li data-id="costa-rica"><a href="{{ url('mozorg.contact.communities.costa-rica') }}">{{ _('Costa Rica') }}</a></li>
             <li data-id="cuba"><a href="#">{{ _('Cuba') }}</a></li>
             <li data-id="ecuador"><a href="#">{{ _('Ecuador') }}</a></li>
-            <li data-id="mexico"><a href="#">{{ _('Mexico') }}</a></li>
+            <li data-id="mexico"><a href="{{ url('mozorg.contact.communities.mexico') }}">{{ _('Mexico') }}</a></li>
             <li data-id="nicaragua"><a href="#">{{ _('Nicaragua') }}</a></li>
-            <li data-id="paraguay"><a href="#">{{ _('Paraguay') }}</a></li>
+            <li data-id="paraguay"><a href="{{ url('mozorg.contact.communities.paraguay') }}">{{ _('Paraguay') }}</a></li>
             <li data-id="peru"><a href="#">{{ _('Peru') }}</a></li>
             <li data-id="uruguay"><a href="#">{{ _('Uruguay') }}</a></li>
             <li data-id="venezuela"><a href="#">{{ _('Venezuela') }}</a></li>
@@ -327,7 +332,7 @@
       <ul class="meta-help">
         <li><a href="https://wiki.mozilla.org/People:MozSpaces_Guidelines">{{ _('MozSpace Guidelines') }}</a></li>
         <li>
-        {% trans link_question='#' %}{# TODO: where? #}
+        {% trans link_question='mailto:mozspaces@mozilla.com' %}
           Have a question about MozSpaces? <a href="{{ link_question }}" class="go">Ask us here</a>
         {% endtrans %}
         </li>
@@ -341,8 +346,8 @@
 
     <aside id="meta-communities" class="meta-category">
       <ul class="meta-help">
-        <li><a href="#getinvolved">{{ _('Get involved') }}</a></li>
-        <li><a href="#start">{{ _('Start a Mozilla community') }}</a></li>
+        <li><a href="{{ url('mozorg.contribute') }}" class="go">{{ _('Get involved') }}</a></li>
+        <li><a href="https://wiki.mozilla.org/MCS" class="go">{{ _('Learn more about Mozilla communities') }}</a></li>
       </ul>
     </aside>
 
@@ -361,8 +366,8 @@
       <ul>
         <li><a href="https://facebook.com/mozilla" hreflang="en-US">{{ _('Facebook') }}</a></li>
         <li><a href="https://twitter.com/mozilla" hreflang="en-US">{{ _('Twitter') }}</a></li>
-        <li><a href="#forums">{{ _('Forums &amp; e-mail lists') }}</a></li>
-        <li><a href="#irc">{{ _('IRC channels') }}</a></li>
+        <li><a href="{{ php_url('/about/forums') }}">{{ _('Forums &amp; e-mail lists') }}</a></li>
+        <li><a href="https://wiki.mozilla.org/IRC">{{ _('IRC channels') }}</a></li>
       </ul>
     </div>
 
@@ -380,10 +385,10 @@
       <ul>
         <li><a href="https://support.mozilla.org/">{{ _('Get support') }}</a></li>
         <li><a href="{{ press_blog_url() }}">{{ _('Press inquiries') }}</a></li>
-        <li><a href="#licensing">{{ _('Browser distribution &amp; licensing') }}</a></li>
-        <li><a href="#fxfeedback">{{ _('Firefox feedback') }}</a></li>
-        <li><a href="#broken">{{ _('Report a broken site') }}</a></li>
-        <li><a href="#software">{{ _('Software issues') }}</a></li>
+        <li><a href="{{ url('foundation.licensing') }}">{{ _('Browser distribution &amp; licensing') }}</a></li>
+        <li><a href="https://input.mozilla.org/">{{ _('Firefox feedback') }}</a></li>
+        <li><a href="http://support.mozilla.org/kb/Websites+look+wrong">{{ _('Report a broken site') }}</a></li>
+        <li><a href="https://developer.mozilla.org/docs/Mozilla/QA/Bug_writing_guidelines">{{ _('How to report software issues') }}</a></li>
       </ul>
     </div>
   </section>
