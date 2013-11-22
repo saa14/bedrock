@@ -98,7 +98,7 @@
     function expandTour() {
         tourIsVisible = true;
         //window.scrollTo(0,0);
-        $tour.removeClass('compact').addClass('in');
+        $tour.removeClass('compact').addClass('in').focus();
         $('.compact-title').fadeOut('fast');
         $('.progress-step').fadeOut('fast');
         $('.ui-tour-controls .prev').fadeIn();
