@@ -838,7 +838,9 @@
                 }
 
                 if (itemId) {
-                    $('#nav-spaces li[data-id="' + itemId + '"] a').trigger('click');
+                    setTimeout(function () {
+                        $('#nav-spaces li[data-id="' + itemId + '"] a').trigger('click');
+                    }, 100);
                 }
             }
         },
