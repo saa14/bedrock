@@ -139,15 +139,22 @@
                     mozMap.updateCommunityNavItem(state.data.id);
                     mozMap.showCommunityContent(state.url, state.data.id);
 
-                } else  {
+                } else {
+                    // if state.data.tab is undefined we must be on our
+                    // first history item when the page loaded
+                    if (current !== initialTabStateId) {
+                        mozMap.updateTabState(initialTabStateId);
+                        mozMap.setMapState();
+                    }
+
                     if (initialTabStateId === 'spaces') {
                         mozMap.toggleNav('spaces');
-                        mozMap.updateSpaceNavItem();
-                        mozMap.showSpace();
+                        mozMap.updateSpaceNavItem(initContentId);
+                        mozMap.showSpace(null, initContentId);
                     } else if (initialTabStateId === 'communities') {
                         mozMap.toggleNav('communities');
-                        mozMap.updateCommunityNavItem();
-                        mozMap.showCommunityContent();
+                        mozMap.updateCommunityNavItem(initContentId);
+                        mozMap.showCommunityContent(null, initContentId);
                     }
                 }
             });
@@ -460,15 +467,7 @@
             }
 
             $('#nav-spaces li.current').removeClass('current');
-
-            if (!id) {
-                // if 'id' is undefined then statechange has fired before our first
-                // pushState event, so set current item back to the initial content
-                // data id when the page loaded.
-                $('#nav-spaces li[data-id="' + initContentId + '"]').addClass('current');
-            } else {
-                $('#nav-spaces li[data-id="' + id + '"]').addClass('current');
-            }
+            $('#nav-spaces li[data-id="' + id + '"]').addClass('current');
             mozMap.scrollToContent();
         },
 
@@ -489,15 +488,7 @@
             }
 
             $('#nav-communities li.current').removeClass('current');
-
-            if (!id) {
-                // if 'id' is undefined then statechange has fired before our first
-                // pushState event, so set current item back to the initial content
-                // data id when the page loaded.
-                $('#nav-communities li[data-id="' + initContentId + '"]').addClass('current');
-            } else {
-                $('#nav-communities li[data-id="' + id + '"]').addClass('current');
-            }
+            $('#nav-communities li[data-id="' + id + '"]').addClass('current');
             mozMap.toggleCommunitySubMenu();
         },
 
