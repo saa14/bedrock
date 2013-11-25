@@ -119,24 +119,36 @@
                 var current = mozMap.getMapState();
 
                 // check if we need to change the map state
-                if (current !== state.data.tab) {
+                if (state.data.tab && current !== state.data.tab) {
                     mozMap.updateTabState(state.data.tab);
                     mozMap.setMapState();
                 }
 
-                if (state.data.tab === 'spaces') {
+                if (state.data.tab && state.data.tab === 'spaces') {
                     // Hide community nav+meta and show spaces nav+meta
                     mozMap.toggleNav('spaces');
                     // Update current nav item to the active space
                     mozMap.updateSpaceNavItem(state.data.id);
                     // Show the space based on event state url
                     mozMap.showSpace(state.url, state.data.id);
-                } else if (state.data.tab === 'communities') {
+
+                } else if (state.data.tab && state.data.tab === 'communities') {
                     // Hide spaces nav+meta and show community nav+meta
                     mozMap.toggleNav('communities');
                     // Update community region on the map
                     mozMap.updateCommunityNavItem(state.data.id);
                     mozMap.showCommunityContent(state.url, state.data.id);
+
+                } else  {
+                    if (initialTabStateId === 'spaces') {
+                        mozMap.toggleNav('spaces');
+                        mozMap.updateSpaceNavItem();
+                        mozMap.showSpace();
+                    } else if (initialTabStateId === 'communities') {
+                        mozMap.toggleNav('communities');
+                        mozMap.updateCommunityNavItem();
+                        mozMap.showCommunityContent();
+                    }
                 }
             });
         },
