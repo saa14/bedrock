@@ -76,6 +76,8 @@
                         map.tap.disable();
                     }
                 }
+
+                mozMap.checkForHash();
             });
         },
 
@@ -788,6 +790,56 @@
         setPageTitle: function (id) {
             if (titleCache.hasOwnProperty(id)) {
                 document.title = titleCache[id];
+            }
+        },
+
+        /*
+         * Legacy support for the old contact page hash URL's
+         */
+        checkForHash: function () {
+            var hashChange = ('onhashchange' in window);
+            var itemId;
+
+            if (hashChange && window.location.hash) {
+                switch (window.location.hash) {
+                case '#map-mountain_view':
+                    itemId = 'mountain-view';
+                    break;
+                case '#map-new-zealand':
+                    itemId = 'auckland';
+                    break;
+                case '#map-china':
+                    itemId = 'beijing';
+                    break;
+                case '#map-europe-london':
+                    itemId = 'london';
+                    break;
+                case '#map-europe-paris':
+                    itemId = 'paris';
+                    break;
+                case '#map-portland':
+                    itemId = 'portland';
+                    break;
+                case '#map-us-san-francisco':
+                    itemId = 'san-francisco';
+                    break;
+                case '#map-taiwan-taipei':
+                    itemId = 'taipei';
+                    break;
+                case '#map-japan':
+                    itemId = 'tokyo';
+                    break;
+                case '#map-canada-toronto':
+                    itemId = 'toronto';
+                    break;
+                case '#map-canada-vancouver':
+                    itemId = 'vancouver';
+                    break;
+                }
+
+                if (itemId) {
+                    $('#nav-spaces li[data-id="' + itemId + '"] a').trigger('click');
+                }
             }
         },
 
