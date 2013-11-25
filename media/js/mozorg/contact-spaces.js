@@ -162,7 +162,6 @@
         toggleCommunitySubMenu: function () {
             var $current = $('#nav-communities li.current');
             var $parent = $current.parent();
-            var contentOffset = $('#page-content').offset().top;
 
             if ($current.hasClass('hasmenu') && !$current.hasClass('open')) {
                 $('.accordion .submenu:visible').slideUp().parent().removeClass('open');
@@ -179,8 +178,14 @@
                 $('.accordion .submenu:visible').slideUp().parent().removeClass('open');
             }
 
-            // if user has scrolled past the map, autoscroll to the top of the
-            // content when the menu accordion resizes
+            mozMap.scrollToContent();
+        },
+
+        /*
+         * if user has scrolled past the map, autoscroll to the top of the content
+         */
+        scrollToContent: function () {
+            var contentOffset = $('#page-content').offset().top;
             if ($(window).scrollTop() > contentOffset) {
                 $('html, body').animate({
                     scrollTop: contentOffset
@@ -452,6 +457,7 @@
             } else {
                 $('#nav-spaces li[data-id="' + id + '"]').addClass('current');
             }
+            mozMap.scrollToContent();
         },
 
         /*
