@@ -38,7 +38,7 @@
             // get the mapbox api token.
             var token = $('#main-content').data('mapbox');
             // initialize map and center.
-            map = L.mapbox.map('map').setView([32, 0], 2);
+            map = L.mapbox.map('map').setView([28, 0], 2);
             // load mozilla custom map tiles
             var mapLayer = L.mapbox.tileLayer(token,{
                 detectRetina: true
@@ -460,7 +460,7 @@
             map.markerLayer.off('click', mozMap.onMarkerClick);
             map.markerLayer.off('mouseover', mozMap.openMarkerPopup);
             map.markerLayer.off('mouseout', mozMap.closeMarkerPopup);
-            map.setView([32, 0], 2);
+            map.setView([28, 0], 2);
         },
 
         /*
@@ -493,7 +493,7 @@
         doClickMarker: function (id) {
             // if we're on the landing page zoom out to show all markers.
             if (id === 'spaces') {
-                map.setView([32, 0], 2);
+                map.setView([28, 0], 2);
                 return;
             }
             // else find the right marker and fire a click.
@@ -638,7 +638,7 @@
             communityLayers.addLayer(asiaSouthPacific);
             communityLayers.addLayer(antarctica);
             communityLayers.addLayer(africaMiddleEast);
-            map.setView([32, 0], 2);
+            map.setView([28, 0], 2);
         },
 
         /*
