@@ -117,6 +117,10 @@ urlpatterns = patterns('',
     page('contact/communities/india', 'mozorg/contact/communities/india.html'),
     page('contact/communities/indonesia', 'mozorg/contact/communities/indonesia.html'),
     page('contact/communities/japan', 'mozorg/contact/communities/japan.html'),
+    page('contact/communities/malaysia', 'mozorg/contact/communities/malaysia.html'),
+    page('contact/communities/myanmar', 'mozorg/contact/communities/myanmar.html'),
+    page('contact/communities/nepal', 'mozorg/contact/communities/nepal.html'),
+    page('contact/communities/south-korea', 'mozorg/contact/communities/south-korea.html'),
 
 
     page('contact/communities/algeria', 'mozorg/contact/communities/algeria.html'),
