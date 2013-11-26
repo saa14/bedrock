@@ -163,53 +163,66 @@
          * Generate nav dropdown from list
          */
         initMobileNav: function () {
-            var $window = $(window);
-            var $body = $('body');
             var hasMediaQueries = (typeof matchMedia !== 'undefined');
             var id = $('#entry-container .entry').attr('id');
 
             // If the browser supports media queries, check the width onload and onresize.
-            // If not, just lock it in permanent wideMode.
             if (hasMediaQueries) {
                 mozMap.checkScreenSize();
-                $window.on('resize', function() {
+                $(window).on('resize', function() {
                     clearTimeout(this.resizeTimeout);
                     this.resizeTimeout = setTimeout(mozMap.checkScreenSize, 200);
                 });
             }
 
+            // Create select form inputs for primary mobile navigation
             $('.nav-category').each(function() {
                 var $select = $('<select class="nav-category-select">').prependTo('#page-content');
-                var $label = $('<option value="" disabled selected>--'+window.trans('nav-select')+'--</option>').prependTo($select);
+                $('<option value="" disabled selected>--' + window.trans('nav-select') + '--</option>').prependTo($select);
                 $(this).find('li').each(function() {
                     var $li = $(this),
                         $a = $li.find('> a'),
                         $p = $li.parents('li'),
                         prefix = new Array($p.length + 1).join('-');
 
-                    var $option = $('<option>')
-                        .text(prefix + ' ' + $a.text())
-                        .attr('data-opt-id', $(this).data('id'))
+                    $('<option>').text(prefix + ' ' + $a.text())
                         .val($(this).data('id'))
                         .appendTo($select);
                 });
-                $select.attr('id', $(this).attr('id')+'-select');
+                $select.attr('id', $(this).attr('id') + '-select');
             });
+
+            // Set the selected item in the mobile nav option menu
             mozMap.setSelectedMobileNavItem(id);
         },
 
+        /*
+         * Bind the change event on mobile form navigation
+         */
         bindMobileNavChange: function () {
             $('.nav-category-select').on('change', mozMap.onMobileNavChange);
         },
 
+        /*
+         * Unbind the change event on mobile form navigation
+         */
         unBindMobileNavChange: function () {
             $('.nav-category-select').off('change', mozMap.onMobileNavChange);
         },
 
+        /*
+         * Called when mobile nav change event is fired
+         * Here we just find the right item in the menu and trigger a click
+         * which in turn handles all the push state itself
+         */
         onMobileNavChange: function () {
-            $('.nav-category li[data-id="' + $(this).val() + '"] a').trigger('click');
+            $('.nav-category li[data-id="' + $(this).val() + '"] > a').trigger('click');
         },
 
+        /*
+         * Sets the current mobile navigation option
+         * Param: @id string space/community identifier
+         */
         setSelectedMobileNavItem: function (id) {
             var state = mozMap.getMapState();
             // unbind change listener
@@ -217,10 +230,10 @@
             // update the selected item
             if (state === 'spaces' && id !== 'spaces') {
                 $('#nav-spaces-select option:selected').removeAttr('selected');
-                $('#nav-spaces-select option[data-opt-id="' + id + '"]').attr('selected', 'selected');
+                $('#nav-spaces-select option[value="' + id + '"]').attr('selected', 'selected');
             } else if (state === 'communities' && id !== 'communities') {
                 $('#nav-communities-select option:selected').removeAttr('selected');
-                $('#nav-communities-select option[data-opt-id="' + id + '"]').attr('selected', 'selected');
+                $('#nav-communities-select option[value="' + id + '"]').attr('selected', 'selected');
             } else {
                 $('#nav-communities-select option:selected').removeAttr('selected');
                 $('.nav-category-select option[disabled]').attr('selected', 'selected');
@@ -229,6 +242,10 @@
             mozMap.bindMobileNavChange();
         },
 
+        /*
+         * Checks the screen size and toggles navigation state
+         * Called on window 'resize' event
+         */
         checkScreenSize: function () {
             var state = mozMap.getMapState();
             if (window.matchMedia('screen and (min-width: 761px)').matches) {
@@ -274,17 +291,20 @@
             var $current = $('#nav-communities li.current');
             var $parent = $current.parent();
 
+            // if current item has a sub-menu which isn't open
             if ($current.hasClass('hasmenu') && !$current.hasClass('open')) {
                 $('.accordion .submenu:visible').slideUp().parent().removeClass('open');
                 $current.addClass('open');
                 $current.find('.submenu').slideDown();
             }
 
+            // if current item is within a sub-menu and it's parent is not open
             if ($parent.hasClass('submenu') && !$parent.is(':visible')) {
                 $('.accordion .submenu:visible').slideUp().parent().removeClass('open');
                 $parent.slideDown().parent().addClass('open');
             }
 
+            // if neither current item or it's parent has no sub-menu
             if  (!$current.hasClass('hasmenu') && !$parent.hasClass('submenu')) {
                 $('.accordion .submenu:visible').slideUp().parent().removeClass('open');
             }
@@ -543,10 +563,23 @@
             var itemId = $current.data('id');
             var tabId = 'communities';
 
-            History.pushState({
-                id: itemId,
-                tab: tabId
-            }, document.title, this.href);
+            if (!$current.hasClass('current')) {
+                History.pushState({
+                    id: itemId,
+                    tab: tabId
+                }, document.title, this.href);
+                return;
+            }
+
+            // allow the current selected nav to toggle when clicked
+            if ($current.hasClass('hasmenu') && !$current.hasClass('open')) {
+                $('.accordion .submenu:visible').slideUp().parent().removeClass('open');
+                $current.addClass('open');
+                $current.find('.submenu').slideDown();
+            } else if ($current.hasClass('hasmenu') && $current.hasClass('open')) {
+                $('.accordion .submenu:visible').slideUp().parent().removeClass('open');
+                $current.removeClass('open');
+            }
         },
 
         /*
@@ -590,8 +623,7 @@
                 $('#nav-communities li.current').removeClass('current');
                 // hide the community sub menu's
                 $('.accordion .submenu').hide();
-                // clear the community layers
-                mozMap.clearCommunityLayers();
+                $('#nav-communities li.open').removeClass('open');
                 mozMap.setSelectedMobileNavItem(id);
                 return;
             }
@@ -604,22 +636,28 @@
         },
 
         /*
+         * Show all community layers on the map at once
+         */
+        showAllCommunityLayers: function () {
+            mozMap.clearCommunityLayers();
+            communityLayers.addLayer(northAmerica);
+            communityLayers.addLayer(latinAmerica);
+            communityLayers.addLayer(europe);
+            communityLayers.addLayer(asiaSouthPacific);
+            communityLayers.addLayer(antarctica);
+            communityLayers.addLayer(africaMiddleEast);
+            map.setView([32, 0], 2);
+        },
+
+        /*
          * Updates the current active tab and then updates the map state.
          * Param: @tab tab string identifier (e.g. 'spaces' or 'communities').
          */
         updateTabState: function (tab) {
             $('ul.category-tabs li.current').removeClass('current');
-            if (!tab) {
-                // if 'tab' is undefined then statechange has fired before our first
-                // pushState event, so set active tab back to the initial state when
-                // the page loaded.
-                $('ul.category-tabs li[data-id="' + initialTabStateId + '"]').addClass('current');
-            } else {
-                $('ul.category-tabs li[data-id="' + tab + '"]').addClass('current');
-            }
+            $('ul.category-tabs li[data-id="' + tab + '"]').addClass('current');
             //remove current sub menu class as we're going to a landing page
             $('.nav-category li.current').removeClass('current');
-
             // hide the community sub menu's
             $('.accordion .submenu').hide();
             $('.accordion .hasmenu').removeClass('open');
@@ -689,8 +727,14 @@
                 region = $nav.parent().data('id');
             }
 
-            // if the layer exists and is not currently shown clear the map and add it.
-            if (layers.hasOwnProperty(region) && !communityLayers.hasLayer(layers[region])) {
+            if (region === 'communities') {
+                mozMap.showAllCommunityLayers();
+                mozMap.highlightLegend();
+                return;
+            }
+
+            // if the layer exists clear the map and add it.
+            if (layers.hasOwnProperty(region)) {
                 mozMap.clearCommunityLayers();
                 communityLayers.addLayer(layers[region]);
                 mozMap.fitRegionToLayer(region);
