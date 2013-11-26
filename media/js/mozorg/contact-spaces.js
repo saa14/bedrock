@@ -230,12 +230,14 @@
             mozMap.unBindMobileNavChange();
             // update the selected item
             if (state === 'spaces' && id !== 'spaces') {
+                $('#nav-spaces-select').find('option:selected').prop("selected", false);
                 $('#nav-spaces-select option[value="' + id + '"]').attr('selected', 'selected');
             } else if (state === 'communities' && id !== 'communities') {
+                $('#nav-communities-select').find('option:selected').prop("selected", false);
                 $('#nav-communities-select option[value="' + id + '"]').attr('selected', 'selected');
             } else {
-                $('#nav-communities-select option:selected').removeAttr('selected');
-                $('#nav-spaces-select option:selected').removeAttr('selected');
+                $('#nav-communities-select').find('option:selected').prop("selected", false);
+                $('#nav-spaces-select').find('option:selected').prop("selected", false);
                 $('.nav-category-select option[disabled]').attr('selected', 'selected');
             }
             // rebind change listener
