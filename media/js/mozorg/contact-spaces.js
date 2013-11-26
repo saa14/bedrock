@@ -237,6 +237,7 @@
                 $('#nav-communities-select option[value="' + id + '"]').attr('selected', 'selected');
             } else {
                 $('#nav-communities-select option:selected').removeAttr('selected');
+                $('#nav-spaces-select option:selected').removeAttr('selected');
                 $('.nav-category-select option[disabled]').attr('selected', 'selected');
             }
             // rebind change listener
