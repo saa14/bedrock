@@ -235,21 +235,25 @@
         font-weight: bold;
     }
 
-    .submenu li {
-        border-bottom: 0;
-        text-transform: none;
+    .submenu {
+        margin: 0;
 
-        a {
-            background-color: @lightBeige;
-            font-size: @smallFontSize;
-            font-weight: normal;
-            padding-left: 30px;
-            color: @textColorPrimary;
+        li {
+            border-bottom: 0;
+            text-transform: none;
 
-            &:hover,
-            &:focus,
-            &:active {
-                background-color: darken(@lightBeige, 3%);
+            a {
+                background-color: @lightBeige;
+                font-size: @smallFontSize;
+                font-weight: normal;
+                padding-left: 30px;
+                color: @textColorPrimary;
+
+                &:hover,
+                &:focus,
+                &:active {
+                    background-color: darken(@lightBeige, 3%);
+                }
             }
         }
     }
