@@ -4,6 +4,20 @@
 
 @import "template-resp.less";
 
+@font-face {
+    font-family: 'Fira Light';
+    src: url('/media/fonts/FiraSans-Light.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Clear Sans Regular';
+    src: url('/media/fonts/ClearSans-Regular.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
 #wrapper {
     padding-bottom: 0;
 }
@@ -48,6 +62,7 @@
     z-index: 9;
     text-align: center;
     border-bottom: 0;
+    height: 1000px;
 }
 
 #email-form-wrapper {
@@ -112,6 +127,300 @@
             color: @textColorTertiary;
             }
         }
+    }
+}
+
+body.noscroll {
+  overflow: hidden;
+}
+
+#modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 101%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 100;
+    font-family: 'Clear Sans Regular';
+    color: #424F5A;
+
+    .modal-inner {
+        position: relative;
+        width: @widthDesktop;
+        margin: 0 auto;
+        h1 {
+            width: 850px;
+            margin: 45px auto 0 auto;
+            padding: 20px 0 40px 150px;
+            min-height: 50px;
+            background: url(/media/img/firefox/firstrun/logo.png?2013-06) 0 0 no-repeat;
+            position: relative;
+            z-index: 10;
+            font-size: 72px;
+            letter-spacing: -3px;
+            color: white;
+            text-shadow: none;
+        }
+        p {
+            font-size: 24px;
+            color: #fff;
+            padding-left: 150px;
+            margin-top: -20px;
+        }
+        transition: all .5s linear;
+        transform: opacity;
+        opacity: 1;
+        &.out {
+            opacity: 0;
+        }
+    }
+}
+
+#firstrun {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    height: 270px;
+    width: 100%;
+    margin: 0 auto;
+    background-color: #f6f6f6;
+    transition: all .5s cubic-bezier(.6,-0.08,.6,1.08);
+    transform: translate(0, 270px);
+    opacity: 0;
+    z-index: 101;
+    outline: none;
+    &.in {
+        transition: all .5s cubic-bezier(.6,-0.08,.6,1.08);
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+    &.out {
+        transition: all .5s cubic-bezier(.6,-0.08,.6,1.08);
+        transform: translate(0, 270px);
+        opacity: 0;
+    }
+    &.compact {
+        position: fixed;
+        transition: all .5s cubic-bezier(.6,-0.08,.6,1.08);
+        transform: translate(0, 198px);
+        opacity: 1;
+    }
+
+    .tour-inner {
+        position: relative;
+        height: 100%;
+        width: @widthDesktop;
+        margin: 0 auto;
+    }
+
+    .compact-title {
+        display: none;
+        float: left;
+        h2 {
+            font-size: 16px;
+            padding: 27px 0 0 5px;
+        }
+    }
+
+    .ui-tour-list {
+        position: relative;
+        list-style-type: none;
+        width: 90%;
+        height: 100%;
+        margin: 0 auto;
+        padding: 0;
+        color: #000;
+        overflow: hidden;
+        ul li {
+            list-style-type: disc;
+        }
+        .tour-step {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: @baseLine 0 0 0;
+            opacity: 0;
+            transform: translate(100%, 0);
+            &.prev-out.current,
+            &.next-out.current,
+            &.current {
+                transition: all 1s cubic-bezier(.6,-0.05,.6,1.06);
+                transform: translate(0, 0);
+                opacity: 1;
+            }
+            &.prev-out {
+                transition: all 1s cubic-bezier(.6,-0.06,.6,1.06);
+                transform: translate(100%, 0);
+                opacity: 0;
+            }
+            &.next-out {
+                transition: all 1s cubic-bezier(.6,-0.06,.6,1.06);
+                transform: translate(-100%, 0);
+                opacity: 0;
+            }
+            h2 {
+                font-family: 'Fira Light';
+                font-size: 35px;
+                color: #737980;
+                line-height: 35px;
+                padding-bottom: @baseLine;
+                border-bottom: 1px solid #C7C7C7;
+                margin: @baseLine auto;
+                transition: font 1s ease;
+            }
+        }
+    }
+
+    .ui-tour-controls {
+        position: absolute;
+        left: 50%;
+        bottom: 246px;
+        height: 40px;
+        width: 106px;
+        line-height: 34px;
+        margin: 0 auto 0 -53px;
+        text-align: center;
+        overflow: hidden;
+        background: #f1f1f1;
+        border-radius: 10px;
+        border: 4px solid #f6f6f6;
+
+        button {
+            position: relative;
+            overflow: hidden;
+            -moz-appearance: none;
+            border: none;
+            text-indent: -9999px;
+            margin: 0 5px;
+            border: 1px solid transparent;
+            cursor: pointer;
+        }
+
+        button:hover {
+            border-radius: 5px;
+            background-color: rgba(255,255,255,0.50);
+            border: 1px solid #FFFFFF;
+        }
+
+        .prev {
+            background: transparent url(/media/img/firefox/firstrun/australis-tour/menu-prev.png) center center no-repeat;
+        }
+
+        .next {
+            background: transparent url(/media/img/firefox/firstrun/australis-tour/menu-next.png) center center no-repeat;
+        }
+
+        .close {
+            background: transparent url(/media/img/firefox/firstrun/australis-tour/tour-close.png) center center no-repeat;
+        }
+
+        .done:hover {
+            background-color: #82C809;
+        }
+
+        .done {
+            border-radius: 5px;
+            background: #6CBE44 url(/media/img/firefox/firstrun/australis-tour/menu-done.png) center center no-repeat;
+        }
+    }
+
+    .progress-step {
+        float: left;
+        width: 10%;
+        margin-top: 20px;
+        text-align: center;
+        font-size: 12px;
+        color: #424F5A;
+        line-height: 22px;
+        progress {
+            display: block;
+            width: 45px;
+            margin: 0 auto;
+        }
+        .logo {
+            width: 43px;
+            height: 44px;
+            margin: @baseLine auto @baseLine / 2 auto;
+            background: transparent url(/media/img/firefox/firstrun/australis-tour/logo.png) top left no-repeat;
+        }
+    }
+
+    .tour-item {
+        width: 60%;
+        float: left;
+        li {
+            font-size: 15px;
+            color: #424F5A;
+            line-height: 1.5;
+        }
+    }
+
+    .tour-video {
+        float: right;
+        width: 35%;
+        .video {
+            width: auto;
+            height: 173px;
+            width: 302px;
+            margin-top: @baseLine;
+            background: transparent url(/media/img/firefox/firstrun/australis-tour/video.png) top left no-repeat;
+        }
+    }
+}
+
+#firstrun.compact {
+    .ui-tour-controls {
+        .up {
+            position: relative;
+            overflow: hidden;
+            transition: transform .5s linear;
+            transform: rotate(-90deg);
+        }
+    }
+}
+
+#firstrun .progress-step.compact {
+    margin-top: @baseLine / 2;
+    border-right: 1px solid #c7c7c7;
+    padding: 0 10px (@baseLine / 2) 0;
+    progress {
+        margin: 0 auto;
+    }
+    .logo {
+        float: left;
+        margin: 0 10px 0 0;
+    }
+}
+
+@media only screen and (min-resolution: 120dpi) {
+    #firstrun .progress-step .logo {
+        background: transparent url(/media/img/firefox/firstrun/australis-tour/logo@2x.png) top left no-repeat;
+        background-size: 43px 44px;
+    }
+    #firstrun .ui-tour-controls .next {
+        background: transparent url(/media/img/firefox/firstrun/australis-tour/menu-next@2x.png) center center no-repeat;
+        background-size: 14px 15px;
+    }
+    #firstrun .ui-tour-controls .prev {
+        background: transparent url(/media/img/firefox/firstrun/australis-tour/menu-prev@2x.png) center center no-repeat;
+        background-size: 14px 15px;
+    }
+    #firstrun .ui-tour-controls .close {
+        background: transparent url(/media/img/firefox/firstrun/australis-tour/tour-close@2x.png) center center no-repeat;
+        background-size: 15px 15px;
+    }
+    #firstrun .ui-tour-controls .done {
+        background: #6CBE44 url(/media/img/firefox/firstrun/australis-tour/menu-done.png) center center no-repeat;
+        background-size: 15px 12px;
+    }
+    #firstrun .tour-video .video {
+        background: transparent url(/media/img/firefox/firstrun/australis-tour/video@2x.png) top left no-repeat;
+        background-size: 302px 173px;
     }
 }
 
