@@ -5,64 +5,7 @@
 (function($) {
     "use strict";
 
-    var $window = $(window);
-    var $body = $('body');
-    var wideMode = false;
-    var hasMediaQueries = (typeof matchMedia !== 'undefined');
-
-    // If the browser supports media queries, check the width onload and onresize.
-    // If not, just lock it in permanent wideMode.
-    if (hasMediaQueries) {
-        checkWidth();
-        $window.on('resize', function() {
-            clearTimeout(this.resizeTimeout);
-            this.resizeTimeout = setTimeout(checkWidth, 200);
-        });
-    } else {
-        wideMode = true;
-    }
-
-    function checkWidth() {
-        if (window.matchMedia('screen and (min-width: 761px)').matches) {
-            wideMode = true;
-//            $('.nav-category-select').hide();
-//            $('.nav-category').show();
-        } else {
-            wideMode = false;
-//            $('.nav-category').hide();
-//            $('.nav-category-select').show();
-        }
-    }
-
-    // Generate nav dropdown from list
-    $('.nav-category').each(function() {
-        var $select = $('<select class="nav-category-select">').prependTo('#page-content');
-        var $label = $('<option value="" disabled>--'+window.trans('nav-select')+'--</option>').prependTo($select);
-        $(this).find('li').each(function() {
-            var $li = $(this),
-                $a = $li.find('> a'),
-                $p = $li.parents('li'),
-                prefix = new Array($p.length + 1).join('-');
-
-            var $option = $('<option>')
-                .text(prefix + ' ' + $a.text())
-                .attr('data-opt-id', $(this).data('id'))
-                .val($a.attr('href'))
-                .appendTo($select);
-
-            if ($li.hasClass('current')) {
-                $option.attr('selected', 'selected');
-            }
-            else {
-                $label.attr('selected', 'selected');
-            }
-        });
-        $select.attr('id', $(this).attr('id')+'-select');
-
-        $select.on('change', function(){
-            window.location.href=$(this).val();
-        });
-    });
+    var wideMode = true;
 
     var map = null;
     var xhr = null;
@@ -116,6 +59,8 @@
                 mozMap.initCommunityLayers();
                 // set the map state (i.e. spaces or communities)
                 mozMap.setMapState();
+                // create mobile navigation
+                mozMap.initMobileNav();
                 // store reference to the initial map content
                 mozMap.setInitialContentState();
                 // bind events on tab navigation.
@@ -153,27 +98,10 @@
             $('ul.category-tabs li[data-id="' + tab + '"]').addClass('current');
 
             // set the current list menu navigation item
-            if (tab === 'spaces') {
-                if (wideMode) {
-                    $('#nav-spaces, #meta-spaces').show();
-                    $('#nav-spaces li[data-id="' + id + '"]').addClass('current');
-                } else {
-                    $('#nav-spaces-select, #meta-spaces').show();
-                    $('#nav-spaces-select option[data-opt-id="' + id + '"]').attr('selected', 'selected');
-                }
-            } else if (tab === 'communities') {
-                if (wideMode) {
-                    $('#nav-communities, #meta-communities').show();
-                    $('#nav-communities li[data-id="' + id + '"]').addClass('current');
-                } else {
-                    $('#nav-communities-select, #meta-spaces').show();
-                    $('#nav-communities-select option[data-opt-id="' + id + '"]').attr('selected', 'selected');
-                }
-            }
+            $('.nav-category li[data-id="' + id + '"]').addClass('current');
 
             // hide the community sub menu's
             $('.accordion .submenu').hide();
-
             mozMap.toggleCommunitySubMenu();
         },
 
@@ -196,6 +124,7 @@
                 if (state.data.tab && state.data.tab === 'spaces') {
                     // Hide community nav+meta and show spaces nav+meta
                     mozMap.toggleNav('spaces');
+                    mozMap.toggleMobileNav('spaces');
                     // Update current nav item to the active space
                     mozMap.updateSpaceNavItem(state.data.id);
                     // Show the space based on event state url
@@ -204,6 +133,7 @@
                 } else if (state.data.tab && state.data.tab === 'communities') {
                     // Hide spaces nav+meta and show community nav+meta
                     mozMap.toggleNav('communities');
+                    mozMap.toggleMobileNav('communities');
                     // Update community region on the map
                     mozMap.updateCommunityNavItem(state.data.id);
                     mozMap.showCommunityContent(state.url, state.data.id);
@@ -230,17 +160,110 @@
         },
 
         /*
+         * Generate nav dropdown from list
+         */
+        initMobileNav: function () {
+            var $window = $(window);
+            var $body = $('body');
+            var hasMediaQueries = (typeof matchMedia !== 'undefined');
+            var id = $('#entry-container .entry').attr('id');
+
+            // If the browser supports media queries, check the width onload and onresize.
+            // If not, just lock it in permanent wideMode.
+            if (hasMediaQueries) {
+                mozMap.checkScreenSize();
+                $window.on('resize', function() {
+                    clearTimeout(this.resizeTimeout);
+                    this.resizeTimeout = setTimeout(mozMap.checkScreenSize, 200);
+                });
+            }
+
+            $('.nav-category').each(function() {
+                var $select = $('<select class="nav-category-select">').prependTo('#page-content');
+                var $label = $('<option value="" disabled selected>--'+window.trans('nav-select')+'--</option>').prependTo($select);
+                $(this).find('li').each(function() {
+                    var $li = $(this),
+                        $a = $li.find('> a'),
+                        $p = $li.parents('li'),
+                        prefix = new Array($p.length + 1).join('-');
+
+                    var $option = $('<option>')
+                        .text(prefix + ' ' + $a.text())
+                        .attr('data-opt-id', $(this).data('id'))
+                        .val($(this).data('id'))
+                        .appendTo($select);
+                });
+                $select.attr('id', $(this).attr('id')+'-select');
+            });
+            mozMap.setSelectedMobileNavItem(id);
+        },
+
+        bindMobileNavChange: function () {
+            $('.nav-category-select').on('change', mozMap.onMobileNavChange);
+        },
+
+        unBindMobileNavChange: function () {
+            $('.nav-category-select').off('change', mozMap.onMobileNavChange);
+        },
+
+        onMobileNavChange: function () {
+            $('.nav-category li[data-id="' + $(this).val() + '"] a').trigger('click');
+        },
+
+        setSelectedMobileNavItem: function (id) {
+            var state = mozMap.getMapState();
+            // unbind change listener
+            mozMap.unBindMobileNavChange();
+            // update the selected item
+            if (state === 'spaces' && id !== 'spaces') {
+                $('#nav-spaces-select option:selected').removeAttr('selected');
+                $('#nav-spaces-select option[data-opt-id="' + id + '"]').attr('selected', 'selected');
+            } else if (state === 'communities' && id !== 'communities') {
+                $('#nav-communities-select option:selected').removeAttr('selected');
+                $('#nav-communities-select option[data-opt-id="' + id + '"]').attr('selected', 'selected');
+            } else {
+                $('#nav-communities-select option:selected').removeAttr('selected');
+                $('.nav-category-select option[disabled]').attr('selected', 'selected');
+            }
+            // rebind change listener
+            mozMap.bindMobileNavChange();
+        },
+
+        checkScreenSize: function () {
+            var state = mozMap.getMapState();
+            if (window.matchMedia('screen and (min-width: 761px)').matches) {
+                wideMode = true;
+                $('.nav-category-select').hide();
+                mozMap.toggleNav(state);
+            } else {
+                wideMode = false;
+                $('.nav-category').hide();
+                mozMap.toggleMobileNav(state);
+            }
+        },
+
+        /*
          * Toggles the active tab nav menu visibility
          */
         toggleNav: function (tab) {
-            if (tab === 'spaces') {
+            if (tab === 'spaces' && wideMode) {
                 $('#nav-communities, #meta-communities').fadeOut(100, function () {
                     $('#nav-spaces, #meta-spaces').show();
                 });
-            } else if (tab === 'communities') {
+            } else if (tab === 'communities' && wideMode) {
                 $('#nav-spaces, #meta-spaces').fadeOut(100, function () {
                     $('#nav-communities, #meta-communities').show();
                 });
+            }
+        },
+
+        toggleMobileNav: function (tab) {
+            if (tab === 'spaces' && !wideMode) {
+                $('#nav-spaces-select, #meta-spaces').show();
+                $('#nav-communities-select, #meta-communities').hide();
+            } else if (tab === 'communities' && !wideMode) {
+                $('#nav-spaces-select, #meta-spaces').hide();
+                $('#nav-communities-select, #meta-communities').show();
             }
         },
 
@@ -266,7 +289,9 @@
                 $('.accordion .submenu:visible').slideUp().parent().removeClass('open');
             }
 
-            mozMap.scrollToContent();
+            if (wideMode) {
+                mozMap.scrollToContent();
+            }
         },
 
         /*
@@ -455,7 +480,7 @@
          */
         doClickMarker: function (id) {
             // if we're on the landing page zoom out to show all markers.
-            if (id === 'spaces-landing') {
+            if (id === 'spaces') {
                 map.setView([32, 0], 2);
                 return;
             }
@@ -540,12 +565,18 @@
             // as we just want to show the landing page
             if (id === 'spaces') {
                 $('#nav-spaces li.current').removeClass('current');
+                mozMap.setSelectedMobileNavItem(id);
                 return;
             }
 
             $('#nav-spaces li.current').removeClass('current');
             $('#nav-spaces li[data-id="' + id + '"]').addClass('current');
-            mozMap.scrollToContent();
+
+            mozMap.setSelectedMobileNavItem(id);
+
+            if (wideMode) {
+                mozMap.scrollToContent();
+            }
         },
 
         /*
@@ -561,11 +592,14 @@
                 $('.accordion .submenu').hide();
                 // clear the community layers
                 mozMap.clearCommunityLayers();
+                mozMap.setSelectedMobileNavItem(id);
                 return;
             }
 
             $('#nav-communities li.current').removeClass('current');
             $('#nav-communities li[data-id="' + id + '"]').addClass('current');
+
+            mozMap.setSelectedMobileNavItem(id);
             mozMap.toggleCommunitySubMenu();
         },
 
