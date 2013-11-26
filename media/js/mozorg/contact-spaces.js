@@ -38,7 +38,7 @@
             // get the mapbox api token.
             var token = $('#main-content').data('mapbox');
             // initialize map and center.
-            map = L.mapbox.map('map').setView([32, 0], 2);
+            map = L.mapbox.map('map').setView([28, 0], 2);
             // load mozilla custom map tiles
             var mapLayer = L.mapbox.tileLayer(token,{
                 detectRetina: true
@@ -177,8 +177,9 @@
 
             // Create select form inputs for primary mobile navigation
             $('.nav-category').each(function() {
+                var tab = $(this).find('ul').data('tab');
                 var $select = $('<select class="nav-category-select">').prependTo('#page-content');
-                $('<option value="" disabled selected>--' + window.trans('nav-select') + '--</option>').prependTo($select);
+                $('<option value="" disabled selected>-- ' + window.trans('nav-' + tab) + ' --</option>').prependTo($select);
                 $(this).find('li').each(function() {
                     var $li = $(this),
                         $a = $li.find('> a'),
@@ -445,14 +446,6 @@
             map.markerLayer.setFilter(function () {
                 return true;
             });
-
-            // disable keyboard focus on markers as it messes up panning :(
-            // all content is still accessible via keyboard nonetheless
-            map.markerLayer.eachLayer(function (marker) {
-                L.Util.setOptions(marker, {
-                    keyboard: false
-                });
-            });
             map.markerLayer.on('click', mozMap.onMarkerClick);
             map.markerLayer.on('mouseover', mozMap.openMarkerPopup);
             map.markerLayer.on('mouseout', mozMap.closeMarkerPopup);
@@ -468,7 +461,7 @@
             map.markerLayer.off('click', mozMap.onMarkerClick);
             map.markerLayer.off('mouseover', mozMap.openMarkerPopup);
             map.markerLayer.off('mouseout', mozMap.closeMarkerPopup);
-            map.setView([32, 0], 2);
+            map.setView([28, 0], 2);
         },
 
         /*
@@ -501,7 +494,7 @@
         doClickMarker: function (id) {
             // if we're on the landing page zoom out to show all markers.
             if (id === 'spaces') {
-                map.setView([32, 0], 2);
+                map.setView([28, 0], 2);
                 return;
             }
             // else find the right marker and fire a click.
@@ -646,7 +639,7 @@
             communityLayers.addLayer(asiaSouthPacific);
             communityLayers.addLayer(antarctica);
             communityLayers.addLayer(africaMiddleEast);
-            map.setView([32, 0], 2);
+            map.setView([28, 0], 2);
         },
 
         /*
