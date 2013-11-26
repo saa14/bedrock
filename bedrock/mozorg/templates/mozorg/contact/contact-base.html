@@ -20,8 +20,9 @@
 {% endblock %}
 
 {% block string_data %}
-  {# L10n: Used as a label for a form dropdown to navigate to other pages. #}
-  data-nav-select='{{_('Select')}}'
+  {# L10n: Used as a labels for a form dropdown to navigate to other pages. #}
+  data-nav-spaces='{{_('Select spaces')}}'
+  data-nav-communities='{{_('Select communities')}}'
 {% endblock %}
 
 {% block site_header_logo %}{% endblock %}
@@ -235,6 +236,12 @@
             <li data-id="lithuania">
               <a href="{{ url('mozorg.contact.communities.lithuania') }}">{{ _('Lithuania') }}</a>
             </li>
+            <li data-id="macedonia">
+              <a href="{{ url('mozorg.contact.communities.macedonia') }}">{{ _('Macedonia') }}</a>
+            </li>
+            <li data-id="the-netherlands">
+              <a href="{{ url('mozorg.contact.communities.the-netherlands') }}">{{ _('The Netherlands') }}</a>
+            </li>
             <li data-id="norway">
               <a href="{{ url('mozorg.contact.communities.norway') }}">{{ _('Norway') }}</a>
             </li>
@@ -243,9 +250,6 @@
             </li>
             <li data-id="portugal">
               <a href="{{ url('mozorg.contact.communities.portugal') }}">{{ _('Portugal') }}</a>
-            </li>
-            <li data-id="macedonia">
-              <a href="{{ url('mozorg.contact.communities.macedonia') }}">{{ _('Macedonia') }}</a>
             </li>
             <li data-id="romania">
               <a href="{{ url('mozorg.contact.communities.romania') }}">{{ _('Romania') }}</a>
@@ -267,9 +271,6 @@
             </li>
             <li data-id="switzerland">
               <a href="{{ url('mozorg.contact.communities.switzerland') }}">{{ _('Switzerland') }}</a>
-            </li>
-            <li data-id="the-netherlands">
-              <a href="{{ url('mozorg.contact.communities.the-netherlands') }}">{{ _('The Netherlands') }}</a>
             </li>
             <li data-id="turkey">
               <a href="{{ url('mozorg.contact.communities.turkey') }}">{{ _('Turkey') }}</a>
@@ -345,7 +346,7 @@
           <a href="{{ url('mozorg.contact.communities.antarctica') }}">{{ _('Antarctica') }}</a>
         </li>
         <li data-id="africa" class="hasmenu region">
-          <a href="{{ url('mozorg.contact.communities.africa-middle-east') }}">{{ _('Africa &amp; the Middle East') }}</a>
+          <a href="{{ url('mozorg.contact.communities.africa-middle-east') }}">{{ _('Africa &amp; Middle East') }}</a>
           <ul class="submenu" data-tab="communities">
             <li data-id="algeria">
               <a href="{{ url('mozorg.contact.communities.algeria') }}">{{ _('Algeria') }}</a>
@@ -425,9 +426,6 @@
   <section class="contacting container">
     <header>
       <h3>{{ _('Contacting Mozilla') }}</h3>
-      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio.
-      Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse
-      urna nibh, viverra non, semper suscipit, posuere a, pede.</p>
     </header>
 
     <div class="contact-online">
