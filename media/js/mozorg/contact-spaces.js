@@ -37,7 +37,13 @@
         init: function () {
             // get the mapbox api token.
             var token = $('#main-content').data('mapbox');
-            // initialize map and center.
+            // set page nav state.
+            mozMap.setInitialPageNavState();
+            // create mobile navigation
+            mozMap.initMobileNav();
+            // init screen resize handler
+            mozMap.initResizeHandler();
+            //initialize map and center.
             map = L.mapbox.map('map').setView([28, 0], 2);
             // load mozilla custom map tiles
             var mapLayer = L.mapbox.tileLayer(token,{
@@ -51,16 +57,12 @@
                 mapLayer.addTo(map);
                 // disable map zoom on scroll.
                 map.scrollWheelZoom.disable();
-                // set page nav state.
-                mozMap.setInitialPageNavState();
-                // crerate spaces markers.
+                // create spaces markers.
                 mozMap.initSpacesMarkers();
                 // create community layers.
                 mozMap.initCommunityLayers();
                 // set the map state (i.e. spaces or communities)
                 mozMap.setMapState();
-                // create mobile navigation
-                mozMap.initMobileNav();
                 // store reference to the initial map content
                 mozMap.setInitialContentState();
                 // bind events on tab navigation.
@@ -163,24 +165,14 @@
          * Generate nav dropdown from list
          */
         initMobileNav: function () {
-            var hasMediaQueries = (typeof matchMedia !== 'undefined');
             var id = $('#entry-container .entry').attr('id');
-
-            // If the browser supports media queries, check the width onload and onresize.
-            if (hasMediaQueries) {
-                mozMap.checkScreenSize();
-                $(window).on('resize', function() {
-                    clearTimeout(this.resizeTimeout);
-                    this.resizeTimeout = setTimeout(mozMap.checkScreenSize, 200);
-                });
-            }
-
             // Create select form inputs for primary mobile navigation
             $('.nav-category').each(function() {
-                var tab = $(this).find('ul').data('tab');
+                var $this = $(this);
+                var tab = $this.find('ul').data('tab');
                 var $select = $('<select class="nav-category-select">').prependTo('#page-content');
                 $('<option value="" disabled selected>-- ' + window.trans('nav-' + tab) + ' --</option>').prependTo($select);
-                $(this).find('li').each(function() {
+                $this.find('li').each(function() {
                     var $li = $(this),
                         $a = $li.find('> a'),
                         $p = $li.parents('li'),
@@ -218,6 +210,25 @@
          */
         onMobileNavChange: function () {
             $('.nav-category li[data-id="' + $(this).val() + '"] > a').trigger('click');
+        },
+
+        /*
+         * Initializes resize handler for browsers that support matchMedia
+         */
+        initResizeHandler: function () {
+            var hasMediaQueries = (typeof matchMedia !== 'undefined');
+            // If the browser supports media queries, check the width onload and onresize.
+            if (hasMediaQueries) {
+                mozMap.checkScreenSize();
+                $(window).on('resize', function() {
+                    clearTimeout(this.resizeTimeout);
+                    this.resizeTimeout = setTimeout(mozMap.checkScreenSize, 200);
+                });
+            } else {
+                // else just show the desktop nav
+                $('.nav-category-select').hide();
+                mozMap.toggleNav(mozMap.getMapState());
+            }
         },
 
         /*
@@ -794,7 +805,6 @@
                 map.setView([20, 10], 2);
                 break;
             }
-            // TODO - Francophone and Hispano
         },
 
         highlightLegend: function (id) {
