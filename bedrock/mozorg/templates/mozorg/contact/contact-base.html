@@ -31,7 +31,7 @@
 
 <main id="main-content" role="main" data-mapbox="{{ settings.MAPBOX_TOKEN }}">
   <header class="page-head container">
-    <h1 class="page-title">{{ _('Where is Mozilla?') }}</h1>
+    <h1 class="page-title title-shadow-box">{{ _('Where is Mozilla?') }}</h1>
     <p class="help">
     {% trans link_sumo='https://support.mozilla.org/' %}
       Need help with Firefox? <a href="{{ link_sumo }}" class="go">Get it on our support site</a>
@@ -62,11 +62,11 @@
         <li data-id="arabic">
           <a href="{{ url('mozorg.contact.communities.arabic') }}">{{ _('Arabic') }}</a>
         </li>
-        <li data-id="hispano">
-          <a href="{{ url('mozorg.contact.communities.hispano') }}">{{ _('Hispano') }}</a>
-        </li>
         <li data-id="francophone">
           <a href="{{ url('mozorg.contact.communities.francophone') }}">{{ _('Francophone') }}</a>
+        </li>
+        <li data-id="hispano">
+          <a href="{{ url('mozorg.contact.communities.hispano') }}">{{ _('Hispano') }}</a>
         </li>
     </ul>
   </div>
@@ -387,13 +387,13 @@
           </ul>
         </li>
         <li data-id="arabic" class="region pseudo">
-          <a href="{{ url('mozorg.contact.communities.arabic') }}">Arabic</a>
-        </li>
-        <li data-id="hispano" class="region pseudo">
-          <a href="{{ url('mozorg.contact.communities.hispano') }}">Hispano</a>
+          <a href="{{ url('mozorg.contact.communities.arabic') }}">{{ _('Arabic') }}</a>
         </li>
         <li data-id="francophone" class="region pseudo">
-          <a href="{{ url('mozorg.contact.communities.francophone') }}">Francophone</a>
+          <a href="{{ url('mozorg.contact.communities.francophone') }}">{{ _('Francophone') }}</a>
+        </li>
+        <li data-id="hispano" class="region pseudo">
+          <a href="{{ url('mozorg.contact.communities.hispano') }}">{{ _('Hispano') }}</a>
         </li>
       </ul>
     </nav>
